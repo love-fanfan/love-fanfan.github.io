@@ -149,7 +149,7 @@
 <p>当把两个string对象和字符字面值混在一条语句中使用时，必须确定每个加法运算的两侧运算对象至少有一个是string：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s1 = <span class="string">&quot;hello&quot;</span> , s2 = <span class="string">&quot;world&quot;</span>;</span><br><span class="line">string s3 = s1 + &#x27;&#x27; + s2;	//正确</span><br><span class="line"><span class="built_in">string</span> s4 = <span class="string">&quot;hello&quot;</span> + <span class="string">&quot;world&quot;</span>;	<span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/assets/image-20191204203756466.jpg" alt="image-20191204203756466"></p>
+<p><img src="/assets/image-20191204203756466.jpg" alt="image-20191204203756466" loading="lazy"></p>
 <p>C++中兼容了很多C中的库，C语言中的头文件形如<code>name.h</code>，C++将这些文件命名为<code>cname</code></p>
 <p>特别的，在名为cname的头文件中定义的名字从属于命名空间std，但定义在<code>.h</code>的头文件中的则不然。</p>
 <p><strong>范围for语句</strong></p>
@@ -164,7 +164,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec;</span><br><span class="line"><span class="built_in">vector</span>&lt;Sales_item&gt; Sales_vec;	<span class="comment">//保存Sales_item类型的对象</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; file; <span class="comment">//该向量中的元素是vector对象</span></span><br></pre></td></tr></table></figure>
 
 <p>vector能容纳绝大多数类型的对象作为其元素，但是因为引用不是对象，所以不存在包含引用的vector，但组成vector的元素也可以是vector。</p>
-<p><img src="/assets/image-20191204204043033.jpg" alt="image-20191204204043033"></p>
+<p><img src="/assets/image-20191204204043033.jpg" alt="image-20191204204043033" loading="lazy"></p>
 <p>当然，也可以采用列表初始化vector对象的方法，如果提供的是初始元素值的列表，则只能把初始值都放在花括号里进行列表的初始化，而不能放在圆括号里。</p>
 <p><strong>想vector对象中添加元素</strong></p>
 <p>使用vector的成员函数向其添加元素，push_back负责把一个值当成vector对象的尾元素压到对象的尾端。</p>
@@ -172,7 +172,7 @@
 
 <p><strong>注意：</strong>如果循环体内部包含有向vector对象添加元素的语句，则不能使用范围for循环。</p>
 <p><strong>vector操作</strong></p>
-<p><img src="/assets/image-20191204204117056.jpg" alt="image-20191204204117056"></p>
+<p><img src="/assets/image-20191204204117056.jpg" alt="image-20191204204117056" loading="lazy"></p>
 <p>同字符串的操作，只有把控制变量定义为引用类型，采用通过控制变量给vector对象赋值。</p>
 <p>size函数返回的是：<code>vector&lt;int&gt;::size_type</code></p>
 <p>使用下标运算符能获得到指定的元素，但是不能通过下标形式添加元素，这也说明了，只能对已存在的元素执行下标操作。</p>
@@ -180,7 +180,7 @@
 <p>迭代器都有名为begin和end的成员，其中begin成员负责返回指向第一个元素的迭代器，end成员返回指向容器（或string对象）尾元素的下一个位置的迭代器。</p>
 <p>如果容器为空，则begin和end返回的是同一个迭代器，都是尾后迭代器。</p>
 <p>因为end迭代器返回的并不实际指向某个元素，所以不能对其进行递增或者解引用操作。</p>
-<p><img src="/assets/image-20191204204142245.jpg" alt="image-20191204204142245"></p>
+<p><img src="/assets/image-20191204204142245.jpg" alt="image-20191204204142245" loading="lazy"></p>
 <p><strong>迭代器的类型</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator it;	<span class="comment">//it可以读写vector&lt;int&gt;的元素</span></span><br><span class="line"><span class="built_in">string</span>::iterator it2;	<span class="comment">//it2能读写</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::const_iterator it3;	<span class="comment">//只读</span></span><br><span class="line"><span class="built_in">string</span>::const_iterator it4;	<span class="comment">//只读</span></span><br></pre></td></tr></table></figure>
 
@@ -190,7 +190,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(*it).empty() <span class="comment">//it是一个vector对象的迭代器，解引用it，然后调用结果对象的empty成员</span></span><br><span class="line">*it.empty()	<span class="comment">//错误，试图访问it的empty成员，但it是个迭代器，没有empty成员</span></span><br><span class="line">it-&gt;empty() <span class="comment">//同第一个，将解引用和成员访问放在一起。</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>谨记，但凡是使用了迭代器的循环体，都不要向迭代器所属的容器添加元素</strong></p>
-<p><img src="/assets/image-20191204204205504.jpg" alt="image-20191204204205504"></p>
+<p><img src="/assets/image-20191204204205504.jpg" alt="image-20191204204205504" loading="lazy"></p>
 <p>只有两个迭代器指向的是同一个容器中的元素或者尾元素的下一个位置，才能进行减操作。</p>
 <h4 id="3-5-数组"><a href="#3-5-数组" class="headerlink" title="3.5 数组"></a>3.5 数组</h4><p>数组的大小确定不变，不能随意向数组中添加元素。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> cnt = <span class="number">42</span>;</span><br><span class="line"><span class="built_in">string</span> bad[cnt]; <span class="comment">//错误，cnt不是常量表达式</span></span><br></pre></td></tr></table></figure>
@@ -210,7 +210,7 @@
 
 <p>如果两个指针相减，返回的是一种类型为ptrdiff_t的标准库类型，这是一种带符号类型。</p>
 <p>数组内置的下标运算所用的索引值可以为负数。</p>
-<p><img src="/assets/image-20191204204231604.jpg" alt="image-20191204204231604"></p>
+<p><img src="/assets/image-20191204204231604.jpg" alt="image-20191204204231604" loading="lazy"></p>
 <p>此类函数的指针必须指向以空字符作为结束的标志。</p>
 <p><strong>使用数组初始化vector对象</strong></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> int_arr[] = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">ivec</span><span class="params">(begin(int_arr),end(int_arr))</span></span>;</span><br></pre></td></tr></table></figure>
@@ -318,7 +318,7 @@
 <li>new头文件定义了bad_alloc异常类型。</li>
 <li>type_info头文件定义了bad_cast异常类型。</li>
 </ul>
-<p><img src="/assets/image-20191222193027808.jpg" alt="image-20191222193027808"></p>
+<p><img src="/assets/image-20191222193027808.jpg" alt="image-20191222193027808" loading="lazy"></p>
 <h3 id="第6章-函数"><a href="#第6章-函数" class="headerlink" title="第6章 函数"></a>第6章 函数</h3><h4 id="6-1-函数基础"><a href="#6-1-函数基础" class="headerlink" title="6.1 函数基础"></a>6.1 函数基础</h4><p>在函数中，即使两个形参的类型一样，也必须把两个类型都写下来。</p>
 <p>函数的返回类型不能是数组类型或者函数类型，但可以是指向数组或者函数的指针。</p>
 <p><strong>局部静态对象</strong>（定义为static类型）：在程序执行路径第一次经过对象定义语句时初始化，并且直到程序终止才被销毁。</p>

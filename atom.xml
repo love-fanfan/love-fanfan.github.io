@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>你又来看我了？</title>
+  
+  
+  <link href="http://example.com/atom.xml" rel="self"/>
+  
+  <link href="http://example.com/"/>
+  <updated>2020-10-25T02:34:27.325Z</updated>
+  <id>http://example.com/</id>
+  
+  <author>
+    <name>xuexue</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++ primer</title>
+    <link href="http://example.com/2020/10/25/C++Primer/"/>
+    <id>http://example.com/2020/10/25/C++Primer/</id>
+    <published>2020-10-25T01:32:29.962Z</published>
+    <updated>2020-10-25T02:34:27.325Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;第一部分-C-基础&quot;&gt;&lt;a href=&quot;#第一部分-C-基础&quot; class=&quot;headerlink&quot; title=&quot;第一部分 C++基础&quot;&gt;&lt;/a&gt;第一部分 C++基础&lt;/h2&gt;&lt;h3 id=&quot;第2章-变量和基本类型&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="学习" scheme="http://example.com/categories/%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="C++" scheme="http://example.com/tags/C/"/>
+    
+    <category term="c++primer" scheme="http://example.com/tags/c-primer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://example.com/2020/10/24/hello-world/"/>
+    <id>http://example.com/2020/10/24/hello-world/</id>
+    <published>2020-10-24T02:40:22.426Z</published>
+    <updated>2020-10-25T02:29:39.048Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt;</summary>
+        
+      
+    
+    
+    
+    <category term="demo" scheme="http://example.com/categories/demo/"/>
+    
+    
+  </entry>
+  
+</feed>

@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">14.1k</span>
+            <span class="post-count">14.4k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">55 min</span>
+            <span class="post-count">56 min</span>
         </span>
     </span>
 </div>
@@ -552,7 +552,7 @@
 
 <p>调用<code>Sales_data</code>的<code>isbn</code>成员时传入了<code>total</code>的地址，对于我们而言，<code>this</code>形参时隐式定义的，实际上，任何自定义名为<code>this</code>的参数或变量的行为都是非法的。</p>
 <p>我们可以将上述代码等价为如下形式：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">std</span>::sting <span class="title">isbn</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> <span class="keyword">this</span>-&gt;bookNO;&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">std</span>::<span class="built_in">string</span> <span class="title">isbn</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> <span class="keyword">this</span>-&gt;bookNO;&#125;</span><br></pre></td></tr></table></figure>
 
 <p><code>this</code> 是一个常量指针，我们不允许改变<code>this</code>中保存的地址。</p>
 <p>注意，上述代码中的<code>const</code> 的作用是修改隐式<code>this</code> 指针的类型，<code>const</code>放在成员函数的参数列表之后，此时，表示<code>this</code>是一个指向常量的指针，像这样适用的<code>const</code>的成员函数被称为常量成员函数，可以把上述代码想象成如下的形式：</p>
@@ -609,10 +609,10 @@
 <p><code>class</code>和<code>struct</code> 的区别并不是很大，即访问的默认权限不太一样。</p>
 <p>类可以在它的第一个访问说明符之前定义成员，对这种成员的访问权限依赖于类定义的方式，如果我们使用<code>struct</code> 关键字，则定义在第一个访问说明符之前的成员时<code>public</code>，<code>class</code>反之。</p>
 <p><strong>友元</strong></p>
-<p>类可以允许其他类或者函数访问他的非公有成员，方法是令其他类或者函数成为他的右元。</p>
+<p>类可以允许其他类或者函数访问他的非公有成员，方法是令其他类或者函数成为他的友元。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sales_data</span>&#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">friend</span> Sales_data <span class="title">add</span><span class="params">(<span class="keyword">const</span> Sales_data&amp;, <span class="keyword">const</span> Sales_data&amp;)</span></span>;	</span><br><span class="line">	<span class="function"><span class="keyword">friend</span> <span class="built_in">std</span>::ostream &amp;<span class="title">print</span><span class="params">(<span class="built_in">std</span>::ostream&amp;, <span class="keyword">const</span> Sales_data&amp;)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">friend</span> <span class="built_in">std</span>::istream &amp;<span class="title">read</span><span class="params">(<span class="built_in">std</span>::istream&amp;, Sales_data&amp;)</span></span>;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Sales_data() = <span class="keyword">default</span>;</span><br><span class="line">    Sales_data(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;s): bookNo(s)&#123;&#125;</span><br><span class="line">	Sales_data(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;s, <span class="keyword">unsigned</span> n, <span class="keyword">double</span> p): bookNo(s), units_sold(n),revenue(p*n)&#123;&#125;</span><br><span class="line">    Sales_data(<span class="built_in">std</span>::istream &amp;);</span><br><span class="line">    <span class="function"><span class="built_in">std</span>::<span class="built_in">string</span> <span class="title">isbn</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> bookNo;&#125;</span><br><span class="line">    <span class="function">Sales_data&amp; <span class="title">combine</span><span class="params">(<span class="keyword">const</span> Sales_data&amp;)</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">avg_price</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">        </span>&#123;<span class="keyword">return</span> units_sold ? revenue/units_sold : <span class="number">0</span>;&#125;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> bookNo;</span><br><span class="line">    <span class="keyword">unsigned</span> units_sold = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">double</span> revenue = <span class="number">0.0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">Sales_data <span class="title">add</span><span class="params">(<span class="keyword">const</span> Sales_data&amp;, <span class="keyword">const</span> Sales_data&amp;)</span></span>;	</span><br><span class="line"><span class="function"><span class="built_in">std</span>::ostream &amp;<span class="title">print</span><span class="params">(<span class="built_in">std</span>::ostream&amp;, <span class="keyword">const</span> Sales_data&amp;)</span></span>;</span><br><span class="line"><span class="function"><span class="built_in">std</span>::istream &amp;<span class="title">read</span><span class="params">(<span class="built_in">std</span>::istream&amp;, <span class="keyword">const</span> Sales_data&amp;)</span></span>;</span><br></pre></td></tr></table></figure>
 
-<p>右元声明只能出现在类定义的内部，但是在类的内部出现的具体位置不限，友元不是类的成员也不受它所在的区域访问控制级别的约束。如果我们希望类的用户能够调用某个友元函数，那么我们就必须在友元声明以外再专门对函数进行一次声明。</p>
+<p>友元声明只能出现在类定义的内部，但是在类的内部出现的具体位置不限，友元不是类的成员也不受它所在的区域访问控制级别的约束。如果我们希望类的用户能够调用某个友元函数，那么我们就必须在友元声明以外再专门对函数进行一次声明。</p>
 <blockquote>
 <p>注意，声明和定义的时候，函数中常量参数的定义一定要一致，否则会出现<code>member is inaccessible</code>或者<code>is private</code>的问题，此时并不是因为我们对于公有私有的变量定义有问题，而是无法改变<code>const</code>变量导致的错误。</p>
 </blockquote>
@@ -765,7 +765,7 @@
 <p><strong>constexpr构造函数</strong></p>
 <p><code>constexpr</code>构造函数必须初始化所有数据类型，初始值或者使用<code>constexpr</code>构造函数，或者是一条常量表达式。</p>
 <p><code>constexpr</code>构造函数用于生成<code>contexpr</code>对象以及<code>constexpr</code>函数的参数或者返回类型。</p>
-<h4 id="7-4-类的静态成员"><a href="#7-4-类的静态成员" class="headerlink" title="7.4 类的静态成员"></a>7.4 类的静态成员</h4><p>静态数据成员的类型可以是常量、引用、指针、类类型等。</p>
+<h4 id="7-6-类的静态成员"><a href="#7-6-类的静态成员" class="headerlink" title="7.6 类的静态成员"></a>7.6 类的静态成员</h4><p>静态数据成员的类型可以是常量、引用、指针、类类型等。</p>
 <p>静态成员函数不与任何对象绑定在一起，它们不包含<code>this</code>指针，作为结果，静态成员函数不能声明为<code>const</code>的，而且我们也不能在<code>static</code>函数中使用<code>this</code>指针，这一限制适用于<code>this</code>的显式使用，也对调用非静态成员的隐式使用有效。</p>
 <p>我们可以通过作用域运算符直接访问静态成员函数。</p>
 <p>虽然静态成员函数不属于类的某个对象，但是我们可以通过类的对象、引用或者指针来访问静态成员函数。</p>
@@ -778,6 +778,22 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">bar</span>&#123;</span></span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	<span class="keyword">static</span> bar mem1;<span class="comment">//正确</span></span><br><span class="line">    	bar *mem2;<span class="comment">//正确</span></span><br><span class="line">    	bar mem3；<span class="comment">//错误</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>静态成员和普通成员的另一个区别就是我们可以使用静态成员作为默认实参。非静态成员则不能。</p>
+<h2 id="第二部分-C-标准库"><a href="#第二部分-C-标准库" class="headerlink" title="第二部分 C++标准库"></a>第二部分 C++标准库</h2><h3 id="第8章-IO库"><a href="#第8章-IO库" class="headerlink" title="第8章 IO库"></a>第8章 IO库</h3><h4 id="8-1-IO类"><a href="#8-1-IO类" class="headerlink" title="8.1 IO类"></a>8.1 IO类</h4><ul>
+<li><code>isteam</code>（输入流）类型</li>
+<li><code>ostream</code> （输出流）类型</li>
+<li><code>cin</code>一个<code>istream</code>对象</li>
+<li><code>cout</code> 一个<code>ostream</code>对象</li>
+<li><code>cerr</code>一个<code>ostream</code>对象，通常用于输出程序错误消息，写入到标准错误</li>
+<li><code>getline</code>函数，从一个给定的<code>istream</code>读取数据到<code>string</code>对象中</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg@master/img/20201025162337.png" alt="image-20201025162336959"></p>
+<p>为了支持宽字符语言，标准库定义了一组类型和对象来操作<code>wchar_t</code>类型的数据，宽字符版本的类型和函数的名字以一个<code>w</code>开始。</p>
+<p>由于继承机制，类型<code>ifstream</code>和<code>istringstream</code>都继承自<code>istream</code>。因此，我们可以像使用<code>istream</code>对象一样来使用<code>ifstream</code>和<code>istringstream</code>对象。</p>
+<blockquote>
+<p>本节剩下部分所介绍的标准库流特征都可以无差别地应用在普通流、文件流和<code>string</code>流，以及<code>char</code>或宽字符流版本。</p>
+</blockquote>
+<p><strong>IO对象无拷贝或赋值</strong></p>
+<p>由于不能拷贝IO对象，因此我们不能将其形参或返回类型设置为流类型，进行IO操作的函数通常以引用方式传递和返回流，读写一个IO对象会改变其状态，因此传递和返回的引用不能是<code>const</code>的。</p>
  
       <!-- reward -->
       

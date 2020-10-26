@@ -1,9 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>C++ primer 第二部分（C++基础）</title>
+    <url>/2020/10/26/C++Primer%20%EF%BC%88%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%89/</url>
+    <content><![CDATA[<p>终于看完了第一部分，今天开始第二部分的学习</p>
+<p>​                                                                        2020.10.26</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201026104715.jpg" alt="v2_c2bc308ed73d97e1c27b8be03d73781c_r"></p>
+<a id="more"></a>
+
+<h2 id="第二部分-C-标准库"><a href="#第二部分-C-标准库" class="headerlink" title="第二部分 C++标准库"></a>第二部分 C++标准库</h2><h3 id="第8章-IO库"><a href="#第8章-IO库" class="headerlink" title="第8章 IO库"></a>第8章 IO库</h3><h4 id="8-1-IO类"><a href="#8-1-IO类" class="headerlink" title="8.1 IO类"></a>8.1 IO类</h4><ul>
+<li><code>isteam</code>（输入流）类型</li>
+<li><code>ostream</code> （输出流）类型</li>
+<li><code>cin</code>一个<code>istream</code>对象</li>
+<li><code>cout</code> 一个<code>ostream</code>对象</li>
+<li><code>cerr</code>一个<code>ostream</code>对象，通常用于输出程序错误消息，写入到标准错误</li>
+<li><code>getline</code>函数，从一个给定的<code>istream</code>读取数据到<code>string</code>对象中</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201026104840.png" alt="image-20201026104840853"></p>
+<p>为了支持宽字符语言，标准库定义了一组类型和对象来操作<code>wchar_t</code>类型的数据，宽字符版本的类型和函数的名字以一个<code>w</code>开始。</p>
+<p>由于继承机制，类型<code>ifstream</code>和<code>istringstream</code>都继承自<code>istream</code>。因此，我们可以像使用<code>istream</code>对象一样来使用<code>ifstream</code>和<code>istringstream</code>对象。</p>
+<blockquote>
+<p>本节剩下部分所介绍的标准库流特征都可以无差别地应用在普通流、文件流和<code>string</code>流，以及<code>char</code>或宽字符流版本。</p>
+</blockquote>
+<p><strong>IO对象无拷贝或赋值</strong></p>
+<p>由于不能拷贝IO对象，因此我们不能将其形参或返回类型设置为流类型，进行IO操作的函数通常以引用方式传递和返回流，读写一个IO对象会改变其状态，因此传递和返回的引用不能是<code>const</code>的。</p>
+<p><strong>条件状态</strong></p>
+<p>下表列出了IO类所定义的一些函数和标志：</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201026105613.png" alt="image-20201026105613422"></p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201026105635.png" alt="image-20201026105634978"></p>
+<p>由于流可能处于错误状态，因此代码通常应该在使用一个流之前检查它是否处于良好的状态。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; word )</span><br></pre></td></tr></table></figure>
+
+<p>实际上，我们将流当做条件使用的代码就等价于<code>!fail()</code>，而<code>eof</code>和<code>bad</code>操作只能表示特定的错误。</p>
+<p><strong>管理条件状态</strong></p>
+<p>流对象的<code>rdstate</code>成员返回一个<code>iostate</code>值，对应流当前的状态，<code>clear</code>成员是一个重载的成员，不接受参数的版本复位所有的错误标志位，执行<code>clear()</code>后，调用<code>good</code>，会返回<code>true</code>。<code>setstate</code>操作将给定的条件位置位，表示发生了相应错误。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//记住cin当前的状态</span></span><br><span class="line"><span class="keyword">auto</span> old_state = <span class="built_in">cin</span>.rdstate();</span><br><span class="line"><span class="built_in">cin</span>.clear();	<span class="comment">//使cin有效</span></span><br><span class="line">process_input(<span class="built_in">cin</span>);	<span class="comment">//使用cin</span></span><br><span class="line"><span class="built_in">cin</span>.setstate(old_state);	<span class="comment">//将cin置为原来的状态</span></span><br></pre></td></tr></table></figure>
+
+<p>带参数的<code>clean()</code>版本接受一个<code>iostate</code>值，表示流的新状态，下面的操作将<code>failbit</code> 和<code>badbit</code>复位，但保持<code>eofbit</code>不变。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cin</span>.clear(<span class="built_in">cin</span>.rdstate() &amp; ~<span class="built_in">cin</span>.failbit &amp; ~<span class="built_in">cin</span>.badbit);</span><br></pre></td></tr></table></figure>
+
+<p><strong>管理输出缓存</strong></p>
+<p>每个输出流都有一个缓存区，用于存放输出的数据。</p>
+<p>导致缓存区刷新的原因有很多。</p>
+<ul>
+<li>程序正常结束，作为<code>main</code>函数的<code>return</code>操作的一部分，缓存刷新被执行。</li>
+<li>缓存区满的时候，需要刷新缓存，而后新的数据才能继续写入缓存区。</li>
+<li>我们可以使用操作符如<code>endl</code>来显式刷新缓存区。</li>
+<li>在每个输出操作之后，我们可以用操作符<code>unitbuf</code>设置流的内部状态，来清空缓存区，默认情况下，对<code>cerr</code>是设置<code>unitbuf</code>的，因此写到<code>cerr</code>的内容都是立即刷新的。</li>
+<li>一个输出流可能被关联到另一个流，当读写被关联的流时，关联到的流的缓存区会被刷新。例如，默认情况下，<code>cin</code>和<code>cerr</code>都关联到<code>cout</code>，因此，读前两者都会导致<code>cout</code>的缓存区被刷新。</li>
+</ul>
+<p>类似<code>endl</code>，IO库中还有两个类似的操作符：<code>flush</code>和<code>ends</code>，<code>flush</code>刷新缓存区，但不输出任何额外的字符，<code>endl</code>向缓存区插入一个空字符，然后刷新缓存区。</p>
+<p><strong>unitbuf</strong></p>
+<p>如果每次输出后都想刷新缓存区，我们可以使用<code>unitbuf</code>操作符。而<code>nounitbuf</code>操作符则重置流，使其恢复使用正常的缓存区刷新机制。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cout</span> &lt;&lt; unitbuf;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; nounitbuf;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当一个程序崩溃以后，输出缓存区不会被刷新，它输出的数据很有可能停留在输出缓存区中等待打印。</p>
+</blockquote>
+<p><strong>关联输入流和输出流</strong></p>
+<p>当一个输入流被关联到一个输出流时，任何试图从输入流读取数据的操作都会先刷新关联的输出流，标准库将<code>cout</code>和<code>cin</code>关联在一起。<code>tie</code>有两个重载的版本，第一个版本不带参数，返回指向其关联输出流的指针（未关联则返回空指针）。<code>tie</code>的第二个版本接受一个指向<code>ostream</code>的指针，将其关联到这个输出流。<code>istream</code>和<code>ostream</code>都可以关联到另一个<code>ostream</code>。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cin</span>.tie(&amp;<span class="built_in">cerr</span>);</span><br><span class="line"><span class="built_in">cin</span>.tie(<span class="literal">nullptr</span>)</span><br></pre></td></tr></table></figure>
+
+<p>每个流同时最多关联到一个流，但多个流可以同时关联到同一个<code>ostream</code>。</p>
+<h4 id="8-2-文件输入输出"><a href="#8-2-文件输入输出" class="headerlink" title="8.2 文件输入输出"></a>8.2 文件输入输出</h4><p>头文件<code>fstream</code>定义了三个类型来支持文件IO，<code>ifstream</code>从一个给定文件读取数据，<code>ofstream</code>写入数据，<code>fstream</code>读写文件。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201026225912.png" alt="image-20201026225911928"></p>
+<p><strong>使用文件流对象</strong></p>
+<p>在新C++标准中，文件名既可以是库类型<code>string</code>对象，也可以是C风格字符数组。</p>
+<p>根据继承的规则，如果有一个函数接受一个<code>ostream</code>参数，我们在调用这个函数的时候，可以传递给他一个<code>ofstream</code>对象。</p>
+<p><strong>成员函数open</strong></p>
+<p>如果调用<code>open</code>失败，<code>failbit</code>会被置位，所以一般需要检查文件是否被正常打开。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">ofstream out;</span><br><span class="line">out.open(ifile + <span class="string">&quot;.copy&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>(out)</span><br><span class="line">    <span class="comment">//成功，正常使用文件</span></span><br></pre></td></tr></table></figure>
+
+<p>在使用完文件后，关闭已经关联的文件，避免出现错误。</p>
+<p><strong>自动构造和析构</strong></p>
+<p><code>main</code>函数接受一个要处理的文件列表。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> p = argv + <span class="number">1</span>; p ! = argv + argc; ++p)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">ifstream <span class="title">input</span><span class="params">(*p)</span></span>;</span><br><span class="line">    <span class="keyword">if</span>(input)&#123;</span><br><span class="line">        process(input);</span><br><span class="line">    &#125;<span class="keyword">else</span></span><br><span class="line">        <span class="built_in">cerr</span> &lt;&lt; <span class="string">&quot;couldn`t open :&quot;</span> + <span class="built_in">string</span>(*p);</span><br><span class="line">          </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为<code>input</code>是<code>for</code>循环的局部变量，在每个循环中都要创建和销毁一次，而<code>fstream</code>对象被销毁时，<code>close</code>函数会被自动调用。</p>
+<p><strong>练习8.4,8.5</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func1</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span>&amp; name, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; vec )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    fstream ifile;</span><br><span class="line">    ifile.open(name);</span><br><span class="line">    <span class="keyword">if</span>(ifile)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">string</span> buf;</span><br><span class="line">            <span class="keyword">while</span>(getline(ifile, buf))</span><br><span class="line">                <span class="comment">//读取文件的一行数据</span></span><br><span class="line">            vec.push_back(buf);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func2</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span>&amp; name, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; vec )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    fstream ifile;</span><br><span class="line">    ifile.open(name);</span><br><span class="line">    <span class="keyword">if</span>(ifile)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">string</span> buf;</span><br><span class="line">            <span class="keyword">while</span>(ifile &gt;&gt; buf)</span><br><span class="line">                <span class="comment">//读取文件的一个单词</span></span><br><span class="line">            vec.push_back(buf);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; vec;</span><br><span class="line">    func1(<span class="string">&quot;demo.txt&quot;</span>,vec);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; str : vec)</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; str &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    func2(<span class="string">&quot;demo.txt&quot;</span>,vec);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; str : vec)</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; str &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>C++primer</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2020/10/24/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<a id="more"></a>
+
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
@@ -22,9 +129,14 @@
       </categories>
   </entry>
   <entry>
-    <title>C++ primer</title>
-    <url>/2020/10/25/C++Primer/</url>
-    <content><![CDATA[<h2 id="第一部分-C-基础"><a href="#第一部分-C-基础" class="headerlink" title="第一部分 C++基础"></a>第一部分 C++基础</h2><h3 id="第2章-变量和基本类型"><a href="#第2章-变量和基本类型" class="headerlink" title="第2章 变量和基本类型"></a>第2章 变量和基本类型</h3><h4 id="2-1-基本内置类型"><a href="#2-1-基本内置类型" class="headerlink" title="2.1 基本内置类型"></a>2.1 基本内置类型</h4><p>除去布尔型和扩展型的字符型之外，其他整形都可以划分为带符号的和无符号的两种。</p>
+    <title>C++ primer 第一部分（C++基础）</title>
+    <url>/2020/10/25/C++Primer%EF%BC%88%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%89/</url>
+    <content><![CDATA[<p>这份笔记陆陆续续写了好几年，这段时间重新开始，愿未来可期，不负韶华。</p>
+<p>​                                                                                                    2020.10.26</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201026105326.jpg" alt="1"></p>
+<a id="more"></a>
+
+<h2 id="第一部分-C-基础"><a href="#第一部分-C-基础" class="headerlink" title="第一部分 C++基础"></a>第一部分 C++基础</h2><h3 id="第2章-变量和基本类型"><a href="#第2章-变量和基本类型" class="headerlink" title="第2章 变量和基本类型"></a>第2章 变量和基本类型</h3><h4 id="2-1-基本内置类型"><a href="#2-1-基本内置类型" class="headerlink" title="2.1 基本内置类型"></a>2.1 基本内置类型</h4><p>除去布尔型和扩展型的字符型之外，其他整形都可以划分为带符号的和无符号的两种。</p>
 <p>单引号括起来的一个字符称为char型字符值，双引号括起来的零个或者多个字符构成了字符串型字符。</p>
 <p>（编译器在每个字符串的结束处添加一个空字符‘\0’，这就导致了字符串的实际长度比内容多1）</p>
 <p><strong>转义序列：</strong></p>
@@ -692,29 +804,13 @@
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">bar</span>&#123;</span></span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	<span class="keyword">static</span> bar mem1;<span class="comment">//正确</span></span><br><span class="line">    	bar *mem2;<span class="comment">//正确</span></span><br><span class="line">    	bar mem3；<span class="comment">//错误</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>静态成员和普通成员的另一个区别就是我们可以使用静态成员作为默认实参。非静态成员则不能。</p>
-<h2 id="第二部分-C-标准库"><a href="#第二部分-C-标准库" class="headerlink" title="第二部分 C++标准库"></a>第二部分 C++标准库</h2><h3 id="第8章-IO库"><a href="#第8章-IO库" class="headerlink" title="第8章 IO库"></a>第8章 IO库</h3><h4 id="8-1-IO类"><a href="#8-1-IO类" class="headerlink" title="8.1 IO类"></a>8.1 IO类</h4><ul>
-<li><code>isteam</code>（输入流）类型</li>
-<li><code>ostream</code> （输出流）类型</li>
-<li><code>cin</code>一个<code>istream</code>对象</li>
-<li><code>cout</code> 一个<code>ostream</code>对象</li>
-<li><code>cerr</code>一个<code>ostream</code>对象，通常用于输出程序错误消息，写入到标准错误</li>
-<li><code>getline</code>函数，从一个给定的<code>istream</code>读取数据到<code>string</code>对象中</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201025163028.png" alt="image-20201025163028714"></p>
-<p>为了支持宽字符语言，标准库定义了一组类型和对象来操作<code>wchar_t</code>类型的数据，宽字符版本的类型和函数的名字以一个<code>w</code>开始。</p>
-<p>由于继承机制，类型<code>ifstream</code>和<code>istringstream</code>都继承自<code>istream</code>。因此，我们可以像使用<code>istream</code>对象一样来使用<code>ifstream</code>和<code>istringstream</code>对象。</p>
-<blockquote>
-<p>本节剩下部分所介绍的标准库流特征都可以无差别地应用在普通流、文件流和<code>string</code>流，以及<code>char</code>或宽字符流版本。</p>
-</blockquote>
-<p><strong>IO对象无拷贝或赋值</strong></p>
-<p>由于不能拷贝IO对象，因此我们不能将其形参或返回类型设置为流类型，进行IO操作的函数通常以引用方式传递和返回流，读写一个IO对象会改变其状态，因此传递和返回的引用不能是<code>const</code>的。</p>
 ]]></content>
       <categories>
-        <category>学习</category>
+        <category>学习z</category>
       </categories>
       <tags>
         <tag>C++</tag>
-        <tag>c++primer</tag>
+        <tag>C++primer</tag>
       </tags>
   </entry>
 </search>

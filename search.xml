@@ -80,22 +80,17 @@
 <p><strong>练习8.4,8.5</strong></p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func1</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span>&amp; name, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; vec )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    fstream ifile;</span><br><span class="line">    ifile.open(name);</span><br><span class="line">    <span class="keyword">if</span>(ifile)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">string</span> buf;</span><br><span class="line">            <span class="keyword">while</span>(getline(ifile, buf))</span><br><span class="line">                <span class="comment">//读取文件的一行数据</span></span><br><span class="line">            vec.push_back(buf);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func2</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span>&amp; name, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&amp; vec )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    fstream ifile;</span><br><span class="line">    ifile.open(name);</span><br><span class="line">    <span class="keyword">if</span>(ifile)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">string</span> buf;</span><br><span class="line">            <span class="keyword">while</span>(ifile &gt;&gt; buf)</span><br><span class="line">                <span class="comment">//读取文件的一个单词</span></span><br><span class="line">            vec.push_back(buf);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; vec;</span><br><span class="line">    func1(<span class="string">&quot;demo.txt&quot;</span>,vec);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; str : vec)</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; str &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    func2(<span class="string">&quot;demo.txt&quot;</span>,vec);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span>&amp; str : vec)</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; str &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<p><strong>文件模式</strong></p>
+<p>每个流都有关联的文件模式，用来指出如何使用文件。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201028204356.png" alt="image-20201028204349249"></p>
+<p>无论使用哪种方式打开文件，我们都可以指定文件模式。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201028211905.png" alt="image-20201028204844631"></p>
+<p>以<code>out</code>模式打开文件会丢失已有的数据。</p>
+<p>保留被<code>ofstream</code>打开的文件中已有数据的唯一方法是显式指定<code>app</code>或者<code>in</code>模式。</p>
+<p>每次打开文件时，都需要指定默认值。</p>
+<h4 id="8-3-string流"><a href="#8-3-string流" class="headerlink" title="8.3 string流"></a>8.3 string流</h4><p><code>sstring</code>头文件定义了三种类型来支持内存IO，这类类型可以向<code>string</code>写数据，也可以向其读数据，就像一个IO流一样。<code>istringstream</code>读数据，<code>ostringstream</code>写数据，<code>stringstream</code>既可以读数据，也可以写数据。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201028211852.png" alt="image-20201028211852354"></p>
+<p><strong>istringstream</strong></p>
 ]]></content>
       <categories>
         <category>学习</category>
@@ -806,7 +801,7 @@
 <p>静态成员和普通成员的另一个区别就是我们可以使用静态成员作为默认实参。非静态成员则不能。</p>
 ]]></content>
       <categories>
-        <category>学习z</category>
+        <category>学习</category>
       </categories>
       <tags>
         <tag>C++</tag>

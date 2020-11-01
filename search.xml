@@ -91,6 +91,39 @@
 <h4 id="8-3-string流"><a href="#8-3-string流" class="headerlink" title="8.3 string流"></a>8.3 string流</h4><p><code>sstring</code>头文件定义了三种类型来支持内存IO，这类类型可以向<code>string</code>写数据，也可以向其读数据，就像一个IO流一样。<code>istringstream</code>读数据，<code>ostringstream</code>写数据，<code>stringstream</code>既可以读数据，也可以写数据。</p>
 <p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201028211852.png" alt="image-20201028211852354"></p>
 <p><strong>istringstream</strong></p>
+<p>demo.cpp</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sstream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">PersonInfo</span>&#123;</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> name;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; phones;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> line,word;</span><br><span class="line">    <span class="built_in">vector</span>&lt;PersonInfo&gt; people;</span><br><span class="line">    <span class="keyword">while</span>(getline(<span class="built_in">cin</span>,line))&#123;</span><br><span class="line">        PersonInfo info;</span><br><span class="line">        <span class="function"><span class="built_in">istringstream</span> <span class="title">record</span><span class="params">(line)</span></span>;</span><br><span class="line">        record &gt;&gt; info.name;</span><br><span class="line">        <span class="keyword">while</span>(record &gt;&gt; word)</span><br><span class="line">            info.phones.push_back(word);</span><br><span class="line">        people.push_back(info);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;over&quot;</span>  &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>定义<code>istringstream</code>对象不同位置的不同写法：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">istringstream</span> record;</span><br><span class="line"><span class="keyword">while</span>()</span><br><span class="line">&#123;</span><br><span class="line">    record.str(line);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>ostringstream</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span>&amp; person : people)&#123;</span><br><span class="line">    <span class="built_in">ostringstream</span> formatted, badNums;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span>&amp; num : person.phones)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!valid(num))</span><br><span class="line">        &#123;</span><br><span class="line">            badNums &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; num;</span><br><span class="line">        &#125;<span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            formatted &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; num;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(badNums.str().empty())</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; person.name &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cerr</span> &lt;&lt; <span class="string">&quot;input error&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ]]></content>
       <categories>
         <category>学习</category>

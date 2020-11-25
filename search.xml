@@ -154,6 +154,40 @@
       </categories>
   </entry>
   <entry>
+    <title>vs studio调用mkl库</title>
+    <url>/2020/11/25/mkl/</url>
+    <content><![CDATA[<p>最近做的项目需要在Windows环境下使用MKL库，兜兜转转好几天，终于把库的调用弄好了。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201125180123.jpg" alt="1"></p>
+<a id="more"></a>
+
+<p>首先需要下载inter编译器，然后安装，在这里不细讲具体过程了。</p>
+<p>Visual Studio版本： 2019。</p>
+<p>然后就是环境的调用了。</p>
+<p><strong>第一步</strong></p>
+<p>在vsstudio中新建一个demo.cpp，然后点击项目——属性——intel performance Library</p>
+<p>在Use inter MKL处，将后面的No改为你想要的类型。在这里我选的是<code>Sequential</code></p>
+<p><strong>第二步（一些电脑似乎不用）</strong></p>
+<p>然后选择VC++目录</p>
+<p>将可执行文件目录设置为：</p>
+<p><code>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2020.0.166\windows\redist\intel64_win\mkl</code></p>
+<p>包含目录为：</p>
+<p><code>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2020.0.166\windows\mkl\include\intel64</code></p>
+<p>引用目录为：</p>
+<p><code>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2020.0.166\windows\mkl\lib\intel64_win</code></p>
+<p><code>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2020.0.166\windows\compiler\lib\intel64_win</code></p>
+<p>这里面的路径是针对我现在的电脑的，具体路径还需要因人而异。</p>
+<p>值得注意的是：<strong>每个项目都需要重新设置一下，而且<code>debug</code>模式和<code>release</code>模式的设置也不是通用的，所以分别都需要设置一下</strong></p>
+]]></content>
+      <categories>
+        <category>杂项</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>MKL</tag>
+        <tag>vs_studio</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C++ primer 第一部分 （C++基础）</title>
     <url>/2020/10/25/C++Primer%EF%BC%88%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%89/</url>
     <content><![CDATA[<p>这份笔记陆陆续续写了好几年，这段时间重新开始，愿未来可期，不负韶华。</p>
@@ -836,40 +870,6 @@
       <tags>
         <tag>C++</tag>
         <tag>C++primer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>vs studio调用mkl库</title>
-    <url>/2020/11/25/mkl/</url>
-    <content><![CDATA[<p>最近做的项目需要在Windows环境下使用MKL库，兜兜转转好几天，终于把库的调用弄好了。</p>
-<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201125180123.jpg" alt="1"></p>
-<a id="more"></a>
-
-<p>首先需要下载inter编译器，然后安装，在这里不细讲具体过程了。</p>
-<p>Visual Studio版本： 2019。</p>
-<p>然后就是环境的调用了。</p>
-<p><strong>第一步</strong></p>
-<p>在vsstudio中新建一个demo.cpp，然后点击项目——属性——intel performance Library</p>
-<p>在Use inter MKL处，将后面的No改为你想要的类型。在这里我选的是<code>Sequential</code></p>
-<p><strong>第二步（一些电脑似乎不用）</strong></p>
-<p>然后选择VC++目录</p>
-<p>将可执行文件目录设置为：</p>
-<p><code>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2020.0.166\windows\redist\intel64_win\mkl</code></p>
-<p>包含目录为：</p>
-<p><code>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2020.0.166\windows\mkl\include\intel64</code></p>
-<p>引用目录为：</p>
-<p><code>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2020.0.166\windows\mkl\lib\intel64_win</code></p>
-<p><code>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2020.0.166\windows\compiler\lib\intel64_win</code></p>
-<p>这里面的路径是针对我现在的电脑的，具体路径还需要因人而异。</p>
-<p>值得注意的是：<strong>每个项目都需要重新设置一下，而且<code>debug</code>模式和<code>release</code>模式的设置也不是通用的，所以分别都需要设置一下</strong></p>
-]]></content>
-      <categories>
-        <category>杂项</category>
-      </categories>
-      <tags>
-        <tag>C++</tag>
-        <tag>MKL</tag>
-        <tag>vs_studio</tag>
       </tags>
   </entry>
 </search>

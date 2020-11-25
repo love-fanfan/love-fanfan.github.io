@@ -9,7 +9,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    C++ primer 第二部分（C++基础） |  
+    C++ primer 第二部分(C++基础) |  
   </title>
   <meta name="generator" content="hexo-theme-ayer">
   
@@ -67,7 +67,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  C++ primer 第二部分（C++基础）
+  C++ primer 第二部分(C++基础)
 </h1>
  
 
@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">2k</span>
+            <span class="post-count">2.3k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">7 min</span>
+            <span class="post-count">9 min</span>
         </span>
     </span>
 </div>
@@ -205,27 +205,24 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">istringstream</span> record;</span><br><span class="line"><span class="keyword">while</span>()</span><br><span class="line">&#123;</span><br><span class="line">    record.str(line);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>ostringstream</strong></p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span>&amp; person : people)&#123;</span><br><span class="line">    <span class="built_in">ostringstream</span> formatted, badNums;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span>&amp; num : person.phones)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!valid(num))</span><br><span class="line">        &#123;</span><br><span class="line">            badNums &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; num;</span><br><span class="line">        &#125;<span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            formatted &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; num;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(badNums.str().empty())</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; person.name &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cerr</span> &lt;&lt; <span class="string">&quot;input error&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span>&amp; person : people)&#123;</span><br><span class="line">    <span class="built_in">ostringstream</span> formatted, badNums;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span>&amp; num : person.phones)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!valid(num))</span><br><span class="line">        &#123;</span><br><span class="line">            badNums &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; num;</span><br><span class="line">        &#125;<span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            formatted &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; num;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(badNums.str().empty())</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; person.name &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cerr</span> &lt;&lt; <span class="string">&quot;input error&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>判断每个<code>person</code>的电话号码是否合法。</p>
+<h3 id="第9章-顺序容器"><a href="#第9章-顺序容器" class="headerlink" title="第9章 顺序容器"></a>第9章 顺序容器</h3><h4 id="9-1-顺序容器概述"><a href="#9-1-顺序容器概述" class="headerlink" title="9.1 顺序容器概述"></a>9.1 顺序容器概述</h4><p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201108103426.png" alt="image-20201108103419545"></p>
+<p><code>string</code>和<code>vector</code>将元素保存在连续的内存空间，但是，在这种容器的中间位置添加或者删除元素就会非常耗时；在一次插入或删除操作之后，需要移动插入或者删除位置以后的所有元素，来保持连续存储。</p>
+<p><code>list</code>和<code>list_forward</code>两个容器的设计目的是令容器任何位置的添加和删除操作都很快速，作为代价这两个容器不支持元素的随机访问。而且，这两个容器的额外内存开销也很大。</p>
+<p>一般而言，使用vector是最好的选择。</p>
+<h4 id="9-2-容器库概览"><a href="#9-2-容器库概览" class="headerlink" title="9.2 容器库概览"></a>9.2 容器库概览</h4><p>顺序容器几乎可以保存任意类型的元素。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; lines;</span><br></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201108110813.png" alt="image-20201108110813215"></p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201108110906.png" alt="image-20201108110906238"></p>
+<p><strong>迭代器</strong></p>
+<p>迭代器范围</p>
+<p><code>[begin, end)</code></p>
+<p>如果<code>begin</code>和<code>end</code>相等，则范围为空。</p>
+<p>在迭代器指定的范围内查找给定的值，返回一个迭代器指向找到的元素。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::<span class="function">iterator <span class="title">find</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator beg, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator end, <span class="keyword">int</span> value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> iter = beg; iter != end; ++iter)</span><br><span class="line">        <span class="keyword">if</span> (*iter == value) <span class="keyword">return</span> iter;</span><br><span class="line">    <span class="keyword">return</span> end;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -314,10 +311,19 @@
    
   <nav class="article-nav">
     
+      <a href="/2020/11/25/mkl/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            vs studio调用mkl库
+          
+        </div>
+      </a>
+    
     
       <a href="/2020/10/25/C++Primer%EF%BC%88%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%89/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">C++ primer 第一部分（C++基础）</div>
+        <div class="article-nav-title">C++ primer 第一部分 （C++基础）</div>
       </a>
     
   </nav>

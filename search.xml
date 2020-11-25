@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>C++ primer 第二部分（C++基础）</title>
+    <title>C++ primer 第二部分(C++基础)</title>
     <url>/2020/10/26/C++Primer%20%EF%BC%88%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%89/</url>
     <content><![CDATA[<p>终于看完了第一部分，今天开始第二部分的学习</p>
 <p>​                                                                        2020.10.26</p>
@@ -98,27 +98,24 @@
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">istringstream</span> record;</span><br><span class="line"><span class="keyword">while</span>()</span><br><span class="line">&#123;</span><br><span class="line">    record.str(line);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>ostringstream</strong></p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span>&amp; person : people)&#123;</span><br><span class="line">    <span class="built_in">ostringstream</span> formatted, badNums;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span>&amp; num : person.phones)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!valid(num))</span><br><span class="line">        &#123;</span><br><span class="line">            badNums &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; num;</span><br><span class="line">        &#125;<span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            formatted &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; num;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(badNums.str().empty())</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; person.name &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cerr</span> &lt;&lt; <span class="string">&quot;input error&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span>&amp; person : people)&#123;</span><br><span class="line">    <span class="built_in">ostringstream</span> formatted, badNums;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span>&amp; num : person.phones)&#123;</span><br><span class="line">        <span class="keyword">if</span>(!valid(num))</span><br><span class="line">        &#123;</span><br><span class="line">            badNums &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; num;</span><br><span class="line">        &#125;<span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            formatted &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; num;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(badNums.str().empty())</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; person.name &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cerr</span> &lt;&lt; <span class="string">&quot;input error&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>判断每个<code>person</code>的电话号码是否合法。</p>
+<h3 id="第9章-顺序容器"><a href="#第9章-顺序容器" class="headerlink" title="第9章 顺序容器"></a>第9章 顺序容器</h3><h4 id="9-1-顺序容器概述"><a href="#9-1-顺序容器概述" class="headerlink" title="9.1 顺序容器概述"></a>9.1 顺序容器概述</h4><p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201108103426.png" alt="image-20201108103419545"></p>
+<p><code>string</code>和<code>vector</code>将元素保存在连续的内存空间，但是，在这种容器的中间位置添加或者删除元素就会非常耗时；在一次插入或删除操作之后，需要移动插入或者删除位置以后的所有元素，来保持连续存储。</p>
+<p><code>list</code>和<code>list_forward</code>两个容器的设计目的是令容器任何位置的添加和删除操作都很快速，作为代价这两个容器不支持元素的随机访问。而且，这两个容器的额外内存开销也很大。</p>
+<p>一般而言，使用vector是最好的选择。</p>
+<h4 id="9-2-容器库概览"><a href="#9-2-容器库概览" class="headerlink" title="9.2 容器库概览"></a>9.2 容器库概览</h4><p>顺序容器几乎可以保存任意类型的元素。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; lines;</span><br></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201108110813.png" alt="image-20201108110813215"></p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201108110906.png" alt="image-20201108110906238"></p>
+<p><strong>迭代器</strong></p>
+<p>迭代器范围</p>
+<p><code>[begin, end)</code></p>
+<p>如果<code>begin</code>和<code>end</code>相等，则范围为空。</p>
+<p>在迭代器指定的范围内查找给定的值，返回一个迭代器指向找到的元素。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::<span class="function">iterator <span class="title">find</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator beg, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator end, <span class="keyword">int</span> value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> iter = beg; iter != end; ++iter)</span><br><span class="line">        <span class="keyword">if</span> (*iter == value) <span class="keyword">return</span> iter;</span><br><span class="line">    <span class="keyword">return</span> end;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -157,7 +154,7 @@
       </categories>
   </entry>
   <entry>
-    <title>C++ primer 第一部分（C++基础）</title>
+    <title>C++ primer 第一部分 （C++基础）</title>
     <url>/2020/10/25/C++Primer%EF%BC%88%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%89/</url>
     <content><![CDATA[<p>这份笔记陆陆续续写了好几年，这段时间重新开始，愿未来可期，不负韶华。</p>
 <p>​                                                                                                    2020.10.26</p>
@@ -290,12 +287,12 @@
 
 <p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201025093628.jpg" alt="image-20191204203756466"></p>
 <p>C++中兼容了很多C中的库，C语言中的头文件形如<code>name.h</code>，C++将这些文件命名为<code>cname</code></p>
-<p>特别的，在名为cname的头文件中定义的名字从属于命名空间std，但定义在<code>.h</code>的头文件中的则不然。</p>
+<p>特别的，在名为<code>cname</code>的头文件中定义的名字从属于命名空间<code>std</code>，但定义在<code>.h</code>的头文件中的则不然。</p>
 <p><strong>范围for语句</strong></p>
 <p>这种语句用来遍历给定序列中的每个元素。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">str</span><span class="params">(<span class="string">&quot;some strings&quot;</span>)</span></span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> c : str)</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; c &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
 
-<p>如果想改变string对象中字符的值，必须把循环变量定义为引用变量。</p>
+<p><strong>如果想改变string对象中字符的值，必须把循环变量定义为引用变量。</strong></p>
 <h4 id="3-3-标准库类型vector"><a href="#3-3-标准库类型vector" class="headerlink" title="3.3 标准库类型vector"></a>3.3 标准库类型vector</h4><p>再问头文件中做如下声明：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="built_in">std</span>::<span class="built_in">vector</span>;</span><br></pre></td></tr></table></figure>
 
@@ -307,7 +304,7 @@
 <p>当然，也可以采用列表初始化vector对象的方法，如果提供的是初始元素值的列表，则只能把初始值都放在花括号里进行列表的初始化，而不能放在圆括号里。</p>
 <p><strong>想vector对象中添加元素</strong></p>
 <p>使用vector的成员函数向其添加元素，push_back负责把一个值当成vector对象的尾元素压到对象的尾端。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">string word；</span><br><span class="line">vector&lt;string&gt; text;</span><br><span class="line">while(cin &gt;&gt; word)</span><br><span class="line">&#123;</span><br><span class="line">	text.push_back(word);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">string</span> word；</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; text;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; word)</span><br><span class="line">&#123;</span><br><span class="line">	text.push_back(word);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>注意：</strong>如果循环体内部包含有向vector对象添加元素的语句，则不能使用范围for循环。</p>
 <p><strong>vector操作</strong></p>
@@ -322,7 +319,7 @@
 <p><strong>迭代器的类型</strong></p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator it;	<span class="comment">//it可以读写vector&lt;int&gt;的元素</span></span><br><span class="line"><span class="built_in">string</span>::iterator it2;	<span class="comment">//it2能读写</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::const_iterator it3;	<span class="comment">//只读</span></span><br><span class="line"><span class="built_in">string</span>::const_iterator it4;	<span class="comment">//只读</span></span><br></pre></td></tr></table></figure>
 
-<p>两个新函数cbegin，cend，无论vector本身是否是常量，返回值都是const_iterator。</p>
+<p>两个新函数<code>cbegin</code>，<code>cend</code>，无论<code>vector</code>本身是否是常量，返回值都是<code>const_iterator</code>。</p>
 <p><strong>解引用和成员访问</strong></p>
 <p>注意如下区别：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">(*it).empty() <span class="comment">//it是一个vector对象的迭代器，解引用it，然后调用结果对象的empty成员</span></span><br><span class="line">*it.empty()	<span class="comment">//错误，试图访问it的empty成员，但it是个迭代器，没有empty成员</span></span><br><span class="line">it-&gt;empty() <span class="comment">//同第一个，将解引用和成员访问放在一起。</span></span><br></pre></td></tr></table></figure>
@@ -339,14 +336,14 @@
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> arr[<span class="number">10</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> &amp;refs[<span class="number">10</span>] <span class="comment">//错误，不存在引用的数组</span></span><br><span class="line"><span class="keyword">int</span> (*Parray)[<span class="number">10</span>] = &amp;arr;	<span class="comment">//Parray指向一个含有10个整数的数组</span></span><br><span class="line"><span class="keyword">int</span> (&amp;arrRef)[<span class="number">10</span>] = arry;	<span class="comment">//Parray引用一个含有10个整数的数组</span></span><br></pre></td></tr></table></figure>
 
 <p><strong>访问数组元素</strong></p>
-<p>在使用数组下标的时候，通常将其定义为size_t类型，在cstddef头文件中定义。</p>
+<p>在使用数组下标的时候，通常将其定义为<code>size_t</code>类型，在<code>cstddef</code>头文件中定义。</p>
 <p><strong>数组和指针</strong></p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> ia[] = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>&#125;;</span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">ia2</span><span class="params">(ia)</span></span>;	<span class="comment">//ia2是一个整形指针，指向ia的第一个元素</span></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">ia2</span><span class="params">(&amp;ia[<span class="number">0</span>])</span></span>;	<span class="comment">//同上</span></span><br><span class="line"><span class="keyword">decltype</span>(ia) ia3 = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>&#125;; <span class="comment">//返回的类型是10个整数构成的指针</span></span><br></pre></td></tr></table></figure>
 
-<p>iterator头文件中定义了两个函数，begin和end，注意这两个函数不是成员函数</p>
+<p><code>iterator</code>头文件中定义了两个函数，<code>begin</code>和<code>end</code>，注意这两个函数不是成员函数</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> *beg = begin(ia);</span><br><span class="line"><span class="keyword">int</span> *last = end(ia);</span><br></pre></td></tr></table></figure>
 
-<p>如果两个指针相减，返回的是一种类型为ptrdiff_t的标准库类型，这是一种带符号类型。</p>
+<p>如果两个指针相减，返回的是一种类型为<code>ptrdiff_t</code>的标准库类型，这是一种带符号类型。</p>
 <p>数组内置的下标运算所用的索引值可以为负数。</p>
 <p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201025093533.jpg" alt="image-20191204204231604"></p>
 <p>此类函数的指针必须指向以空字符作为结束的标志。</p>
@@ -361,7 +358,7 @@
 
 <p><strong>使用范围for语句处理多维数组（读或者写），除了最内层的循环外，其他循环控制变量都要用引用类型</strong></p>
 <p><strong>指针和多维数组</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">int (*)p[4]; &#x2F;&#x2F;指向含有4个整数的数组</span><br><span class="line">int *p[4]; &#x2F;&#x2F;整形指针的数组</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> (*p)[<span class="number">4</span>]; <span class="comment">//指向含有4个整数的数组</span></span><br><span class="line"><span class="keyword">int</span>* p[<span class="number">4</span>]; <span class="comment">//整形指针的数组</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -839,6 +836,40 @@
       <tags>
         <tag>C++</tag>
         <tag>C++primer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vs studio调用mkl库</title>
+    <url>/2020/11/25/mkl/</url>
+    <content><![CDATA[<p>最近做的项目需要在Windows环境下使用MKL库，兜兜转转好几天，终于把库的调用弄好了。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201125180123.jpg" alt="1"></p>
+<a id="more"></a>
+
+<p>首先需要下载inter编译器，然后安装，在这里不细讲具体过程了。</p>
+<p>Visual Studio版本： 2019。</p>
+<p>然后就是环境的调用了。</p>
+<p><strong>第一步</strong></p>
+<p>在vsstudio中新建一个demo.cpp，然后点击项目——属性——intel performance Library</p>
+<p>在Use inter MKL处，将后面的No改为你想要的类型。在这里我选的是<code>Sequential</code></p>
+<p><strong>第二步（一些电脑似乎不用）</strong></p>
+<p>然后选择VC++目录</p>
+<p>将可执行文件目录设置为：</p>
+<p><code>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2020.0.166\windows\redist\intel64_win\mkl</code></p>
+<p>包含目录为：</p>
+<p><code>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2020.0.166\windows\mkl\include\intel64</code></p>
+<p>引用目录为：</p>
+<p><code>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2020.0.166\windows\mkl\lib\intel64_win</code></p>
+<p><code>C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2020.0.166\windows\compiler\lib\intel64_win</code></p>
+<p>这里面的路径是针对我现在的电脑的，具体路径还需要因人而异。</p>
+<p>值得注意的是：<strong>每个项目都需要重新设置一下，而且<code>debug</code>模式和<code>release</code>模式的设置也不是通用的，所以分别都需要设置一下</strong></p>
+]]></content>
+      <categories>
+        <category>杂项</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>MKL</tag>
+        <tag>vs_studio</tag>
       </tags>
   </entry>
 </search>

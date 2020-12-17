@@ -56,7 +56,7 @@
     <main class="content on">
       <section class="outer">
   <article
-  id="post-C++Primer （第二部分）"
+  id="post-C++Primer（第二部分）"
   class="article article-type-post"
   itemscope
   itemprop="blogPost"
@@ -74,7 +74,7 @@
     </header>
      
     <div class="article-meta">
-      <a href="/2020/10/26/C++Primer%20%EF%BC%88%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%89/" class="article-date">
+      <a href="/2020/10/26/C++Primer%EF%BC%88%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%89/" class="article-date">
   <time datetime="2020-10-26T02:44:36.373Z" itemprop="datePublished">2020-10-26</time>
 </a> 
   <div class="article-category">
@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">2.3k</span>
+            <span class="post-count">4.1k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">9 min</span>
+            <span class="post-count">16 min</span>
         </span>
     </span>
 </div>
@@ -220,15 +220,118 @@
 <p><strong>迭代器</strong></p>
 <p>迭代器范围</p>
 <p><code>[begin, end)</code></p>
-<p>如果<code>begin</code>和<code>end</code>相等，则范围为空。</p>
+<p>如果<code>begin</code>和<code>end</code>相等，则范围为空。带<code>c</code>的版本返回<code>const</code>迭代器，带<code>r</code>的版本返回反向迭代器。</p>
 <p>在迭代器指定的范围内查找给定的值，返回一个迭代器指向找到的元素。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::<span class="function">iterator <span class="title">find</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator beg, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator end, <span class="keyword">int</span> value)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> iter = beg; iter != end; ++iter)</span><br><span class="line">        <span class="keyword">if</span> (*iter == value) <span class="keyword">return</span> iter;</span><br><span class="line">    <span class="keyword">return</span> end;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p><strong>容器的定义和初始化</strong></p>
+<p>除<code>array</code>之外，其他容器的默认构造函数都会创建一个指定类型的空容器，且都可以接受指定容器大小和元素初始值的参数。</p>
+<ul>
+<li>直接拷贝</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201216144624.png" alt="image-20201216144624260"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">forward_list&lt;<span class="built_in">string</span>&gt; <span class="title">words</span><span class="params">(articles.begin(), articles.end())</span></span>;</span><br><span class="line"><span class="comment">// 正确，可以将const char*元素转化为string</span></span><br></pre></td></tr></table></figure>
 
+<blockquote>
+<p>当将一个容器初始化为另一个容器的拷贝时，两个容器的容器类型和元素类型必须相同。</p>
+</blockquote>
+<ul>
+<li>迭代器拷贝</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//迭代器it表示authors中的一个元素</span></span><br><span class="line"><span class="function"><span class="built_in">deque</span>&lt;<span class="built_in">string</span>&gt; <span class="title">authList</span><span class="params">(authors.begin(), it)</span></span>;</span><br><span class="line"><span class="comment">//拷贝元素，直到（但不包括）it指向的元素</span></span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>列表初始化</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; authors = &#123;<span class="string">&quot;MIlton&quot;</span>, <span class="string">&quot;Shakespeare&quot;</span>&#125;;</span><br></pre></td></tr></table></figure>
 
+<ul>
+<li>顺序容器大小相关的构造函数</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; <span class="title">svec</span><span class="params">(<span class="number">10</span>, <span class="string">&quot;hi!&quot;</span>)</span></span>;</span><br><span class="line"><span class="function">forward_list&lt;<span class="keyword">int</span>&gt; <span class="title">ivec</span><span class="params">(<span class="number">10</span>)</span></span>; <span class="comment">//10个元素，每个都初始化为0</span></span><br></pre></td></tr></table></figure>
 
- 
+<blockquote>
+<p>只有顺序容器的构造函数才接受大小参数，关联容器并不支持。</p>
+</blockquote>
+<p><strong>标准库array</strong></p>
+<p>在定义一个标准库<code>array</code>时，除了指定元素类型，还要指定容器大小。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">array</span>&lt;<span class="keyword">int</span>, 42&gt;</span><br><span class="line"><span class="built_in">array</span>&lt;<span class="built_in">string</span>, 10&gt;</span><br><span class="line">    </span><br><span class="line"><span class="built_in">array</span>&lt;<span class="built_in">string</span>, 10&gt; a1 = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>&#125;;</span><br><span class="line">a2 = &#123;<span class="number">0</span>&#125;;<span class="comment">//错误，不能将</span></span><br></pre></td></tr></table></figure>
+
+<p>为了使用<code>array</code>类型，我们必须指定元素类型和大小。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">array</span>&lt;<span class="keyword">int</span>, 10&gt;::size_type i;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201216152805.png" alt="image-20201216152804925"></p>
+<p><strong>swap</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; <span class="title">svec1</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; <span class="title">svec2</span><span class="params">(<span class="number">24</span>)</span></span>;</span><br><span class="line">swap(svec1, svec2);</span><br></pre></td></tr></table></figure>
+
+<p>交换两个容器的操作会很快，元素本身并未交换，只是交换了两个容器的内部数据结构。</p>
+<p>元素不会被移动意味着，除了<code>string</code>外，指向容器的迭代器、引用和指针在<code>swap</code>操作后都不会失效，他们仍指向操作之前所指向的那些元素，但是这些元素已经属于不同的容器了。与其他容器不同，对一个<code>string</code>调用<code>swap</code>会导致迭代器、引用和指针失效。</p>
+<p>与其他容器不同，<code>swap</code>两个<code>array</code>会真正交换它们的元素，因为所需时间较长。</p>
+<p><strong>容器大小操作</strong></p>
+<p><code>size, empty, max_size</code></p>
+<h4 id="9-3-顺序容器操作"><a href="#9-3-顺序容器操作" class="headerlink" title="9.3 顺序容器操作"></a>9.3 顺序容器操作</h4><p>顺序容器和关联容器的不同之处在于两者组织关系的不同，本章主要介绍顺序容器所特有的操作。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201216160408.png" alt="image-20201216160408369"></p>
+<blockquote>
+<p>当我们用一个对象来初始化容器时，或将一个对象插入到容器中时，实际上放入到容器中的是一个拷贝，而不对对象本身，对容器中元素的任何改变都不会影响到原始对象。</p>
+</blockquote>
+<p>通过使用<code>insert</code>的返回值，可以在容器中一个特定位置反复插入元素：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; lst;</span><br><span class="line"><span class="keyword">auto</span> iter = lst.begin();</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; word)</span><br><span class="line">    iter = lst.insert(iter, word);</span><br></pre></td></tr></table></figure>
+
+<p>这个循环等价于调用<code>push_front</code></p>
+<p><strong>emplace</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">c.emplace_back(<span class="string">&quot;911&quot;</span>,<span class="number">33</span>,<span class="number">222.2</span>);</span><br><span class="line">c.push_back(<span class="string">&quot;911&quot;</span>,<span class="number">33</span>,<span class="number">222.2</span>);<span class="comment">//错误，没有接受三个参数的push_back版本</span></span><br><span class="line">c.push_back(Sales_data(<span class="string">&quot;911&quot;</span>,<span class="number">33</span>,<span class="number">222.2</span>));<span class="comment">//正确</span></span><br></pre></td></tr></table></figure>
+
+<p><code>emplace</code>函数的参数根据元素类型而变化，参数必须与元素类型的构造函数相匹配。</p>
+<blockquote>
+<p>emplace函数在容器中直接构造元素，调用push则会创建一个局部临时对象，并将其压入容器中。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">double_and_insert</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; v, <span class="keyword">int</span> some_val)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> mid = [&amp;]&#123; <span class="keyword">return</span> v.begin() + v.size() / <span class="number">2</span>; &#125;;</span><br><span class="line">    <span class="comment">//mid相当于是动态的一个迭代器</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> curr = v.begin(); curr != mid(); ++curr)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (*curr == some_val)</span><br><span class="line">            ++(curr = v.insert(curr, <span class="number">2</span> * some_val));</span><br><span class="line"></span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot; *mid = &quot;</span> &lt;&lt; *mid() &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; iv = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>&#125;;</span><br><span class="line">    double_and_insert(iv, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> &amp;i : iv)</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; i &lt;&lt; <span class="string">&quot; &quot;</span> ;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">auto</span> iter = iv.begin(), mid = iv.begin() + iv.size()/<span class="number">2</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> count = <span class="number">50</span>; count;   --count )</span><br><span class="line">    &#123;</span><br><span class="line">        iv.insert(iter, <span class="number">-1</span>);</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;capacity = &quot;</span> &lt;&lt; iv.capacity() &lt;&lt; <span class="string">&quot; *mid = &quot;</span> &lt;&lt; *mid &lt;&lt; <span class="string">&quot; iter = &quot;</span> &lt;&lt; *iter &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>;</span><br><span class="line">        <span class="comment">//新的容器大小如果大于原来的容器大小，会导致mid,iter的值改变</span></span><br><span class="line">        <span class="comment">//所以如果对容器进行插值操作，需要在每一步从新定义mid iter 的值</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>访问元素</strong></p>
+<p>每个顺序容器都有一个<code>front</code>函数，而除了<code>forward_list</code>之外的所有顺序容器都有一个<code>back</code>成员函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!c.empty)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">auto</span> val = *c.begin(), val2 = c.front();</span><br><span class="line">    <span class="comment">//都是c中第一个元素值的拷贝</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">auto</span> val3 = *(--c.end()), val4 = c.back();</span><br><span class="line">    <span class="comment">//c中最后一个元素的拷贝</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>重要的是，在调用<code>front</code>和<code>back</code>之前，要确保<code>c</code>非空。</strong></p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201217145024.png" alt="image-20201217145024517"></p>
+<p><strong>删除元素</strong></p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201217211015.png" alt="image-20201217211015755"></p>
+<p><strong>特殊的forward_list操作</strong></p>
+<p><code>forward_list</code>是单向链表，且没有定义<code>insert、emplace、erase</code>而是定义了如下的函数：</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201217220019.png" alt="image-20201217212803293"></p>
+<p>删除奇数的函数</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">forward_list&lt;<span class="keyword">int</span>&gt; flst = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>&#125;;</span><br><span class="line"><span class="keyword">auto</span> prev = flst.before_begin();</span><br><span class="line"><span class="keyword">auto</span> curr = flst.begin();</span><br><span class="line"><span class="keyword">while</span>(curr != flst.end())&#123;</span><br><span class="line">    <span class="keyword">if</span>(*curr % <span class="number">2</span>)</span><br><span class="line">        curr = flst.erase_after(prev);</span><br><span class="line">    	<span class="comment">//删除prev并移动curr</span></span><br><span class="line">    	<span class="comment">//因为prev原始位置的元素被删除了，所以curr仍然指向prev新位置的前一个元素</span></span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">        prev = curr;</span><br><span class="line">        ++curr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>改变容器大小</strong></p>
+<p>与往常一样，<code>array</code>不支持<code>resize</code>。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201217220009.png" alt="image-20201217220009387"></p>
+<p><strong>容器操作可能使迭代器失效</strong></p>
+<p>向容器添加元素后：</p>
+<ul>
+<li><p>如果容器是<code>vector</code>或<code>string</code>，且存储空间被重新分配，则指向容器的迭代器、指针和引用都会失效，如果存储空间未重新分配，指向插入位置之前的元素的迭代器、指针和引用仍有效，但指向插入位置之后元素的迭代器、指针和引用会失效。</p>
+</li>
+<li><p>对于<code>deque</code>，插入到除首尾位置以外的任何位置都会导致迭代器、指针和引用失效。如果在首位位置添加元素，迭代器会失效，但指向存在的元素的引用和指针不会失效。</p>
+</li>
+<li><p>对于<code>list</code>和<code>forward_list</code>，指向容器的迭代器（包括尾后迭代器和首前迭代器）、指针和引用仍然有效。</p>
+</li>
+</ul>
+<p>当我们删除一个元素是，指向该元素的迭代器、指针和引用都会失效：</p>
+<ul>
+<li><p>对于<code>list</code>和<code>forward_list</code>，指向容器其他位置的迭代器（包括尾后迭代器和首前迭代器）、指针和引用仍然有效。</p>
+</li>
+<li><p>对于<code>deque</code>，如果在首尾位置之外的任何位置删除元素，那么指向被删除元素外其他元素的迭代器、引用或指针也会失效。如果是删除<code>deque</code>的尾元素，则尾后迭代器也会失效，但其他迭代器、引用和指针不受影响；如果是删除首元素，这些也不会受影响。</p>
+</li>
+<li><p>对于<code>vector</code>和<code>string</code>，指向被删除元素之前元素的迭代器、引用和指针仍有效。注意：当我们删除元素时，尾后迭代器总是会失效。</p>
+</li>
+</ul>
+<blockquote>
+<p>如果循环中调用的是<code>insert</code>或<code>erase</code>,那么更新迭代器很容易。这些操作都返回迭代器，我们可以用来更新。</p>
+</blockquote>
+<p><strong>不要保存end返回的迭代器</strong>，因为在循环中，原来的end返回的迭代器总是会失效，因此，添加或删除元素的循环程序必须反复调用end.</p>
+<h4 id="9-4-vector对象时如何增长的"><a href="#9-4-vector对象时如何增长的" class="headerlink" title="9.4 vector对象时如何增长的"></a>9.4 vector对象时如何增长的</h4><p><strong>管理容器的成员函数</strong></p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201217232638.png" alt="image-20201217232638733"></p>
+<p>调用<code>shrink_to_fit</code>只是一个请求，标准库并不保证退还内存。</p>
+<p><img src="C:%5CUsers%5C4205%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20201217233858380.png" alt="image-20201217233858380"></p>
+<h4 id="9-5-额外的string操作"><a href="#9-5-额外的string操作" class="headerlink" title="9.5 额外的string操作"></a>9.5 额外的string操作</h4> 
       <!-- reward -->
       
       <div id="reword-out">
@@ -298,7 +401,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/10/26/C++Primer%20%EF%BC%88%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%89/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2020/10/26/C++Primer%EF%BC%88%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%89/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -323,7 +426,7 @@
     
       <a href="/2020/10/25/C++Primer%EF%BC%88%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%89/" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">C++ primer 第一部分 （C++基础）</div>
+        <div class="article-nav-title">C++ primer 第一部分（C++基础）</div>
       </a>
     
   </nav>

@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">4.1k</span>
+            <span class="post-count">5k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">16 min</span>
+            <span class="post-count">20 min</span>
         </span>
     </span>
 </div>
@@ -331,7 +331,66 @@
 <p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201217232638.png" alt="image-20201217232638733"></p>
 <p>调用<code>shrink_to_fit</code>只是一个请求，标准库并不保证退还内存。</p>
 <p><img src="C:%5CUsers%5C4205%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20201217233858380.png" alt="image-20201217233858380"></p>
-<h4 id="9-5-额外的string操作"><a href="#9-5-额外的string操作" class="headerlink" title="9.5 额外的string操作"></a>9.5 额外的string操作</h4> 
+<h4 id="9-5-额外的string操作"><a href="#9-5-额外的string操作" class="headerlink" title="9.5 额外的string操作"></a>9.5 额外的string操作</h4><p>除了与其他容器相同的构造函数，<code>string</code>类型还支持另外三个构造函数如下图：</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201219160754.png" alt="image-20201219160754271"></p>
+<p>从<code>const char*</code>创建<code>string</code>时，指针指向的数组必须以空字符技术。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> noNull[] = &#123;<span class="string">&#x27;H&#x27;</span>,<span class="string">&#x27;i&#x27;</span>&#125;;</span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s1</span><span class="params">(nuNull)</span></span>; <span class="comment">//拷贝nuNull中的字符直到遇到空字符，但是nuNull不是以空字符结束，未定义</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>substr</strong></p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201219161406.png" alt="image-20201219161406697"></p>
+<p><strong>其他方法</strong></p>
+<p><code>string</code>类型支持顺序容器的赋值运算符以及<code>assign、insert和erase</code>操作。当然，还提供了接受下标的版本。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s.insert(s.size(), <span class="number">5</span>, <span class="string">&#x27;!&#x27;</span>);</span><br><span class="line"><span class="comment">//在s末尾插入5个感叹号</span></span><br><span class="line">s.erase(s.size() - <span class="number">5</span>, <span class="number">5</span>);</span><br><span class="line"><span class="comment">//从s删除最后5个字符</span></span><br></pre></td></tr></table></figure>
+
+<p>标准<code>string</code>类型还提供了接受C风格字符数组的<code>insert</code>和<code>assign</code>版本：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *cp = <span class="string">&quot;Stately, plump Buck&quot;</span>;</span><br><span class="line">s.assign(cp, <span class="number">7</span>); <span class="comment">//s == &quot;Stately&quot;</span></span><br><span class="line">s.insert(s.size(), cp + <span class="number">7</span>); <span class="comment">// s == &quot;Stately, plump Buck&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>append和replace函数</strong></p>
+<p><code>string</code>类定义了两种额外的成员函数：<code>append</code>和<code>replace</code>。</p>
+<p>在调用<code>replace</code>时，插入的文本和删除的文本可以不一样长。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201219163159.png" alt="image-20201219163159106"></p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201219163216.png" alt="image-20201219163216311"></p>
+<p>并不是每一种函数都支持所有形式的参数，例如，<code>insert</code>就不支持下标和初始化列表参数。</p>
+<ul>
+<li><input disabled="" type="checkbox"> 9.43 9.44 45 46</li>
+</ul>
+<p><strong>string搜索操作</strong></p>
+<p><code>string</code>提供了6个不同的搜索函数，每个函数都有4个重载版本。如果搜索失败，则返回一个名为<code>string::npos</code>的<code>static</code>成员。标准库将<code>npos</code>定义为一个<code>const string::size_type</code>，并初始化为-1，此初始值意味着<code>npos</code>等于任何<code>string</code>最大的可能大小。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201225212720.png" alt="image-20201225212720315"></p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201225212734.png" alt="image-20201225212734192"></p>
+<p>寻找第一个数字：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">string numbers(&quot;123456789&quot;), name(&quot;r2d2&quot;);</span><br><span class="line"><span class="keyword">auto</span> pos = name.find_first_of(numbers);</span><br><span class="line"><span class="comment">//每步循环查找name中每一个数</span></span><br><span class="line"><span class="built_in">string</span>::size_type pos1 = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span>((pos1 = name.find_first_of(numbers,pos)) </span><br><span class="line">      ! = <span class="built_in">string</span>::npos)&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;found number at index: &quot;</span> &lt;&lt; pos</span><br><span class="line">        &lt;&lt; <span class="string">&quot; element is &quot;</span> &lt;&lt; name[pos] &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    ++pos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>compare函数</strong></p>
+<p>和C标准库的<code>strcmp</code>函数类似，根据s是等于、大于还是小于参数指定的字符串，<code>s.compare</code>返回0、正数或负数。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201225215153.png" alt="image-20201225215153112"></p>
+<p><strong>数值转换</strong></p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201225215546.png" alt="image-20201225215546639"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s2 = <span class="string">&quot;pi = 3.14&quot;</span>;</span><br><span class="line">d = stod(s2.substr(s2.find_first_of(<span class="string">&quot;+-.0123456789&quot;</span>)));</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果<code>string</code>不能转换为一个数组，这些函数抛出一个<code>invalid_argument</code>异常，如果转换得到的数值无法用任何类型来表示，则抛出一个<code>out_of_range</code>异常。</p>
+</blockquote>
+<p><strong>容器适配器</strong></p>
+<p>除了顺序容器外，标准库还定义了三个顺序容器适配器：<code>stack</code>、<code>queue</code>和<code>priority_quene</code>，适配器是标准库中的一个通用概念。本质上，一个适配器就是一种机制，一个适配器接受一种已有的容器类型，使其行为看起来像一种不同的类型。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201226103702.png" alt="image-20201226103655229"></p>
+<p>每个适配器都有两个构造函数：默认的构造函数创建一个空对象，接受一个容器的构造函数拷贝该容器来初始化适配器。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">deque</span>&lt;<span class="keyword">int</span>&gt; deq;</span><br><span class="line"><span class="function"><span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; <span class="title">stk</span><span class="params">(deq)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下：<code>stack</code>和<code>queue</code>是基于<code>deque</code>实现的，<code>priority_queue</code>是在<code>vector</code>之上实现的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stack</span>&lt;<span class="built_in">string</span>, <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; str_stk;</span><br></pre></td></tr></table></figure>
+
+<p><strong>栈适配器</strong></p>
+<p><code>stack</code>类型定义在<code>stack</code>头文件中。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; intStack;<span class="comment">//空栈</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">size_t</span> ix = <span class="number">0</span>; ix !=<span class="number">10</span>; ++ix)</span><br><span class="line">    intStack.push(ix);</span><br><span class="line"><span class="keyword">while</span>(intStack.empty())&#123;</span><br><span class="line">    <span class="keyword">int</span> value = intStack.top();</span><br><span class="line">    intStack.pop();<span class="comment">//弹出栈顶元素，继续循环</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201226104820.png" alt="image-20201226104820819"></p>
+<p>每个容器适配器都基于底层容器的操作定义了自己的特殊操作，我们只可以使用适配器操作，而不能使用底层容器类型的操作。</p>
+<p><strong>队列适配器</strong></p>
+<p><code>queue</code>和<code>priority_queue</code>适配器定义在<code>queue</code>头文件中。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201226110424.png" alt="image-20201226110424856"></p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201226110434.png" alt="image-20201226110434634"></p>
+ 
       <!-- reward -->
       
       <div id="reword-out">

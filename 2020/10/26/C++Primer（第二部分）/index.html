@@ -371,8 +371,7 @@
 <blockquote>
 <p>如果<code>string</code>不能转换为一个数组，这些函数抛出一个<code>invalid_argument</code>异常，如果转换得到的数值无法用任何类型来表示，则抛出一个<code>out_of_range</code>异常。</p>
 </blockquote>
-<p><strong>容器适配器</strong></p>
-<p>除了顺序容器外，标准库还定义了三个顺序容器适配器：<code>stack</code>、<code>queue</code>和<code>priority_quene</code>，适配器是标准库中的一个通用概念。本质上，一个适配器就是一种机制，一个适配器接受一种已有的容器类型，使其行为看起来像一种不同的类型。</p>
+<h4 id="9-6-容器适配器"><a href="#9-6-容器适配器" class="headerlink" title="9.6 容器适配器"></a>9.6 容器适配器</h4><p>除了顺序容器外，标准库还定义了三个顺序容器适配器：<code>stack</code>、<code>queue</code>和<code>priority_quene</code>，适配器是标准库中的一个通用概念。本质上，一个适配器就是一种机制，一个适配器接受一种已有的容器类型，使其行为看起来像一种不同的类型。</p>
 <p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201226103702.png" alt="image-20201226103655229"></p>
 <p>每个适配器都有两个构造函数：默认的构造函数创建一个空对象，接受一个容器的构造函数拷贝该容器来初始化适配器。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">deque</span>&lt;<span class="keyword">int</span>&gt; deq;</span><br><span class="line"><span class="function"><span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; <span class="title">stk</span><span class="params">(deq)</span></span>;</span><br></pre></td></tr></table></figure>

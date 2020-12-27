@@ -890,7 +890,7 @@
 </blockquote>
 <p><strong>标准库array</strong></p>
 <p>在定义一个标准库<code>array</code>时，除了指定元素类型，还要指定容器大小。</p>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">array</span>&lt;<span class="keyword">int</span>, 42&gt;</span><br><span class="line"><span class="built_in">array</span>&lt;<span class="built_in">string</span>, 10&gt;</span><br><span class="line">    </span><br><span class="line"><span class="built_in">array</span>&lt;<span class="built_in">string</span>, 10&gt; a1 = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>&#125;;</span><br><span class="line">a2 = &#123;<span class="number">0</span>&#125;;<span class="comment">//错误，不能将</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">array</span>&lt;<span class="keyword">int</span>, 42&gt;</span><br><span class="line"><span class="built_in">array</span>&lt;<span class="built_in">string</span>, 10&gt;</span><br><span class="line">    </span><br><span class="line"><span class="built_in">array</span>&lt;<span class="built_in">string</span>, 10&gt; a1 = &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>为了使用<code>array</code>类型，我们必须指定元素类型和大小。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">array</span>&lt;<span class="keyword">int</span>, 10&gt;::size_type i;</span><br></pre></td></tr></table></figure>
@@ -904,6 +904,7 @@
 <p>与其他容器不同，<code>swap</code>两个<code>array</code>会真正交换它们的元素，因为所需时间较长。</p>
 <p><strong>容器大小操作</strong></p>
 <p><code>size, empty, max_size</code></p>
+<p><code>forward_list</code>支持<code>max_size、empty</code>但是不支持<code>size</code>。</p>
 <h4 id="9-3-顺序容器操作"><a href="#9-3-顺序容器操作" class="headerlink" title="9.3 顺序容器操作"></a>9.3 顺序容器操作</h4><p>顺序容器和关联容器的不同之处在于两者组织关系的不同，本章主要介绍顺序容器所特有的操作。</p>
 <p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201216160408.png" alt="image-20201216160408369"></p>
 <blockquote>
@@ -985,10 +986,7 @@
 <p>在调用<code>replace</code>时，插入的文本和删除的文本可以不一样长。</p>
 <p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201219163159.png" alt="image-20201219163159106"></p>
 <p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201219163216.png" alt="image-20201219163216311"></p>
-<p>并不是每一种函数都支持所有形式的参数，例如，<code>insert</code>就不支持下标和初始化列表参数。</p>
-<ul>
-<li><input disabled="" type="checkbox"> 9.43 9.44 45 46</li>
-</ul>
+<p>并不是每一种函数都支持所有形式的参数，例如，<code>insert</code>就不支持初始化列表参数。</p>
 <p><strong>string搜索操作</strong></p>
 <p><code>string</code>提供了6个不同的搜索函数，每个函数都有4个重载版本。如果搜索失败，则返回一个名为<code>string::npos</code>的<code>static</code>成员。标准库将<code>npos</code>定义为一个<code>const string::size_type</code>，并初始化为-1，此初始值意味着<code>npos</code>等于任何<code>string</code>最大的可能大小。</p>
 <p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201225212720.png" alt="image-20201225212720315"></p>

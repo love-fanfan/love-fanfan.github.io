@@ -1286,6 +1286,104 @@
 <p>链表类型还定义了<code>splice</code>算法，这是链表数据结构特有的，因此不需要通用版本。</p>
 <p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20210120215239.png" alt="image-20210120215239144"></p>
 <p>链表特有版本与通用版本间的一个重要区别是链表版本会该表底层的容器。例如：<code>remove</code>的链表版本会删除指定的元素，<code>unique</code>的链表版本会删除第二个和后继的重复元素。</p>
+<h3 id="第11章-关联容器"><a href="#第11章-关联容器" class="headerlink" title="第11章 关联容器"></a>第11章 关联容器</h3><p>关联容器和顺序容器有着根本的区别：关联容器中的元素是按关键字来保存访问的。两种主要的关联容器类型是<code>map</code>和<code>set</code>。</p>
+<p>标准库提供8个关键容器。允许重复关键字的容器名字中都带包含单词<code>multi</code>;不保持关键字按顺序存储的容器名字都以单词<code>unordered</code>开头。</p>
+<p>类型<code>map</code>和<code>multimap</code>定义在头文件<code>map</code>中；<code>set</code>和<code>multiset</code>定义在头文件<code>set</code>中；无序容器定义在头文件<code>unordered_map</code>和<code>unordered_set</code>中。</p>
+<h4 id="11-1-使用关联容器"><a href="#11-1-使用关联容器" class="headerlink" title="11.1 使用关联容器"></a>11.1 使用关联容器</h4><p><strong>使用map</strong></p>
+<p>一个经典的使用关联数组计数程序:</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="keyword">size_t</span>&gt; word_count; <span class="comment">//从string到size_t的空map</span></span><br><span class="line"><span class="built_in">string</span> word;</span><br><span class="line">wwhile(<span class="built_in">cin</span> &gt;&gt; word)</span><br><span class="line">		++ word_count[word];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp;w : word_count)</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; w.first &lt;&lt; <span class="string">&quot;occurs&quot;</span> &lt;&lt; w.second &lt;&lt; </span><br><span class="line">    ((w.second &gt; <span class="number">1</span>) ? <span class="string">&quot;times&quot;</span> : <span class="string">&quot;time&quot;</span> ) &lt;&lt; <span class="built_in">endl</span>; </span><br></pre></td></tr></table></figure>
+
+<p><strong>使用set</strong></p>
+<p>对上一个示例一个合理的拓展是：忽略常见单词。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="keyword">size_t</span>&gt; word_count; <span class="comment">//从string到size_t的空map</span></span><br><span class="line"><span class="built_in">string</span> word;</span><br><span class="line"><span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt; exclude = &#123;<span class="string">&quot;the&quot;</span>, <span class="string">&quot;The&quot;</span>&#125;;</span><br><span class="line">wwhile(<span class="built_in">cin</span> &gt;&gt; word)</span><br><span class="line">    <span class="keyword">if</span> (exclude.find(word) == exclude.end())</span><br><span class="line">		++ word_count[word];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp;w : word_count)</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; w.first &lt;&lt; <span class="string">&quot;occurs&quot;</span> &lt;&lt; w.second &lt;&lt; </span><br><span class="line">    ((w.second &gt; <span class="number">1</span>) ? <span class="string">&quot;times&quot;</span> : <span class="string">&quot;time&quot;</span> ) &lt;&lt; <span class="built_in">endl</span>; </span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="11-2-关联容器概述"><a href="#11-2-关联容器概述" class="headerlink" title="11.2 关联容器概述"></a>11.2 关联容器概述</h4><p>关联容器（有序的和无序的）都支持9.2节中介绍的普通容器操作。但不支持顺序容器的位置相关的操作。例如<code>push_front</code>，这些操作对关联容器没有意义。</p>
+<p>关联容器的迭代器都是双向的。</p>
+<p><strong>定义关联容器</strong></p>
+<p>当定义一个<code>map</code>是，必须指明关键字类型和值类型，而定义<code>set</code>时，只需要指明关键字类型即可。</p>
+<p>我们可以对关联容器进行值初始化。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; authors = &#123;&#123;<span class="string">&quot;Joyce&quot;</span>,<span class="string">&quot;James&quot;</span>&#125;,</span><br><span class="line">                               &#123;<span class="string">&quot;Austen&quot;</span>, <span class="string">&quot;Jane&quot;</span>&#125;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>初始化multimap和multiset</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec;</span><br><span class="line"><span class="keyword">for</span>(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::size_type i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">&#123;</span><br><span class="line">    ivec.push_back(i);</span><br><span class="line">    ivec.push_back(i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; ivec.size() &lt;&lt; <span class="built_in">endl</span>; <span class="comment">//输出20</span></span><br><span class="line"><span class="function"><span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; <span class="title">iset</span><span class="params">(ivec.cbegin(), ivec.cend())</span></span>;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; iset.size() &lt;&lt; <span class="built_in">endl</span>;  <span class="comment">//输出10，iset中包含了不重复的元素</span></span><br><span class="line"><span class="function"><span class="built_in">multiset</span>&lt;<span class="keyword">int</span>&gt; <span class="title">miset</span><span class="params">(ivec.cbegin(), ivec.cend())</span></span>;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; miset.size() &lt;&lt; <span class="built_in">endl</span>; <span class="comment">//输出20，保存了重复元素</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用关键字类型的比较函数</strong></p>
+<p>用尖括号指出要定义那种类型的容器，自定义的操作类型必须在尖括号中紧跟着元素类型给出。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">compareIsbn</span><span class="params">(<span class="keyword">const</span> Sales_data &amp;lhs, <span class="keyword">const</span> Sales_data &amp;rhs)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> lhs.isbn() &lt; rhs.isbn();</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">multiset</span>&lt;Sales_data, <span class="keyword">decltype</span>(compareIsbn) *&gt;</span><br><span class="line">    bookstore(compareIsbn);</span><br></pre></td></tr></table></figure>
+
+<p>当用<code>decltype</code>来获取一个函数指针类型时，必须加上一个*来指出我们要使用一个给定函数类型的指针。用<code>compareIsbn</code>来初始化<code>bookstore</code>对象，这表示当我们向<code>bookstore</code>中添加元素时，通过调用<code>compareIsbn</code>来为这些元素排序。</p>
+<p><strong>pair类型</strong></p>
+<p><code>pair</code>标准库定义在头文件<code>utility</code>中。</p>
+<p>当创建一个<code>pair</code>时，我们需要提供两种类型名。</p>
+<p><code>pair</code>的数据成员是<code>public</code>的，两个成员分别命名为<code>first</code>和<code>second</code>，我们用普通的成员访问符号来访问他。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cout</span> &lt;&lt; w.first &lt;&lt; <span class="string">&quot;occurs&quot;</span> &lt;&lt; w.second  &lt;&lt; ((w.second) &gt; <span class="number">1</span> ? <span class="string">&quot;times&quot;</span> : <span class="string">&quot;time&quot;</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20210305102012.png" alt="image-20210303102905596"></p>
+<p><strong>创建pair对象的函数</strong></p>
+<p>如果一个函数需要返回一个<code>pair</code>，在新标准下，我们可以对返回值进行列表初始化。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">pair</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt;</span><br><span class="line">    process(<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; &amp;v)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(!v.empty())</span><br><span class="line">        <span class="keyword">return</span> &#123;v.back(), v.back().size()&#125;; <span class="comment">//列表初始化</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">pair</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt;(); <span class="comment">//隐式构造返回值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在较早的C++版本中，不允许用花括号对<code>pair</code>这种类型的对象进行初始化，必须使用显示构造返回值：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="built_in">pair</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>&gt;(v.back(), v.back().size());</span><br></pre></td></tr></table></figure>
+
+<p>我们也可以使用如下方法：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">return</span> <span class="built_in">make_pair</span>(v.back(), v.back().size());</span><br></pre></td></tr></table></figure>
+
+<h4 id="11-3-关联容器操作"><a href="#11-3-关联容器操作" class="headerlink" title="11.3 关联容器操作"></a>11.3 关联容器操作</h4><p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20210305102006.png" alt="image-20210303114417979"></p>
+<p>对于<code>set</code>类型，<code>key_type</code>和<code>value_type</code>是一样的。在<code>map</code>中，每个元素是一个<code>pair</code>对象，包含一个关键字和一个关键的值。由于我们不能改变一个元素的关键字，因此这个<code>pair</code>的关键字部分是<code>const</code>。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">auto</span> map_it = word_count.begin();</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; map_it-&gt;first &lt;&lt; map_it-&gt;second;</span><br><span class="line">map_it-&gt;first = <span class="string">&quot;new_key&quot;</span>; <span class="comment">//错误：关键字是const的</span></span><br><span class="line">++map_it-&gt;second; <span class="comment">//正确，可以通过迭代器改变元素</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>set的迭代器是const的</strong></p>
+<p>虽然set类型同时定义了<code>iterator</code>和<code>const_iterator</code>类型，但两种类型都只允许访问<code>set</code>中的元素，一个<code>set</code>中的关键字也是<code>const</code>的。</p>
+<p><code>map</code>和<code>set</code>都支持表9.2中的<code>begin</code>和<code>end</code>操作。</p>
+<p><strong>关键容器和算法</strong></p>
+<p>我们通常不对关联容器使用泛型算法，关键字是<code>const</code>这一特性意味着不能将关联容器传递给修改或者重排容器的函数。</p>
+<p>在实际编程中，可以用泛函<code>copy</code>函数将元素从一个关联容器拷贝到另一个序列，类似的，可以调用<code>inserter</code>将一个插入器绑定到另一个关联容器，通过使用<code>inserter</code>，我们可以将关联容器当做一个目的位置来调用另一个算法。</p>
+<p><strong>添加元素</strong></p>
+<p>关联容器的<code>insert</code>成员，向容器中添加一个元素或者一个元素范围。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec = &#123;<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>&#125;;</span><br><span class="line"><span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; set2;</span><br><span class="line">set2.insert(ivec.cbegin(), ivec.cend());</span><br><span class="line">set2.insert(&#123;<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>&#125;);<span class="comment">//添加不重复的元素。</span></span><br></pre></td></tr></table></figure>
+
+<p><code>insert</code>有两个版本，分别接受一对迭代器，或者是一个初始化器列表，这两个版本的行为类似对应的构造函数。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20210305102029.png" alt="image-20210304101400945"></p>
+<p><strong>insert的返回值</strong></p>
+<p>添加单一元素的<code>insert</code>和<code>emplace</code>版本返回一个<code>pair</code>，告诉我们插入操作是否成功，<code>pair</code>的<code>first</code>成员是一个迭代器，指向具有给定关键字的元素；<code>second</code>成员是一个<code>bool</code>值，指出元素是插入成功还是已经存在与容器之中。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="keyword">size_t</span>&gt; word_count ;</span><br><span class="line"><span class="built_in">string</span> word;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; word)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">auto</span> ret = word_count.insert(&#123;word, <span class="number">1</span>&#125;);</span><br><span class="line">    <span class="keyword">if</span>(!ret.second)</span><br><span class="line">        ++ret.first-&gt;second;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>ret.first</code>是<code>pair</code>的第一个成员，是一个<code>map</code>迭代器，指向具有给定关键字的元素。</p>
+<p><strong>删除元素</strong></p>
+<p>与顺序容器一样，我们可以通过传递给<code>erase</code>一个迭代器或一个迭代器对来删除一个元素或者一个元素范围。</p>
+<p>关联容器提供一个额外的<code>erase</code>操作，接受一个<code>key_type</code>参数，此版本删除所有匹配给定关键字的元素，返回实际删除的元素的数量。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20210305102051.png" alt="image-20210304104032786"></p>
+<p><strong>map的下标操作</strong></p>
+<p><code>map</code>和<code>unordered_map</code>容器提供了下标运算符和一个对应的<code>at</code>函数。<code>set</code>类型不支持下标，因为<code>set</code>中没有与关键字相关联的”值”。</p>
+<p>由于使用下标运算符可能插入一个新的元素，我们只可以对非<code>const</code>的<code>map</code></p>
+<p>使用下标操作。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20210305102055.png" alt="image-20210305101401047"></p>
+<blockquote>
+<p>使用一个不在容器中的关键字作为下标，会添加一个具有此关键字的元素到map中。</p>
+</blockquote>
+<p>通常情况下，解引用一个迭代器返回的类型与下标运算符返回的类型是一样的，但对<code>map</code>则不然，当对一个<code>map</code>进行下标操作时，会获得一个<code>mapped_type</code>对象；担当解引用一个<code>map</code>迭代器时，会得到一个<code>value_type</code>对象。</p>
+<p><strong>访问元素</strong></p>
+<p>对于不允许重复关键字的容器，可能使用<code>find</code>还是<code>count</code>没什么区别，但对于允许重复关键字的容器，<code>count</code>还会做更多的工作。如果元素在容器中，它还会统计有多少个元素有相同的关键字。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20210305102059.png" alt="image-20210305101442535"></p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20210305102101.png" alt="image-20210305101507406"></p>
+<p><strong>在multimap和multiset中查找元素</strong></p>
+<p>如果一个<code>multimap</code>或者<code>multiset</code>中有多个元素具有给定关键字，则这些元素在容器中会相邻存储。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">search_item</span><span class="params">(<span class="string">&quot;Alain&quot;</span>)</span></span>;</span><br><span class="line"><span class="keyword">auto</span> entries = authors.count(search_item);</span><br><span class="line"><span class="keyword">auto</span> iter = author.find(search_item);</span><br><span class="line"><span class="keyword">while</span>(entries)&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; iter-&gt;second &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    ++ iter;</span><br><span class="line">    -- entries;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> beg = authors.lower_bound(search_item),</span><br><span class="line">   end = authors.upper_bound(search_item);</span><br><span class="line">   beg != end; ++beg)</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; beg-&gt;second &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p>方法三：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> pos = authors.equal_range(search_item);</span><br><span class="line">   pos.first != pos.second; ++pos.first)</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; pos.first -&gt; second &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="11-4-无序容器"><a href="#11-4-无序容器" class="headerlink" title="11.4 无序容器"></a>11.4 无序容器</h4><p>新标准定义了4个无序关联容器，这些容器使用一个哈希函数和关键字类型的==运算符。</p>
+<p>无序容器在存储上组织为一组桶，每个桶保存零个或多个元素。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20210306104457.png" alt="image-20210306104456892"></p>
 ]]></content>
       <categories>
         <category>学习</category>

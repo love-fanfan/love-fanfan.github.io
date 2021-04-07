@@ -1574,7 +1574,7 @@
 <h4 id="13-1-拷贝、赋值与销毁"><a href="#13-1-拷贝、赋值与销毁" class="headerlink" title="13.1 拷贝、赋值与销毁"></a>13.1 拷贝、赋值与销毁</h4><p><strong>拷贝构造函数</strong></p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	Foo();</span><br><span class="line">    	Foo(<span class="keyword">const</span> Foo&amp;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>拷贝构造函数的第一个参数必须是一个引用类型。</p>
+<p>拷贝构造函数的第一个参数必须是一个<strong>引用类型</strong>。</p>
 <p>拷贝初始化不仅在我们用=定义变量时会发生，在下列情况也会发生：</p>
 <ul>
 <li>将一个对象作为实参传递给一个非引用类型的形参</li>

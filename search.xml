@@ -1767,7 +1767,7 @@
 <blockquote>
 <p>如果一个成员函数有引用限定符，则其具有相同参数列表的所有版本都必须有引用限定符。</p>
 </blockquote>
-]]></content>
+<h3 id="第14章-重载运算与类型转换"><a href="#第14章-重载运算与类型转换" class="headerlink" title="第14章 重载运算与类型转换"></a>第14章 重载运算与类型转换</h3><h4 id="14-1-基本概念"><a href="#14-1-基本概念" class="headerlink" title="14.1 基本概念"></a>14.1 基本概念</h4>]]></content>
       <categories>
         <category>学习</category>
       </categories>

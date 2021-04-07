@@ -1582,7 +1582,7 @@
 <li>用花括号列表初始化一个数组中的元素或一个聚合类中的成员</li>
 </ul>
 <p>当我们初始化标准库容器或是调用其<code>insert</code>或<code>push</code>成员时，容器会对其元素进行拷贝初始化，与之相对的是，用<code>emplace</code>成员创建的元素都进行直接初始化。</p>
-<p>如果我呢使用的初始化值要求通过一个<code>explicit</code>(指定构造函数或转换函数 (C++11起)为显式, 即它不能用于隐式转换和复制初始化)的构造函数来进行类型转化，那么使用拷贝初始化还是直接初始化就不是无关紧要的了：</p>
+<p>如果我们使用的初始化值要求通过一个<code>explicit</code>(指定构造函数或转换函数 (C++11起)为显式, 即它不能用于隐式转换和复制初始化)的构造函数来进行类型转化，那么使用拷贝初始化还是直接初始化就不是无关紧要的了：</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">v1</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v2 = <span class="number">10</span>;<span class="comment">//错误，接受大小参数的构造函数是explicit的</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;)</span></span>;</span><br><span class="line">f(<span class="number">10</span>);<span class="comment">//错误</span></span><br><span class="line">f(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;(<span class="number">10</span>));</span><br></pre></td></tr></table></figure>
 
 

@@ -1588,7 +1588,7 @@
 
 
 <p><strong>拷贝赋值运算符</strong></p>
-<p>与拷贝构造函数一样，如果类未定义自己的拷贝赋值运算符，编译器会喂它合成一个。</p>
+<p>与拷贝构造函数一样，如果类未定义自己的拷贝赋值运算符，编译器会为它合成一个。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	Foo&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> Foo&amp;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
@@ -1599,7 +1599,7 @@
 
 
 <p><strong>析构函数</strong></p>
-<p>构造函数初始化对象的非<code>static</code>数据成员，析构函数释放对象使用的资源，并销毁对象的飞<code>static</code>数据成员。</p>
+<p>构造函数初始化对象的非<code>static</code>数据成员，析构函数释放对象使用的资源，并销毁对象的非<code>static</code>数据成员。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	~Foo();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>在一个析构函数中，析构部分是隐式的，内置类型没有析构函数，因此销毁内置类型成员什么也不需要做。</p>
@@ -1610,7 +1610,7 @@
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    Sales_data *p = <span class="keyword">new</span> Sales_data;</span><br><span class="line">    <span class="keyword">auto</span> p2 = make_shared&lt;Sales_data&gt;();</span><br><span class="line">    <span class="function">Sales_data <span class="title">item</span><span class="params">(*p)</span></span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;Sales_data&gt; vec;</span><br><span class="line">    vec.push_back(*p2);</span><br><span class="line">    <span class="keyword">delete</span> p;</span><br><span class="line">&#125;<span class="comment">//退出局部作用域;对item、p2和vec调用析构函数</span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>当指向一个对象的引用或指针离开作用域是，析构函数不会执行。</p>
+<p>当指向一个对象的引用或指针离开作用域时，析构函数不会执行。</p>
 </blockquote>
 <p>当一个类没有定义自己的析构函数时，编译器会为它定义一个合成析构函数。</p>
 <p>析构函数体自身不直接销毁成员，成员是是在析构函数体之后隐含的析构阶段中被销毁的，在整个对象的销毁过程中，析构函数体是作为成员销毁步骤之外的一部分而进行的。</p>

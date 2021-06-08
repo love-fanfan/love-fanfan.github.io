@@ -1767,7 +1767,376 @@
 <blockquote>
 <p>如果一个成员函数有引用限定符，则其具有相同参数列表的所有版本都必须有引用限定符。</p>
 </blockquote>
-<h3 id="第14章-重载运算与类型转换"><a href="#第14章-重载运算与类型转换" class="headerlink" title="第14章 重载运算与类型转换"></a>第14章 重载运算与类型转换</h3><h4 id="14-1-基本概念"><a href="#14-1-基本概念" class="headerlink" title="14.1 基本概念"></a>14.1 基本概念</h4>]]></content>
+<h3 id="第14章-重载运算与类型转换"><a href="#第14章-重载运算与类型转换" class="headerlink" title="第14章 重载运算与类型转换"></a>第14章 重载运算与类型转换</h3><h4 id="14-1-基本概念"><a href="#14-1-基本概念" class="headerlink" title="14.1 基本概念"></a>14.1 基本概念</h4><p>重载的运算符是具有特殊名字的函数：它们的名字有关键字<code>operator</code>和其后面定义的运算符号共同组成。</p>
+<p>除了重载的函数调用运算符<code>operator()</code>之外，其他重载运算符不能含有默认实参。</p>
+<p>如果一个运算符函数是成员函数，则它的第一个运算对象绑定到隐式的<code>this</code>指针上，因此，成员运算符函数的（显式）参数数量比运算符的运算对象总数少一个。</p>
+<p>对于一个运算符函数来说，或者是类的成员，或者至少含有一个类类型的参数。</p>
+<p><code>int operator+(int , int);</code></p>
+<p>我们只能重载已有的运算符，而无权发明新的运算符号。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20210415211206.png" alt="image-20210415211159342"></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">data1 + data2;</span><br><span class="line"><span class="keyword">operator</span>+(data1, data2);</span><br></pre></td></tr></table></figure>
+
+<p><strong>某些运算符不应该被重载</strong></p>
+<p>逻辑与运算符、或运算符和逗号逗号运算符，&amp;&amp;和||运算符不建议重载。</p>
+<p><strong>成员函数</strong></p>
+<p>赋值（=）、下标（[]）、调用（()）、和成员访问箭头（-&gt;）运算符必须是成员。</p>
+<h4 id="14-2-输入和输出运算符"><a href="#14-2-输入和输出运算符" class="headerlink" title="14.2 输入和输出运算符"></a>14.2 输入和输出运算符</h4><p><strong>重载输出运算符&lt;&lt;</strong></p>
+<p>输入运算符的第一个形参是一个非常量<code>ostream</code>对象的引用。该形参是引用是因为我们无法直接复制一个<code>ostream</code>对象。</p>
+<p>第二个形参一般来说是一个常量的引用。</p>
+<p>为了与其他输出运算符保持一致，<code>operator&lt;&lt;</code>一般要返回它的<code>ostream</code>形参。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">ostream &amp;<span class="keyword">operator</span>&lt;&lt;(ostream &amp;os, <span class="keyword">const</span> Sales_data &amp;item)</span><br><span class="line">&#123;</span><br><span class="line">    os &lt;&lt; item.isbn() &lt;&lt;  <span class="string">&quot; &quot;</span> &lt;&lt; item.units_sold &lt;&lt; <span class="string">&quot; &quot;</span></span><br><span class="line">        &lt;&lt; item.revenue &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; item.avg_price();</span><br><span class="line">    <span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>输出运算符尽量减少格式化操作</strong></p>
+<blockquote>
+<p>通常，输出运算符应该主要负责打印对象的内容而非控制格式，输出运算符不应该打印换行符。</p>
+</blockquote>
+<p><strong>输入输出运算符必须是非成员函数</strong></p>
+<p>因此，如果我们希望为类自定义IO运算符，则必须将其定义为非成员函数（否则，左侧运算符对象将是我们的类的一个对象）。当然，IO运算符通常需要读写类的非公有数据成员，所以IO运算符一般被声明为友元。</p>
+<p><strong>重载输入运算符&gt;&gt;</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">istream &amp;<span class="keyword">operator</span>&gt;&gt;(istream *is, Sales_data &amp;item )</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">double</span> price;</span><br><span class="line">    is &gt;&gt; item.bookNo &gt;&gt; item.units_sold &gt;&gt; price;</span><br><span class="line">    <span class="keyword">if</span>(is)</span><br><span class="line">        item.revenue = item.units_sold * price;</span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line">        item = Sales_data();<span class="comment">//输入失败， 对象被赋予默认的状态</span></span><br><span class="line">    <span class="keyword">return</span> is;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>输入运算符必须处理输入可能失败的情况，而输出运算符不需要。</p>
+</blockquote>
+<p>通常情况下，输入运算符只设置<code>failbit</code>。除此之外，设置<code>eofbit</code>表示文件耗尽，而设置<code>badbit</code>表示流被破坏。最好的方式是由IO标准库自己来标示这些错误。</p>
+<h4 id="14-3-算术和关系运算符"><a href="#14-3-算术和关系运算符" class="headerlink" title="14.3 算术和关系运算符"></a>14.3 算术和关系运算符</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Sales_data</span><br><span class="line"><span class="keyword">operator</span>+(<span class="keyword">const</span> Sales_data &amp;lhs, <span class="keyword">const</span> Sales_data &amp;rhs)</span><br><span class="line">&#123;</span><br><span class="line">    Sales_data sum = lhs; <span class="comment">//调用operator=</span></span><br><span class="line">    sum += rhs; <span class="comment">//调用+=</span></span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>相等运算符</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span>==(<span class="keyword">const</span> Sales_data &amp;lhs, <span class="keyword">const</span> Sales_data &amp;rhs)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> lhs.isbn() == rhs.isbn() &amp;&amp;</span><br><span class="line">        	lhs.units_sold == rhs.units_sold;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span>!=(<span class="keyword">const</span> Sales_data &amp;lhs, <span class="keyword">const</span> Sales_data &amp;rhs)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> !(lhs == rhs);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>关系运算符</strong></p>
+<blockquote>
+<p>如果存在唯一一种逻辑可靠地&lt;定义，则应该考虑为这个类定义&lt;运算符。如果类同时还包含==，则当且仅当&lt;的定义和==产生的结果一致时才定义&lt;运算符。</p>
+</blockquote>
+<h4 id="14-4-赋值运算符"><a href="#14-4-赋值运算符" class="headerlink" title="14.4 赋值运算符"></a>14.4 赋值运算符</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; v;</span><br><span class="line">v= &#123;<span class="string">&quot;a&quot;</span>,<span class="string">&quot;an&quot;</span>,<span class="string">&quot;the&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StrVec</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	StrVec &amp;<span class="keyword">operator</span>=(<span class="built_in">std</span>::<span class="built_in">initializer_list</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">StrVec &amp;StrVec::<span class="keyword">operator</span>=(<span class="built_in">initializer_list</span>&lt;<span class="built_in">string</span>&gt; il)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">auto</span> data = alloc_n_copy(il.begin(), il.end());</span><br><span class="line">    <span class="built_in">free</span>();</span><br><span class="line">    elements = data.first;</span><br><span class="line">    first_free = cap = data.second;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>和拷贝赋值及移动赋值运算符一样，其他重载的赋值运算符也必须先释放当前内存空间，在创建一片新空间，不同之处是，这个运算符无需检查对象向自身的赋值。</p>
+<blockquote>
+<p>我们可以重载赋值运算符，无论形参的类型是什么，赋值运算符都必须定义为成员函数。</p>
+</blockquote>
+<h4 id="14-5-下标运算符"><a href="#14-5-下标运算符" class="headerlink" title="14.5 下标运算符"></a>14.5 下标运算符</h4><blockquote>
+<p>下标运算符必须是成员函数。</p>
+</blockquote>
+<p>如果一个类包含下标运算符，则它通常会定义两个版本：一个返回普通引用，另一个是类的常量成员并且返回常量引用。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StrVec</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="built_in">std</span>::<span class="built_in">string</span>&amp; <span class="keyword">operator</span>[](<span class="built_in">std</span>::<span class="keyword">size_t</span> n)</span><br><span class="line">        &#123;<span class="keyword">return</span> elements[n];&#125;</span><br><span class="line">    	<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; <span class="keyword">operator</span>[](<span class="built_in">std</span>::<span class="keyword">size_t</span> n) <span class="keyword">const</span></span><br><span class="line">        &#123;<span class="keyword">return</span> elements[n];&#125;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	<span class="built_in">std</span>::<span class="built_in">string</span> *elements;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="14-6-递增和递减运算符"><a href="#14-6-递增和递减运算符" class="headerlink" title="14.6 递增和递减运算符"></a>14.6 递增和递减运算符</h4><blockquote>
+<p>定义递增和递减运算符的类应该同时定义前置版本和后置版本。这些运算符通常应该被定义成类的成员。</p>
+</blockquote>
+<p>为了与内置版本保持一致，前置运算符应该返回递增或递减后对象的引用。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">StrBlobPtr&amp; StrBlobPtr::<span class="keyword">operator</span>++()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//如果curr已经指向了容器的尾后位置，则无法递增</span></span><br><span class="line">    check(curr, <span class="string">&quot;increment past end of StrBlobPtr&quot;</span>);</span><br><span class="line">    ++curr;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">StrBlobPtr&amp; StrBlobPtr::<span class="keyword">operator</span>--()</span><br><span class="line">&#123;</span><br><span class="line">    --curr;</span><br><span class="line">    <span class="comment">//如果curr是0，则继续递减它将产生一个无效下标</span></span><br><span class="line">    check(curr, <span class="string">&quot;decrement past end of StrBlobPtr&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>区分前置和后置运算符</strong></p>
+<p>后置版本接受一个额外的（不被使用）int类型的形参。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StrBlobPtr</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	StrBlobPtr <span class="keyword">operator</span>++(<span class="keyword">int</span>);</span><br><span class="line">    	StrBlobPtr <span class="keyword">operator</span>--(<span class="keyword">int</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了和内置版本保持一致，后置运算符应该返回对象的原值（递增递减之前的值），返回的形式是一个值而非引用。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">StrBlobPtr StrBlobPtr::<span class="keyword">operator</span>++()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//无须检查有效性</span></span><br><span class="line">    StrBlobPtr ret = *<span class="keyword">this</span>;</span><br><span class="line">    ++*<span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">StrBlobPtr&amp; StrBlobPtr::<span class="keyword">operator</span>--()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//无须检查有效性</span></span><br><span class="line">    StrBlobPtr ret = *<span class="keyword">this</span>;</span><br><span class="line">    --*<span class="keyword">this</span>;</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>显式调用后置运算符</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">StrBlobPtr <span class="title">p</span><span class="params">(a1)</span></span>;</span><br><span class="line">p.<span class="keyword">operator</span>++(<span class="number">0</span>);<span class="comment">//调用后置版本</span></span><br><span class="line">p.<span class="keyword">operator</span>++();<span class="comment">//调用前置版本</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="14-7-成员访问运算符"><a href="#14-7-成员访问运算符" class="headerlink" title="14.7 成员访问运算符"></a>14.7 成员访问运算符</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StrBlobPtr</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="built_in">std</span>::<span class="built_in">string</span>&amp; <span class="keyword">operator</span>* () <span class="keyword">const</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">auto</span> p = check(curr, <span class="string">&quot;&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> (*p)[curr];</span><br><span class="line">        &#125;</span><br><span class="line">    	<span class="built_in">std</span>::<span class="built_in">string</span>&amp; <span class="keyword">operator</span>-&gt;() <span class="keyword">const</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> &amp;<span class="keyword">this</span>-&gt;<span class="keyword">operator</span>*();</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>箭头运算符必须是类的成员，解引用运算符通常也是类的成员，尽管并非必须如此。</p>
+</blockquote>
+<h4 id="14-8-函数调用运算符"><a href="#14-8-函数调用运算符" class="headerlink" title="14.8 函数调用运算符"></a>14.8 函数调用运算符</h4><p>如果类重载了函数调用运算符，则我们可以像使用函数一样使用该类的对象，因为这样的类同时也能存储状态，所以与普通函数相比它们更加灵活。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">-42</span>;</span><br><span class="line">absInt absObj;</span><br><span class="line"><span class="keyword">int</span> ui = absObj(i);</span><br></pre></td></tr></table></figure>
+
+<p>我们将该类定义如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrintString</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	PrintString(ostream &amp;o = <span class="built_in">cout</span>, <span class="keyword">char</span> c = <span class="string">&#x27; &#x27;</span>):</span><br><span class="line">    		os(o), sep(c)&#123;&#125;</span><br><span class="line">    	<span class="function"><span class="keyword">void</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span> &amp;s)</span> <span class="keyword">const</span> </span>&#123;os &lt;&lt; s&lt;&lt;sep;&#125;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	ostream &amp;os;</span><br><span class="line">    	<span class="keyword">char</span> sep;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">PrintString printer;</span><br><span class="line">printer(s); <span class="comment">//在cout中打印s，后面跟一个空格</span></span><br><span class="line"><span class="function">PrintString <span class="title">errors</span><span class="params">(<span class="built_in">cerr</span>, <span class="string">&#x27;\n&#x27;</span>)</span></span>;</span><br><span class="line">errors(s);  <span class="comment">// 在cerr中打印s，后面跟一个换行符</span></span><br></pre></td></tr></table></figure>
+
+<p>函数对象常常作为泛型算法的实参，类似于<code>lambda</code>表达式的功能。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">for_each(vs.begin(), vs.end(), PrintString(<span class="built_in">cerr</span>, <span class="string">&#x27;\n&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>标准库定义的函数对象</strong></p>
+<p>标准库定义了一组表示算术运算符、关系运算符和逻辑运算符的类。例如<code>plus</code>类定义了一个函数调用运算符对一对运算对象执行+的操作。</p>
+<p>这些类都被定义为模板的形式，我们可以为其指定具体的应用类型，这里的类型即调用运算符的形参类型。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">plus&lt;<span class="keyword">int</span>&gt; intAdd; <span class="comment">//可执行int加法的函数对</span></span><br><span class="line">negate&lt;<span class="keyword">int</span>&gt; intNegate; <span class="comment">//可对int值取反的函数对象</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> sum = intAdd(<span class="number">10</span>,<span class="number">20</span>);</span><br><span class="line">sum = intNegate(intAdd(<span class="number">10</span>,<span class="number">20</span>));</span><br></pre></td></tr></table></figure>
+
+<p>此类定义在<code>functional</code>头文件中。</p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20210429185207.png" alt="image-20210429185130236"></p>
+<p><strong>在算法中使用标准库函数对象</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">sort(svec.begin(), svec.end(), greater&lt;<span class="built_in">string</span>&gt;());</span><br></pre></td></tr></table></figure>
+
+<p>传入一个临时的函数对象用于执行两个<code>string</code>对象的<code>&gt;</code>比较运算。 </p>
+<p>+</p>
+<p><strong>可调用对象与function</strong></p>
+<p>C++语言中有几种可调用的对象：函数、函数指针、<code>lambda</code>表达式、<code>bind</code>创建的对象（10.3节）以及重载了函数调用运算符的类。</p>
+<p>两个不同类型的可调用对象却可能共享同一种调用形式，调用形式指明了调用返回的类型以及传递给调用的实参类型。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span>(<span class="keyword">int</span>, <span class="keyword">int</span>)</span><br></pre></td></tr></table></figure>
+
+<p>是一个函数类型，它接受两个<code>int</code>，返回一个<code>int</code>。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="comment">//普通函数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> i , <span class="keyword">int</span> j)</span></span>&#123;<span class="keyword">return</span> i+ j;&#125;</span><br><span class="line"><span class="comment">//lambda表达式</span></span><br><span class="line"><span class="keyword">auto</span> mod = [](<span class="keyword">int</span> i , <span class="keyword">int</span> j)&#123;<span class="keyword">return</span> i%j;&#125;;</span><br><span class="line"><span class="comment">//函数对象类</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">divide</span>&#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> i/j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的可调用对象共享了同一种调用形式。</p>
+<p>我们希望使用这些可调用对象构建一个简单的桌面计算器，为了实现这一功能，需要定义一个寒暑表用于存储指向这些可调用对象的指针。</p>
+<p>我们可以将<code>map</code>定义为如下形式：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>, <span class="keyword">int</span>(*)(<span class="keyword">int</span>, <span class="keyword">int</span>)&gt; binops;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以通过如下形式将<code>add</code>指针添加到<code>binops</code>中：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">binops.insert(&#123;<span class="string">&quot;+&quot;</span>, add&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>但是我们不能将<code>mod</code>或者<code>divide</code>存入<code>binops</code>；</p>
+<p>问题在于<code>mod</code>是一个<code>lambda</code>表达式，每个表达式有自己的类类型，该类型与存储在<code>binops</code>中的值类型不匹配。</p>
+<p><strong>标准库function类型</strong></p>
+<p><img src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20210429204530.png" alt="image-20210429204504257"></p>
+<p>参考其他模板，我们在一对尖括号内指定类型：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">function&lt;<span class="keyword">int</span>(<span class="keyword">int</span>, <span class="keyword">int</span>)&gt;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以用这个新声明的类型表示任意一种桌面计算器用到的类型；</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">function&lt;<span class="keyword">int</span>(<span class="keyword">int</span>, <span class="keyword">int</span>)&gt; f1 = add;</span><br><span class="line">function&lt;<span class="keyword">int</span>(<span class="keyword">int</span>, <span class="keyword">int</span>)&gt; f2 = divide();</span><br><span class="line">function&lt;<span class="keyword">int</span>(<span class="keyword">int</span>, <span class="keyword">int</span>)&gt; f3 = [](<span class="keyword">int</span> i, <span class="keyword">int</span> j)&#123;<span class="keyword">return</span> i*j;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; f1(<span class="number">4</span>,<span class="number">2</span>) &lt;&lt; f2(<span class="number">4</span>,<span class="number">2</span>) &lt;&lt; f3(<span class="number">4</span>,<span class="number">2</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p>利用这个<code>function</code>类型我们可以重新定义<code>map</code></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>, function&lt;<span class="keyword">int</span>(<span class="keyword">int</span>, <span class="keyword">int</span>)&gt;&gt; binops;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以把所有可调用对象，包括函数指针、lambda或者函数对象在内，头添加到这个<code>map</code>中、。</p>
+<p><strong>重载的函数与function</strong></p>
+<p>我们不能直接将重载函数的名字存入<code>function</code>类型的对象中。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> i , <span class="keyword">int</span> j)</span></span>&#123;<span class="keyword">return</span> i+ j;&#125;</span><br><span class="line"><span class="function">Sales_data <span class="title">add</span><span class="params">(<span class="keyword">const</span> Sales_data&amp;, <span class="keyword">const</span> Sales_data&amp;)</span></span>;</span><br><span class="line">binops.insert(&#123;<span class="string">&quot;+&quot;</span>,add&#125;); <span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
+
+<p>上诉代码会导致二义性问题。解决方式如下：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> (*fp)(<span class="keyword">int</span> , <span class="keyword">int</span>) = add;</span><br><span class="line">binops.insert(&#123;<span class="string">&quot;+&quot;</span>,fp&#125;); </span><br></pre></td></tr></table></figure>
+
+<p>存储函数指针而非函数的名字。</p>
+<p>或者，也可以利用lambda表达式来指定我们希望使用的add版本。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">binops.insert(&#123;<span class="string">&quot;+&quot;</span>,[](<span class="keyword">int</span> a, <span class="keyword">int</span> b)&#123;<span class="keyword">return</span> add(a, b); &#125;&#125;); </span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="14-9-重载、类型转换和运算符"><a href="#14-9-重载、类型转换和运算符" class="headerlink" title="14.9 重载、类型转换和运算符"></a>14.9 重载、类型转换和运算符</h4><p><strong>类型转换运算符</strong></p>
+<p>这是类的一种特殊成员函数，它负责将一个类类型的值转换为其他类型。类型转换函数的一般形式如下所示：</p>
+<p><code>operator type() const;</code></p>
+<p>其中<code>type</code>表示某种类型，类型转化运算符可以面向任意类型（除了<code>void</code>之外）进行定义，只要该类型能作为函数的返回类型，因此，我们不允许转换为数组或者函数类型，但匀速转换为指针或者引用类型。</p>
+<p>类型转换运算符既没有显式的返回类型，也没有形参，而且必须定义成类的成员函数。</p>
+<blockquote>
+<p>一个类型转换函数必须是类的成员函数，它不能声明返回类型，形参列表也必须为空，类型转换函数通常应该是<code>const</code>。</p>
+</blockquote>
+<p>我们定义一个比较简单的类，令其表示0到255之间的一个整数。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SmallInt</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	SmallInt(<span class="keyword">int</span> i = <span class="number">0</span>): val(i)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(i &lt; <span class="number">0</span> || i &gt; <span class="number">255</span>)</span><br><span class="line">                <span class="keyword">throw</span> <span class="built_in">std</span>::out_of_range(<span class="string">&quot;Bad SamllInt Value&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    	<span class="function"><span class="keyword">operator</span> <span class="title">in</span><span class="params">()</span> <span class="keyword">const</span></span>&#123; <span class="keyword">return</span> val;&#125;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	<span class="built_in">std</span>::<span class="keyword">size_t</span> val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>构造函数将算术类型的值转换成<code>SmallInt</code>对象，而类型转换运算符将<code>SmallInt</code>对象转换为<code>int</code>;</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">SmallInt si;</span><br><span class="line">si = <span class="number">4</span>;</span><br><span class="line">si + <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>显式的类型转换运算符</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SmallInt</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function"><span class="keyword">explicit</span> <span class="keyword">operator</span> <span class="title">int</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> val;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">SmallInt si = <span class="number">3</span>;</span><br><span class="line">si + <span class="number">3</span>; <span class="comment">//错误，此处需要隐式的类型转换，但类的运算符是显式的。</span></span><br><span class="line"><span class="keyword">static_cast</span>&lt;<span class="keyword">int</span>&gt;(si) + <span class="number">3</span>;<span class="comment">//正确，显式地请求类型转换</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>避免有二义性的类型转化</strong></p>
+<p>如果类中包含一个或多个类型转换，则必须确保在类类型和目标类型之间只存在唯一一种转换方式。</p>
+<p>在下面的例子中，我们定义了两种将B转换为A的方法：一种使用B的类型转换运算符、另一个使用A的以B为参数的构造函数：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">A</span>&#123;</span></span><br><span class="line">    A() = <span class="keyword">default</span>;</span><br><span class="line">    A(<span class="keyword">const</span> B&amp;);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">B</span>&#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">operator</span> <span class="title">A</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function">A <span class="title">f</span><span class="params">(<span class="keyword">const</span> A&amp;)</span></span>;</span><br><span class="line">B b;</span><br><span class="line">A a = f(b);</span><br><span class="line"><span class="comment">//二义性错误：含义是f(B::operator A())，还是f(A::A(const B&amp;))</span></span><br></pre></td></tr></table></figure>
+
+<p>如果我们想执行上述的调用</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">A a1 = f(b.<span class="keyword">operator</span> A());</span><br><span class="line">A a2 = f(A(b));</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>函数匹配与重载运算符</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SmallInt</span> &#123;</span></span><br><span class="line">        <span class="keyword">friend</span></span><br><span class="line">        SmallInt <span class="keyword">operator</span>+(<span class="keyword">const</span> SmallInt&amp;, <span class="keyword">const</span> SmallInt&amp;);</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	SmallInt(<span class="keyword">int</span> = <span class="number">0</span>);</span><br><span class="line">    	<span class="function"><span class="keyword">operator</span> <span class="title">int</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> val;&#125;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	<span class="built_in">std</span>::<span class="keyword">size_t</span> val;</span><br><span class="line">&#125;</span><br><span class="line">SmallInt s1,s2;</span><br><span class="line">SmallInt s3 = s1 + s2;</span><br><span class="line"><span class="keyword">int</span> i = s3 + <span class="number">0</span>;	<span class="comment">//二义性错误</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果我们对同一个类既提供了转换目标是算术类型的类型转换，也提供了重载的运算符，则将会遇到重载运算符与内置运算符的二义性问题。</p>
+</blockquote>
+<h3 id="第15章-面向对象程序设计"><a href="#第15章-面向对象程序设计" class="headerlink" title="第15章 面向对象程序设计"></a>第15章 面向对象程序设计</h3><h4 id="15-1-OOP：概述"><a href="#15-1-OOP：概述" class="headerlink" title="15.1 OOP：概述"></a>15.1 OOP：概述</h4><p><strong>继承</strong></p>
+<p>先定义的一个<code>Quote</code>的类，表示按原价销售的书籍。<code>Quote</code>派生出另一个名为<code>Bulk_quote</code>的类，表示可以打折销售的书籍。</p>
+<ul>
+<li><code>isbn()</code>返回书籍的编号，只定义在<code>Quote</code>类中。</li>
+<li><code>net_price(size_t)</code>返回书籍的实际销售价格，这个操作是类型相关的，基类和派生类都包含该函数。</li>
+</ul>
+<p>对于某些函数，基类希望它的派生类各自定义适合自身的版本，此时基类就将这些函数声明成虚函数。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function"><span class="built_in">std</span>::<span class="built_in">string</span> <span class="title">isbn</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">    	<span class="function"><span class="keyword">virtual</span> <span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="built_in">std</span>::<span class="keyword">size_t</span> n)</span><span class="keyword">const</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>派生类必须通过类派生列表明确指出它是从哪个基类继承而来的。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span> <span class="keyword">public</span> Quote&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="built_in">std</span>::<span class="keyword">size_t</span>)</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>动态绑定</strong></p>
+<p>通过使用动态绑定，我们可以通过同一段代码分别处理<code>Quote</code>和<code>Bulk_quote</code>的对象。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">print_total</span><span class="params">(ostream &amp;os,</span></span></span><br><span class="line"><span class="function"><span class="params">                  <span class="keyword">const</span> Quote &amp;item, <span class="keyword">size_t</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">print_total(<span class="built_in">cout</span>, basic, <span class="number">20</span>);</span><br><span class="line">print_total(<span class="built_in">cout</span>, bulk, <span class="number">20</span>);</span><br><span class="line"><span class="comment">//分别调用基类对象和派生类对象</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在C++语言中，当我们使用基类的引用（或指针）调用一个虚函数时将发生动态绑定。</p>
+</blockquote>
+<h4 id="15-2-定义基类和派生类"><a href="#15-2-定义基类和派生类" class="headerlink" title="15.2 定义基类和派生类"></a>15.2 定义基类和派生类</h4><p><strong>定义基类</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	Quote() = <span class="keyword">default</span>;</span><br><span class="line">    	Quote(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;book, <span class="keyword">double</span> sales_price):</span><br><span class="line">    		bookNo(book), price(sales_price)&#123;&#125;</span><br><span class="line">    	<span class="function"><span class="built_in">std</span>::<span class="built_in">string</span> <span class="title">isbn</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> bookNo;&#125;</span><br><span class="line">    </span><br><span class="line">    	<span class="function"><span class="keyword">virtual</span> <span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="built_in">std</span>::<span class="keyword">size_t</span> n)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">        </span>&#123;<span class="keyword">return</span> n*price;&#125;</span><br><span class="line">    	<span class="keyword">virtual</span> ~Quote() = <span class="keyword">default</span>;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	<span class="built_in">std</span>::<span class="built_in">string</span> bookNo;</span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">    	<span class="keyword">double</span> price = <span class="number">0.0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>基类通常定义一个虚析构函数，即使该函数不执行任何实际操作也是如此。</p>
+</blockquote>
+<p><strong>成员函数与继承</strong></p>
+<p>​    基类必须将它的两种成员函数区分开来：一种是基类希望其派生类进行覆盖的函数；另一种是基类希望派生类直接继承而不要改变的函数，对于前者，基类通常将其定义为<strong>虚函数</strong>，当我们使用指针或引用调用虚函数时，该调用将被动态绑定，根据引用或指针所绑定的对象类型不同，该调用可能执行基类的版本，也可能执行某个派生类的版本。</p>
+<p>​    和其他使用基类的代码一样，派生类能访问公有成员，而不能访问私有成员，而受保护的成员派生类有权访问，同时禁止其他用户访问。</p>
+<p><strong>定义派生类</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span> <span class="keyword">public</span> Quote&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	Bulk_quote() = <span class="keyword">default</span>;</span><br><span class="line">    	Bulk_quote(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp;, <span class="keyword">double</span>, <span class="built_in">std</span>::<span class="keyword">size_t</span>, <span class="keyword">double</span>);</span><br><span class="line">    	<span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="built_in">std</span>::<span class="keyword">size_t</span>)</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	<span class="built_in">std</span>::<span class="keyword">size_t</span> min_qty = <span class="number">0</span>; <span class="comment">//适用折扣政策的最低购买量</span></span><br><span class="line">    	<span class="keyword">double</span> discount = <span class="number">0.0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><strong>类型转换</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Bulk_quote bulk;</span><br><span class="line">Quote *p = &amp;bulk;</span><br><span class="line">Quote &amp;r = bulk;</span><br></pre></td></tr></table></figure>
+
+<p>这种隐式特性意味着我们可以把派生类对象或者派生类对象的引用用在需要基类引用的地方，同样的道理应用于指针。</p>
+<p><strong>派生类构造函数</strong></p>
+<p>派生类也必须使用基类的构造函数来初始化它的基类部分。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Bulk_quote(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; book, <span class="keyword">double</span> p,</span><br><span class="line">          <span class="built_in">std</span>::<span class="keyword">size_t</span> qty, <span class="keyword">double</span> disc):</span><br><span class="line">		  Quote(book, p), min_qty(qty), discount(disc)&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>派生类对象不能直接初始化基类的成员，尽管从语法上来说我们可以在派生类构造函数体内给它的公有或受保护的基类成员赋值，但是最好不要这么做，和使用基类的其他场合一样，派生类应该遵守基类的接口，并且通过调用基类的构造函数来初始化那些从基类中继承而来的成员。</p>
+</blockquote>
+<p><strong>继承与静态成员</strong></p>
+<p>如果基类定义了一个静态成员，则在整个继承体系中只存在该成员的唯一定义，不论从基类中派生出来多少个派生类，对于每个静态成员来说都只存在唯一的实例：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">statmem</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span>:</span><span class="keyword">public</span> Base&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> Derived&amp;)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Derived::f</span><span class="params">(<span class="keyword">const</span> Derived &amp;derived_obj)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Base::statmem();</span><br><span class="line">    Derived::statmen();</span><br><span class="line">    </span><br><span class="line">    derived_obj.statmen();</span><br><span class="line">    statmen();</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//不同的访问方式</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>派生类的声明</strong></p>
+<p>派生类的声明与其他类差别不大，声明中包含类名但是不包含它的派生列表：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span>:</span><span class="keyword">public</span> Quote; <span class="comment">//错误：派生列表不能出现在这里</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span>;</span>	<span class="comment">//正确：声明派生类的正确方式</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>防止继承的发生</strong></p>
+<p>C++11新标准提供了一种防止继承发生的方法，即在类名后跟一个关键字<code>final</code>：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NoDerived</span> <span class="keyword">final</span>&#123;</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>不存在从基类向派生类的隐式类型转换</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Quote base;</span><br><span class="line">Bulk_quote* bulkP = &amp;base;	<span class="comment">//错误</span></span><br><span class="line">Bulk_quote&amp; bulkP = base;	<span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Bulk_quote bulk;</span><br><span class="line"><span class="function">Quote <span class="title">item</span><span class="params">(bulk)</span></span>;	<span class="comment">//使用Quote::Quote(const Quote&amp;)构造函数</span></span><br><span class="line">item = bulk;		<span class="comment">//使用Quote::operator=(const Quote&amp;)</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>当构造<code>item</code>时，运行<code>Quote</code>的拷贝构造函数，该函数只能处理基类的两个成员，它负责拷贝<code>bulk</code>中<code>Quote</code>部分的成员，同时忽略掉<code>bulk</code>中<code>Bulk_quote</code>部分的成员，也就是说该部分被切掉了。</p>
+<h4 id="15-3-虚函数"><a href="#15-3-虚函数" class="headerlink" title="15.3 虚函数"></a>15.3 虚函数</h4><p>当我们使用基类的引用或指针调用一个虚成员函数时会执行动态绑定。</p>
+<p>当我们通过一个具有普通类型（非引用非指针）的表达式调用虚函数时，在编译时就会将调用的版本确定下来。</p>
+<p><strong>派生类中的虚函数</strong></p>
+<p>一个派生类的函数如果覆盖了某个继承而来的虚函数，则它的形参类型必须与被他覆盖的基类函数完全一致。</p>
+<p>同样，派生类中虚函数的返回类型与必须与基类函数匹配。该规则存在一个例外，当类的虚函数返回类型是类本身的指针或引用是，上述规则无效，也就是说，如果D由B派生得到，则基类的虚函数可以返回<code>B*</code>而派生类的对应函数可以返回<code>D*</code>，只不过这样的返回类型要求从D到B的类型转换是可访问的。</p>
+<p>派生类如果定义了一个函数与基类中虚函数的名字相同但是形参列表不同，这仍然是合法的行为。</p>
+<p>如果我们使用<code>override</code>标记了某个函数，但该函数并没有覆盖已存在的虚函数，此时编译器将报错。</p>
+<blockquote>
+<p>如果虚函数使用默认实参，则基类和派生类中定义的默认实参最好一致。</p>
+</blockquote>
+<p>在某些情况下，我们希望对虚函数的调用不要进行动态绑定，而是强迫其执行虚函数的某个特定版本。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">double</span> undiscounted = baseP-&gt;Quote::net_price(<span class="number">42</span>);</span><br></pre></td></tr></table></figure>
+
+<p>该代码强行调用<code>Quote</code>的<code>net_price</code>函数，而不管<code>baseP</code>实际指向的对象类型到底是什么。</p>
+<h4 id="15-4-抽象基类"><a href="#15-4-抽象基类" class="headerlink" title="15.4 抽象基类"></a>15.4 抽象基类</h4><p>我们定义一个新的类来支持不同的折扣策略，<code>Disc_quote</code>负责保存购买量的值和折扣值。</p>
+<p><strong>纯虚函数</strong></p>
+<p>我们可以将<code>net_price</code>定义成纯虚函数，这样做可以告诉用户当前这个函数时没有实际意义的，我们通过在函数体的位置（即在声明语句的分号之间）书写=0就可以将一个虚函数说明为纯虚函数，其中，<code>=0</code>只能出现在类内部的虚函数声明语句处。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">disc_quote</span> :</span> <span class="keyword">public</span> Quote&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	Disc_quote() = <span class="keyword">default</span>;</span><br><span class="line">    	Disc_quote(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; book, <span class="keyword">double</span> price,</span><br><span class="line">                  <span class="built_in">std</span>::<span class="keyword">size_t</span> qty, <span class="keyword">double</span> disc):</span><br><span class="line">    				Quote(book, price),</span><br><span class="line">    				quantity(qty), discount(disc)&#123;&#125;</span><br><span class="line">    	<span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="built_in">std</span>::<span class="keyword">size_t</span>)</span> <span class="keyword">const</span> </span>= <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">		<span class="built_in">std</span>::<span class="keyword">size_t</span> quantity = <span class="number">0</span>;</span><br><span class="line">    	<span class="keyword">double</span> discount = <span class="number">0.0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>含有（或者未经覆盖直接继承）纯虚函数的类是抽象基类。</p>
+<blockquote>
+<p>我们不能创建抽象基类的对象。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span> :</span> <span class="keyword">public</span> Disc_quote&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	Bulk_quote() = <span class="keyword">default</span>;</span><br><span class="line">    	Bulk_quote(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; book, <span class="keyword">double</span> price,</span><br><span class="line">                  <span class="built_in">std</span>::<span class="keyword">size_t</span> qty, <span class="keyword">double</span> disc):</span><br><span class="line">    			Disc_quote(book, price, qty, disc)&#123;&#125;</span><br><span class="line">    	<span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="built_in">std</span>::<span class="keyword">size_t</span>)</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="15-5-访问控制与继承"><a href="#15-5-访问控制与继承" class="headerlink" title="15.5 访问控制与继承"></a>15.5 访问控制与继承</h4><p>受保护的成员</p>
+<p>和私有成员类似，受保护的成员对于类的用户来说是不可访问的。</p>
+<p>和公有成员类似，受保护的成员对于派生类的成员和友元是可访问的。</p>
+<p>派生类的成员或友元只能通过派生类对象来访问基类的受保护成员，派生类对于一个基类对象中的受保护成员没有任何访问特权。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></span><br><span class="line">    protect:</span><br><span class="line">    	<span class="keyword">int</span> prot_mem;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sneaky</span> :</span> <span class="keyword">public</span> Base&#123;</span><br><span class="line">    <span class="function"><span class="keyword">friend</span> <span class="keyword">void</span> <span class="title">clobber</span><span class="params">(Sneaky&amp;)</span></span>;	</span><br><span class="line">    <span class="function"><span class="keyword">friend</span> <span class="keyword">void</span> <span class="title">clobber</span><span class="params">(Base&amp;)</span></span>;</span><br><span class="line">    <span class="keyword">int</span> j;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">clobber</span><span class="params">(Sneaky &amp;s)</span></span>&#123;s.j = s.prot_mem = <span class="number">0</span>;&#125;</span><br><span class="line"><span class="comment">//正确</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">clobber</span><span class="params">(Base &amp;b)</span></span>&#123;b.prot_mem = <span class="number">0</span>;&#125;</span><br><span class="line"><span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>公有、私有受保护的继承</strong></p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function"><span class="keyword">void</span> <span class="title">pub_mem</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">protected</span>:</span><br><span class="line">    	<span class="keyword">int</span> prot_mem;</span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">    	<span class="keyword">char</span> priv_mem;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Pub_Derv</span> :</span> <span class="keyword">public</span> Base&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">f</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> prot_mem;&#125;<span class="comment">//正确</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Priv_Derv</span> :</span> <span class="keyword">private</span> Base&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">f1</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> prot_mem;&#125;<span class="comment">//正确</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>派生访问说明符的目的是控制派生类用户对于基类成员的访问权限：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Pub_Derv d1;</span><br><span class="line">d1.pub_mem(); <span class="comment">//正确</span></span><br><span class="line">Priv_Derv d2;</span><br><span class="line">d2.pub_mem(); <span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
+
+<p>并且，<code>Priv_Derv</code>的派生类无法执行类的访问，对于它们而言，继承自<code>Base</code>的所有成员都是私有的。</p>
+<p>我的理解是，在派生类的定义时，派生访问说明符是没有特别作用的，只有在类使用时，比如类对象</p>
+<blockquote>
+<p>假定我们还定义了一个<code>Prot_Derv</code>的类，采用受保护继承，则<code>Base</code>的所有公有成员在新定义的类中都是受保护的。<code>Prot_Derv</code>的用户不能访问<code>pub_mem</code>，但是<code>Prot_Derv</code>的成员和友元可以访问那些继承而来的成员。</p>
+</blockquote>
+<p><strong>友元与继承</strong></p>
+<p>就像友元关系不能传递一样，友元关系同样也不能继承，类似的，派生类的友元也不能随意访问基类的成员：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></span><br><span class="line">    <span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">Pal</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pal</span>&#123;</span></span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">f</span><span class="params">(Base b)</span> </span>&#123;<span class="keyword">return</span> b.prot_mem;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">f2</span><span class="params">(Sneaky s)</span> </span>&#123;<span class="keyword">return</span> s.j;&#125; <span class="comment">//错误: Pal 不是Sneaky的友元</span></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">f3</span><span class="params">(Sneaky s)</span> </span>&#123;<span class="keyword">return</span> s.prot_mem;&#125;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D2</span> :</span> <span class="keyword">public</span> Pal&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">mem</span><span class="params">(Base b)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> b.prot_mem; <span class="comment">//错误，友元关系不能继承</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>不能继承友元关系，每个类负责控制各自成员的访问权限。</p>
+</blockquote>
+<p><strong>改变个别成员的可访问性</strong></p>
+<p>有时，我们需要改变派生类继承的某个名字的访问级别，通过使用<code>using</code>声明。</p>
+<p><strong>继承保护级别</strong></p>
+<p>默认情况下，使用<code>class</code>关键字定义的派生类是私有继承的，而使用<code>struct</code>关键字定义的派生类是公有继承的。</p>
+<h4 id="15-6-继承中的类作用域"><a href="#15-6-继承中的类作用域" class="headerlink" title="15.6 继承中的类作用域"></a>15.6 继承中的类作用域</h4><p>派生类的作用域位于基类作用域之内。</p>
+<p>和其他作用域一样，派生类也能重新定义在其直接基类或间接基类中的名字，此时，定义在内层作用域（即派生类）的名字将隐藏定义在外层作用域的名字。</p>
+<blockquote>
+<p>即，派生类的成员将隐藏同名的基类成员。</p>
+<p>除了覆盖继承而来的虚函数之外，派生类最好不要重用其他定义在基类中的名字。</p>
+</blockquote>
+<p><strong>虚函数与作用域</strong></p>
+<p>如果基类与继承类的虚函数接受的实参不同，则我们就无法通过基类的引用或指针调用派生类的虚函数了。</p>
+<h4 id="15-7-构造函数与拷贝控制"><a href="#15-7-构造函数与拷贝控制" class="headerlink" title="15.7 构造函数与拷贝控制"></a>15.7 构造函数与拷贝控制</h4><p><strong>虚析构函数</strong></p>
+<p>我们通过在基类中将析构函数定义成虚函数以确保执行正确的析构函数版本。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="keyword">virtual</span> ~Quote() = <span class="keyword">default</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Quote *item = <span class="keyword">new</span> Quote;</span><br><span class="line"><span class="keyword">delete</span> item; <span class="comment">//调用Quote的析构函数</span></span><br><span class="line">item = <span class="keyword">new</span> Bulk_quote;</span><br><span class="line"><span class="keyword">delete</span> item; <span class="comment">//调用Bulk_quote的析构函数</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果基类的析构函数不是虚函数，则<code>delete</code>一个指向派生类对象的基类指针将产生未定义的行为。</p>
+</blockquote>
+<p>之前我们曾介绍过一条经验准则，即如果一个类需要析构函数，那么它也同样需要拷贝和赋值操作。基类的析构函数并不需要上述准则，它是一个重要的例外。一个基类总是需要析构函数，而且它能将析构函数设定为虚函数。此时，该析构函数为了成为虚函数而令内容为空，我们显然无法因此推断基类还需要赋值运算符或拷贝构造函数。</p>
+<p><strong>析构函数将阻止合成移动操作</strong></p>
+<p><strong>合成拷贝控制与继承</strong></p>
+<p>基类和派生类对类本身的成员依次进行初始化、赋值或销毁的操作。此外，这些合成的成员还负责使用直接基类中对应的操作对一个对象的直接基类部分进行初始化、赋值或校会的操作。例如：</p>
+<p>合成的<code>Bulk_quote</code>默认构造函数运行<code>Disc_quote</code>的默认构造函数，后者又运行<code>Quote</code>的默认构造函数。</p>
+<p><strong>派生类中删除的拷贝控制与基类的关系</strong></p>
+<p>如果基类中的默认构造函数、拷贝构造函数、拷贝赋值运算符或析构函数是被删除的函数或者不可访问的，则派生类中对应的成员将是被删除的。</p>
+<p><strong>派生类的拷贝控制成员</strong></p>
+<p>派生类的拷贝和移动构造函数在拷贝和移动自有成员的同时，也要拷贝和移动基类部分的成员。类似的，派生类的赋值运算符也必须为其基类部分的成员赋值。</p>
+<p>​    和构造函数及赋值运算符不同的是，析构函数只负责销毁派生类自己分配的资源。</p>
+<blockquote>
+<p>派生类定义了拷贝或移动操作时，该操作负责拷贝或移动包括基类部分基类部分成员在内的整个对象。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span> &#123;</span>&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span>:</span> <span class="keyword">public</span> Base&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	D(<span class="keyword">const</span> D&amp; d): Base(d)<span class="comment">//拷贝基类成员</span></span><br><span class="line">            </span><br><span class="line">        D(D&amp;&amp; d):Base(<span class="built_in">std</span>::move(d))<span class="comment">//移动基类成员</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在默认情况下，基类默认构造函数初始化派生类对象的基类部分。如果我们想拷贝（或移动）基类部分，则必须在派生类的构造函数初始值列表中显示地使用基类的拷贝（或移动）构造函数。</p>
+</blockquote>
+<p><strong>派生类赋值运算符</strong></p>
+<p>与拷贝和移动构造函数一样，派生类的赋值运算符也必须显式地为其基类部分赋值：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">D &amp;D::<span class="keyword">operator</span>=(<span class="keyword">const</span> D &amp;rhs)</span><br><span class="line">&#123;</span><br><span class="line">    Base::<span class="keyword">operator</span>=(rhs);<span class="comment">//为基类赋值</span></span><br><span class="line">    <span class="comment">//按照过去的方式为派生类成员赋值</span></span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>派生类析构函数</strong></p>
+<p>对象销毁的顺序正好与其创建的顺序相反：派生类析构函数首先执行，然后是基类的析构函数。</p>
+<p><strong>继承的构造函数</strong></p>
+<p>一个类也只能继承其直接基类的构造函数，类不能继承默认、拷贝和移动构造函数。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span>:</span><span class="keyword">public</span> Disc_quote&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="keyword">using</span> Disc_quote::Disc_quote;</span><br><span class="line">    	<span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="built_in">std</span>::<span class="keyword">size_t</span>)</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这些编译器生成的构造函数形如：</p>
+<p><code>derived(parms) : base(args)&#123;&#125;</code></p>
+<p>其中，<code>derived</code>是派生类的名字，<code>base</code>是基类的名字，<code>parms</code>是构造函数的形参列表，<code>args</code>将派生类构造函数的形参传递给基类的构造函数。在我们的<code>Bulk_quote</code>类中，继承的构造函数等价于：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">Bulk_quote(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; book, <span class="keyword">double</span> price, <span class="built_in">std</span>::<span class="keyword">size_t</span> qty, <span class="keyword">double</span> disc):</span><br><span class="line">	Disc_quote(book, price, qty, disc)&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果派生类含有自己的数据成员，则这些成员将被默认初始化。</p>
+<p>当一个基类构造函数含有默认实参时，这些实参并不会被继承。相反，派生类将获得多个继承的构造函数，其中每个构造函数分别省略掉一个含有默认实参的形参。例如，如果基类有一个接受两个形参的构造函数，其中第二个形参含有默认实参，则派生类将获得两个构造函数：一个构造函数接受两个形参（ 没有默认实参），另一个构造函数只接受一个形参，对应于基类中最左侧的没有默认值的那个形参。</p>
+<h4 id="15-8-容器与继承"><a href="#15-8-容器与继承" class="headerlink" title="15.8 容器与继承"></a>15.8 容器与继承</h4><p><strong>在容器中放置指针而非对象</strong></p>
+<p>当我们希望在容器中存放具有继承关系的对象时，我们实际上存放的通常是基类的指针。和往常一样，这些指针所指向对象的动态类型可能是基类类型，也可能是派生类类型：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">shared_ptr</span>&lt;Quote&gt;&gt; basket;</span><br><span class="line">basket.push_back(make_shared&lt;Quote&gt;(<span class="string">&quot;0-201-82470-1&quot;</span>, <span class="number">50</span>));</span><br><span class="line">basket.push_back(</span><br><span class="line">    make_shared&lt;Bulk_quote&gt;(<span class="string">&quot;0-201-82470-8&quot;</span>, <span class="number">50</span>, <span class="number">10</span>, <span class="number">.25</span>));</span><br></pre></td></tr></table></figure>
+
+<p>可以把派生类的指针（智能）转化为基类的指针（智能）。</p>
+]]></content>
       <categories>
         <category>学习</category>
       </categories>

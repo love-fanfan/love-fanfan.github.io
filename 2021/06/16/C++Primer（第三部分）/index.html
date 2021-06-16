@@ -86,7 +86,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> Word count:</span>
-            <span class="post-count">11.3k</span>
+            <span class="post-count">11.5k</span>
         </span>
     </span>
 
@@ -95,7 +95,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> Reading time≈</span>
-            <span class="post-count">44 min</span>
+            <span class="post-count">45 min</span>
         </span>
     </span>
 </div>
@@ -681,6 +681,46 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">shared_ptr</span>&lt;Quote&gt;&gt; basket;</span><br><span class="line">basket.push_back(make_shared&lt;Quote&gt;(<span class="string">&quot;0-201-82470-1&quot;</span>, <span class="number">50</span>));</span><br><span class="line">basket.push_back(</span><br><span class="line">    make_shared&lt;Bulk_quote&gt;(<span class="string">&quot;0-201-82470-8&quot;</span>, <span class="number">50</span>, <span class="number">10</span>, <span class="number">.25</span>));</span><br></pre></td></tr></table></figure>
 
 <p>可以把派生类的指针（智能）转化为基类的指针（智能）。</p>
+<h3 id="第16章-模板与泛型编程"><a href="#第16章-模板与泛型编程" class="headerlink" title="第16章 模板与泛型编程"></a>第16章 模板与泛型编程</h3><h4 id="16-1-定义模板"><a href="#16-1-定义模板" class="headerlink" title="16.1 定义模板"></a>16.1 定义模板</h4><p><strong>函数模板</strong></p>
+<p>模板定义以关键字<code>template</code>开始，后跟一个<strong>模板参数列表</strong>，这是一个逗号分隔的一个或多个模板参数的列表。</p>
+<p>在模板定义中，模板参数列表不能为空。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(<span class="keyword">const</span> T &amp;v1, <span class="keyword">const</span> T &amp;v2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(v1 &lt; v2) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span>(v1 &gt; v2) <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当我们调用一个函数模板时，编译器（通常）用函数实参来为我们推断模板实参。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cout</span> &lt;&lt; compare(<span class="number">1</span>,<span class="number">0</span>) &lt;&lt; <span class="built_in">endl</span>; <span class="comment">//推断出T为int</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>模板类型参数</strong></p>
+<p>类型参数必须使用关键字<code>class</code>和<code>typename</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, U&gt; <span class="function">T <span class="title">calc</span><span class="params">(<span class="keyword">const</span> T&amp;, <span class="keyword">const</span> U&amp;)</span></span>;</span><br><span class="line"><span class="comment">//错误，U之前必须加上class 或typename</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
       <!-- reward -->
       

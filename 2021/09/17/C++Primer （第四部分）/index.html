@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-Hans">
+
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    C++ primer 第四部分 (C++基础) |  
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="你又来看我了？" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-C++Primer （第四部分）"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  C++ primer 第四部分 (C++基础)
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2021/09/17/C++Primer%20%EF%BC%88%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86%EF%BC%89/" class="article-date">
+  <time datetime="2021-09-17T03:45:17.001Z" itemprop="datePublished">2021-09-17</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">20k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">77 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>这两年真的发生太多事，尤其是昨天晚上，精准破防。但现在人还是懵逼的，好好学习吧，放下七情六欲。</p>
+<p>2021年9月8日07:54:33</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/511221.jpg" alt="511221"></p>
+<a id="more"></a>
+
+
+
+
+
+<h2 id="第四部分-高级主题"><a href="#第四部分-高级主题" class="headerlink" title="第四部分 高级主题"></a>第四部分 高级主题</h2><h3 id="第17章-标准库特殊设施"><a href="#第17章-标准库特殊设施" class="headerlink" title="第17章 标准库特殊设施"></a>第17章 标准库特殊设施</h3><h4 id="17-1-tuple类型"><a href="#17-1-tuple类型" class="headerlink" title="17.1 tuple类型"></a>17.1 tuple类型</h4><p>​    <strong>tuple</strong>是类似<strong>pair</strong>的模板。每个<code>pair</code>的成员类型都不相同，但每个<code>pair</code>都恰好有两个成员。不同<code>tuple</code>类型的成员类型也不相同，但一个<code>tuple</code>可以有任意数量的成员。</p>
+<p>​    <code>tuple</code>类型及其伴随类型和函数都定义在<code>tuple</code>头文件中。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210908095905232.png" alt="image-20210908095905232"></p>
+<blockquote>
+<p>我们可以将<code>tuple</code>看作一个“快速而随意”的数据结构</p>
+</blockquote>
+<p><strong>定义和初始化tuple</strong></p>
+<p>​    当我们定义一个<code>tuple</code>时，需要指出每个成员的类型：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tuple&lt;<span class="keyword">size_t</span>, <span class="keyword">size_t</span>, <span class="keyword">size_t</span>&gt; threeD; <span class="comment">//三个成员都设置为0</span></span><br><span class="line">tuple&lt;<span class="built_in">string</span>, <span class="built_in">vector</span>&lt;<span class="keyword">double</span>&gt;, <span class="keyword">int</span>, <span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt;&gt;</span><br><span class="line">    someVal(<span class="string">&quot;constants&quot;</span>, (<span class="number">3.14</span>, <span class="number">2.718</span>), <span class="number">42</span>, &#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;)</span><br></pre></td></tr></table></figure>
+
+<p><code>tuple</code>的这个构造函数是<code>explicit</code>的，因此我们必须使用直接初始化语句。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tuple&lt;<span class="keyword">size_t</span>, <span class="keyword">size_t</span>, <span class="keyword">size_t</span>&gt; threeD = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;	<span class="comment">//错误</span></span><br><span class="line">tuple&lt;<span class="keyword">size_t</span>, <span class="keyword">size_t</span>, <span class="keyword">size_t</span>&gt; threeD&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;		<span class="comment">//正确</span></span><br></pre></td></tr></table></figure>
+
+<p>标准库定义了<code>make_tuple</code>函数，我可以用它来生成<code>tuple</code>对象。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> item = make_tuple(<span class="string">&quot;0-999-X&quot;</span>, <span class="number">3</span>, <span class="number">20.00</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>访问tuple的成员</strong></p>
+<p>要访问一个<code>tuple</code>的成员，就要使用一个名为<code>get</code>的标准库函数模板。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> book = get&lt;<span class="number">0</span>&gt;(item);</span><br><span class="line"><span class="keyword">auto</span> cnt = get&lt;<span class="number">1</span>&gt;(item);</span><br></pre></td></tr></table></figure>
+
+<p>如果不知道一个<code>tuple</code>准确的类型细节信息，可以用两个辅助类模板来查询<code>tuple</code>成员的数量和类型：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">decltype</span><span class="params">(item)</span> trans</span>; <span class="comment">//trans是item的类型</span></span><br><span class="line"><span class="keyword">size_t</span> sz = tuple_size&lt;trans&gt;::value; <span class="comment">//返回trans类型对象中成员的数量</span></span><br><span class="line">tuple_element&lt;<span class="number">1</span>, trans&gt;::type cnt = get&lt;<span class="number">1</span>&gt;(item);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>关系和相等运算符</strong></p>
+<p>只有两个<code>tuple</code>具有相同数量的成员时，我们才能比较它们。而且，为了使用<code>tuple</code>的相同或不等运算符，对每对成员使用==运算符必须都是合法的；为了使用关系运算符，对每对成员使用&lt;必须都是合法的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tuple&lt;string, string&gt; duo(&quot;1&quot;, &quot;2&quot;);</span><br><span class="line">tuple&lt;size_t, size_t&gt; twoD(1, 2);</span><br><span class="line"><span class="keyword">bool</span> b = (duo == twoD); <span class="comment">// 错误，不能比较size_t和string</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>由于<code>tuple</code>定义了&lt;和==运算符，我们可以将<code>tuple</code>序列传递给算法，并且可以在无序容器中将<code>tuple</code>作为关键字类型。</p>
+</blockquote>
+<p><strong>使用tuple返回多个值</strong></p>
+<p>每个书店创建一个<code>vector&lt;Sales_data&gt;</code>，并将这些<code>vector</code>保存在<code>vector</code>的<code>vector</code>中：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;Sales_data&gt;&gt; files;</span><br></pre></td></tr></table></figure>
+
+<p>对每个有匹配销售记录的书店，我们将创建一个<code>tuple</code>来保存这家书店的索引和两个迭代器。</p>
+<p><strong>返回tuple的函数</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> tuple&lt;<span class="built_in">vector</span>&lt;Sales_data&gt;::size_type,</span><br><span class="line">			  <span class="built_in">vector</span>&lt;Sales_data&gt;::const_iterator,</span><br><span class="line">			  <span class="built_in">vector</span>&lt;Sales_data&gt;::const_iterator&gt; matches;</span><br><span class="line"><span class="comment">//files保存每家书店的销售记录</span></span><br><span class="line"><span class="built_in">vector</span>&lt;matches&gt;</span><br><span class="line">findBook(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;Sales_data&gt;&gt; &amp;files,</span><br><span class="line">         <span class="keyword">const</span> <span class="built_in">string</span> &amp;book)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;matches&gt; ret;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> it = files.cbegin(); it != files.cend(); ++it)&#123;</span><br><span class="line">        <span class="comment">//查找相同ISBN的Sales_data范围</span></span><br><span class="line">        <span class="keyword">auto</span> found = equal_range(it-&gt;cbegin(), it-&gt;cend(),</span><br><span class="line">                                book, vompareIsbn);</span><br><span class="line">        <span class="keyword">if</span>(found.first != found.second)</span><br><span class="line">            <span class="comment">//记住此书店的索引及匹配范围</span></span><br><span class="line">            ret.push_back(make_tuple(it - files.cbegin(),</span><br><span class="line">                                    found.first, found.second));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ret;<span class="comment">//如果为找到匹配记录的话，ret为空</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>equal_range</code>的前两个实参是表示输入序列的迭代器，第三个参数是一个值。默认情况下，<code>equal_range</code>使用<code>&lt;</code>运算符来比较元素。由于<code>Sales_data</code>没有<code>&lt;</code>运算符，因此我们传递给它一个指向<code>compareIsbn</code>函数的指针。</p>
+<p><code>equal_range</code>算法返回一个迭代器<code>pair</code>，表示元素的范围。如果未找到<code>book</code>，则两个迭代器相等，表示空范围。否则，返回的<code>pair</code>的<code>first</code>成员将表示第一条匹配的记录，<code>second</code>则表示匹配的尾后位置。</p>
+<p><strong>使用函数返回的tuple</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reportResults</span><span class="params">(istream &amp;in, ostream &amp;os,</span></span></span><br><span class="line"><span class="function"><span class="params">                   <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;Sales_data&gt;&gt; &amp;files)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s;</span><br><span class="line">    <span class="keyword">while</span>(in &gt;&gt; s)&#123;</span><br><span class="line">        <span class="keyword">auto</span> trans = findBook(files, s);</span><br><span class="line">        <span class="keyword">if</span>(trans.empty())&#123;</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; s &lt;&lt; <span class="string">&quot;not found in any stores&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp;store : trans)</span><br><span class="line">            os &lt;&lt; <span class="string">&quot;store&quot;</span> &lt;&lt; get&lt;<span class="number">0</span>&gt;(store) &lt;&lt; <span class="string">&quot; sales: &quot;</span></span><br><span class="line">            &lt;&lt; accumlate(get&lt;<span class="number">1</span>&gt;(store), get&lt;<span class="number">2</span>&gt;(store),</span><br><span class="line">                        Sales_data(s))</span><br><span class="line">            &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="17-2-bitset类型"><a href="#17-2-bitset类型" class="headerlink" title="17.2 bitset类型"></a>17.2 <code>bitset</code>类型</h4><p><code>bitset</code>类定义在头文件<code>bitset</code>中。</p>
+<p><strong>定义和初始化<code>bitset</code></strong></p>
+<p><code>bitset</code>类是一个类模板，它类似<code>array</code>类，具有固定的大小，当我们定义一个<code>bitset</code>时，需要声明它包含多少个二进制位：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">bitset</span>&lt;32&gt; <span class="title">bitvec</span><span class="params">(<span class="number">1U</span>)</span></span>;<span class="comment">//32位，定位为1，其他位为0</span></span><br></pre></td></tr></table></figure>
+
+<p>编号从0开始的二进制位被称为<strong>低位</strong>，编号到31结束的二进制位被称为<strong>高位</strong>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210908201403357.png" alt="image-20210908201403357"></p>
+<p><strong>用unsigned值初始化<code>bitset</code></strong></p>
+<p>当我们使用一个整型值来初始化<code>bitset</code>时，此值将被转化为<code>unsigned long long </code>类型并被当作位模式来处理。</p>
+<p>如果<code>bitset</code>的大小大于一个<code>unsigned long long</code>中的二进制位数，则剩余的高位被置为0。如果<code>bitset</code>的大小小于一个<code>unsigned long long</code>中的二进制位数，则只使用给定值中的低位，超出<code>bitset</code>大小的高位被丢弃：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">bitset</span>&lt;13&gt; <span class="title">bitvec1</span><span class="params">(<span class="number">0xbeef</span>)</span></span>;</span><br><span class="line"><span class="comment">//二进制位序列为1111011101111</span></span><br><span class="line"><span class="function"><span class="built_in">bitset</span>&lt;20&gt; <span class="title">bitvec1</span><span class="params">(<span class="number">0xbeef</span>)</span></span>;</span><br><span class="line"><span class="comment">//二进制位序列为00001111011101111</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>从string初始化<code>bitset</code></strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">bitset</span>&lt;32&gt; <span class="title">bitvec4</span><span class="params">(<span class="string">&quot;1100&quot;</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果<code>string</code>包含的字符数比<code>bitset</code>少，则<code>bitset</code>的高位被置为0。</p>
+<blockquote>
+<p>string的下标编号习惯于<code>bitset</code>恰好相反，要记住这个差别。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">str</span><span class="params">(<span class="string">&quot;11111110000000011001101&quot;</span>)</span></span>;</span><br><span class="line"><span class="function"><span class="built_in">bitset</span>&lt;32&gt; <span class="title">bitvec5</span><span class="params">(str, <span class="number">5</span>, <span class="number">4</span>)</span></span>; <span class="comment">//从str[5]开始的四个二进制位，1100</span></span><br><span class="line"><span class="function"><span class="built_in">bitset</span>&lt;32&gt; <span class="title">bitvec5</span><span class="params">(str, str.size() - <span class="number">4</span>)</span></span>; <span class="comment">//使用最后四个字符</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong><code>bitset</code>操作</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210908202903289.png" alt="image-20210908202903289"></p>
+<p><strong>提取<code>bitset</code>的值</strong></p>
+<p><code>to_ulong</code>和<code>to_ullong</code>操作都返回一个值，保存了与<code>bitset</code>对象相同的位模式。只有当<code>bitset</code>的大小小于等于对应的大小（<code>to_ulong</code>为<code>unsigned long</code>，<code>to_ullong</code>为<code>unsigned long long</code>）时，我们才能使用这两个操作。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> ulong = bitvec3.to_ulong();</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;ulong = &quot;</span> &lt;&lt; ulong &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果<code>bitset</code>不能放入给定类型中，则这两个操作会抛出一个<code>overflow_error</code>异常。</p>
+</blockquote>
+<p><strong>使用<code>bitset</code></strong></p>
+<p>用<code>bitset</code>代替<code>unsigned long</code>表示30个学生的测验结果。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> status;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> quizA = <span class="number">0</span>;</span><br><span class="line">quizA |= <span class="number">1U</span>L &lt;&lt; <span class="number">27</span>; <span class="comment">//指出第27个学生通过了测验</span></span><br><span class="line">status = quizA &amp; (<span class="number">1U</span>L &lt;&lt; <span class="number">27</span>); <span class="comment">//检查第27个学生是否通过了测验</span></span><br><span class="line">quizA &amp;= ~(<span class="number">1U</span>L &lt;&lt; <span class="number">27</span>); <span class="comment">//第27个学生未通过测验</span></span><br><span class="line"><span class="comment">// 使用标准库类bitset完成等价的工作</span></span><br><span class="line"><span class="built_in">bitset</span>&lt;30&gt; quizB; <span class="comment">//每个学生分配一位</span></span><br><span class="line">quizB.<span class="built_in">set</span>(<span class="number">27</span>);	<span class="comment">//指出第27个学生通过了测验</span></span><br><span class="line">status = quizB[<span class="number">27</span>];	<span class="comment">//检查第27个学生是否通过了测验</span></span><br><span class="line">quizB.reset(<span class="number">27</span>);	<span class="comment">//第27个学生未通过测验</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="17-3-正则表达式"><a href="#17-3-正则表达式" class="headerlink" title="17.3 正则表达式"></a>17.3 正则表达式</h4><p><strong>正则表达式</strong>是一种描述字符序列的方法。</p>
+<p>它是新标准库的一部分，RE库定义在头文件<code>regex</code>中，它包含多个组件，列于下表：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210909171843763.png" alt="image-20210909171843763"></p>
+<p>​    函数<code>regex_match</code>和<code>regex_search</code>确定一个给定字符序列与一个给定<code>regex</code>是否匹配。如果整个输入序列与表达式匹配。则<code>regex_match</code>函数返回<code>true</code>；如果输入序列中一个子串与表达式匹配，则<code>regex_match</code>函数返回<code>true</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210909172202198.png" alt="image-20210909172202198"></p>
+<p><strong>使用正则表达式库</strong></p>
+<p>查找“i除非在c之后，否则必须在e之前”的单词。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">pattern</span><span class="params">(<span class="string">&quot;[^c]ei&quot;</span>)</span></span>;</span><br><span class="line"><span class="comment">//查找不在字符c之后的字符串ei</span></span><br><span class="line">pattern = <span class="string">&quot;[[:alpha:]]*&quot;</span> + pattern + <span class="string">&quot;[[:alpha:]]*&quot;</span>;</span><br><span class="line"><span class="function">regex <span class="title">r</span><span class="params">(pattern)</span></span>;</span><br><span class="line">smatch results; <span class="comment">//定义一个对象保存搜索结果</span></span><br><span class="line"><span class="built_in">string</span> test_str = <span class="string">&quot;receipt freind theif receive&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(regex_search(test_str, results, r))</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; result.str() &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p>正则表达式<code>[^c]</code>表明我们希望匹配任意不是<code>c</code>的字符。</p>
+<p><code>&quot;[[:alpha:]]&quot;</code>匹配任意字母，符号<code>+</code>和<code>*</code>分别表示我们希望“一个或多个”或“零个或多个”匹配。因此<code>&quot;[[:alpha:]]*</code>将匹配零个或多个字母。</p>
+<p>我们还定义了一个名为<code>results</code>的<code>smatch</code>对象，它将传递给<code>regex_search</code>。如果找到匹配子串，<code>results</code>将会保存匹配位置的细节信息。</p>
+<p>函数<code>regex_search</code>在输入序列中只要找到一个匹配子串就会停止查找。因此，程序的输出将是：</p>
+<p><code>freind</code></p>
+<p><strong>指定regex对象的选项</strong></p>
+<p>标志位控制<code>regex</code>对象的处理过程。下表列出了最后6个标志指出编写正则表达式所用的语言。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210909174542920.png" alt="image-20210909174542920"></p>
+<p>我们可以编写一个正则表达式来识别C文件</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">regex <span class="title">r</span><span class="params">(<span class="string">&quot;[[:alpha:]]+\\.(cpp|cxx|cc)$&quot;</span>, regex::icase)</span></span>;</span><br><span class="line">smatch results;</span><br><span class="line"><span class="built_in">string</span> filename;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span> &gt;&gt; filename)</span><br><span class="line">    <span class="keyword">if</span>(regex_search(filename, results, r))</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; results.str() &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p>字符点<code>(.)</code>通常匹配任意字符。与C++一样，我们可以在字符之前放置一个反斜杠来去掉其特殊含义。由于反斜杠也是C++中的一个特殊字符，我们在字符串字面常量中必须连续使用两个反斜杠来告诉C++我们想要一个普通反斜杠字符。</p>
+<p><strong>指定或使用正则表达式时的错误</strong></p>
+<blockquote>
+<p>需要意识到的非常重要的一点是，一个正则表达式的语法是否正确是在运行是解析的。</p>
+</blockquote>
+<p>如果我们编写的正则表达式存在问题，则在运行时标准库会抛出一个类型为<code>regex_error</code>的异常，类似标准库异常，<code>regex_error</code>有一个<code>what</code>操作描述发生了什么错误。<code>regex_error</code>还有一个名为<code>code</code>的成员，用来返回某个错误类型对应的数值编码。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="function">regex <span class="title">r</span><span class="params">(<span class="string">&quot;[[:alpha:]]+\\.(cpp|cxx|cc)$&quot;</span>, regex::icase)</span></span>;</span><br><span class="line">&#125;<span class="keyword">catch</span> (regex_error e)</span><br><span class="line">&#123;<span class="built_in">cout</span> &lt;&lt; e.what() &lt;&lt; <span class="string">&quot;\ncode: &quot;</span> &lt;&lt; e.code() &lt;&lt; <span class="built_in">endl</span>;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210909180643253.png" alt="image-20210909180643253"></p>
+<p>我们编译器定义了<code>code</code>成员，返回上表列出的错误类型的编号。与往常一样，编号从0开始。</p>
+<blockquote>
+<p>正则表达式的编译是一个非常慢的操作，特别是你使用了扩展的正则表达式语法或是复杂的正则表达式。特别是，如果你在一个循环中使用正则表达式，应该在循环外创建他，而不是在每部迭代是都编译它。</p>
+</blockquote>
+<p><strong>正则表达式类和输入序列类型</strong></p>
+<p>​    例如，<code>regex</code>类保存类型<code>char</code>的正则表达式。标准库还定义了一个<code>wregex</code>类保存类型<code>wachar_t</code>，其操作与<code>regex</code>完全相同。两者唯一的差别是<code>wregex</code>的初始值必须使用<code>wchar_t</code>而不是<code>char</code>。</p>
+<p>​    匹配和迭代器类型更为特殊。这些类型的差异不仅在于字符类型，还在于序列是在标准库<code>string</code>中还是在数组中：<code>smatch</code>表示<code>string</code>类型的输入序列；<code>cmatch</code>表示字符串数组序列；<code>wsmatch</code>表示宽字符串<code>wstring</code>输入；而<code>wcmatch</code>表示宽字符数组。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">regex <span class="title">r</span><span class="params">(<span class="string">&quot;[[:alpha:]]+\\.(cpp|cxx|cc)$&quot;</span>, regex::icase)</span></span>;</span><br><span class="line">smatch results;</span><br><span class="line"><span class="keyword">if</span>(regex_search(<span class="string">&quot;myfile.cc&quot;</span>, results, r))</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; results.str() &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码会编译失败，因为<code>match</code>参数的类型与输入序列的类型不匹配。如果我们希望搜索一个字符数组，就必须使用<code>cmatch</code>对象：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmatch results;</span><br><span class="line"><span class="keyword">if</span>(regex_search(<span class="string">&quot;myfile.cc&quot;</span>, results, r))</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; results.str() &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210909200536937.png" alt="image-20210909200536937"></p>
+<p><strong>匹配与<code>Regex</code>迭代器类型</strong></p>
+<p>我们可以使用<code>sregex_iterator</code>来获取所有匹配。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210909201932306.png" alt="image-20210909201932306"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210909201951650.png" alt="image-20210909201951650"></p>
+<p><strong>使用sregex_iterator</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">pattern</span><span class="params">(<span class="string">&quot;[^c]ei&quot;</span>)</span></span>;</span><br><span class="line"><span class="comment">//查找不在字符c之后的字符串ei</span></span><br><span class="line">pattern = <span class="string">&quot;[[:alpha:]]*&quot;</span> + pattern + <span class="string">&quot;[[:alpha:]]*&quot;</span>;</span><br><span class="line"><span class="function">regex <span class="title">r</span><span class="params">(pattern, regex::icase)</span></span>;</span><br><span class="line"><span class="comment">//反复调用regex_search来寻找文件中的所有匹配</span></span><br><span class="line"><span class="keyword">for</span>(sregex_iterator it(file.begin(), file.end(), r), end_it; </span><br><span class="line">   					it != end_it; ++it)</span><br><span class="line">   <span class="built_in">cout</span> &lt;&lt; it-&gt;str() &lt;&lt; <span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>end_it</code>是一个空<code>sregex_iterator</code>，起到尾后迭代器的作用。</p>
+<p><strong>使用匹配数据</strong></p>
+<p>匹配类型有两个名为<code>prefix</code>和<code>suffix</code>的成员，分别返回表示输入序列中当前匹配之前和之后部分的<code>ssub_match</code>对象。一个<code>ssub_match</code>对象有两个名为<code>str</code>和<code>length</code>的成员，分别返回匹配的<code>string</code>和该<code>string</code>的大小。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//寻找匹配单元，并输出前后部分</span></span><br><span class="line"><span class="keyword">for</span>(sregex_iterator it(file.begin(), file.end(), r), end_it; </span><br><span class="line">   					it != end_it; ++it)&#123;</span><br><span class="line">	<span class="keyword">auto</span> pos = it-&gt;prefix().length();</span><br><span class="line">    pos = pos &gt; <span class="number">40</span> ? pos - <span class="number">40</span> : <span class="number">0</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; it -&gt; prefix().str().substr(pos) <span class="comment">//前缀的最后一部分</span></span><br><span class="line">        &lt;&lt; <span class="string">&quot;\n\t\t &gt;&gt;&gt;&quot;</span> &lt;&lt; it-&gt;str() &lt;&lt; <span class="string">&quot; &lt;&lt;&lt;\n&quot;</span></span><br><span class="line">        &lt;&lt; it-&gt;suffix().str().substr(<span class="number">0</span>, <span class="number">40</span>) <span class="comment">//后缀的第一部分</span></span><br><span class="line">        &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210909203159288.png" alt="image-20210909203159288"></p>
+<p><strong>使用子表达式</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">regex <span class="title">r</span><span class="params">(<span class="string">&quot;([[:alpha:]]+)\\.(cpp|cxx|cc)$&quot;</span>, regex::icase)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>现在我们的模式包含两个括号括起来的子表达式：</p>
+<ul>
+<li><code>([[:alpha:]]+)</code>匹配一个或多个字符的序列</li>
+<li><code>(cpp|cxx|cc)</code>，匹配文件扩展名</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(regex_search(filename, results, r))</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; results.str(<span class="number">1</span>) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"><span class="comment">//打印第一个子表达式</span></span><br></pre></td></tr></table></figure>
+
+<p>第一个自匹配位置为0，表示整个模式对应的匹配，随后是每个子表达式对应的匹配。因此，本例模式中第一个子表达式，即表示文件名的子表达式，其位置为1，而文件扩展名对应的子表达式位置为2。</p>
+<p>例如，如果文件名为<code>foo.cpp</code>，则<code>str(0)</code>将保存<code>foo.cpp</code>;</p>
+<p><strong>子表达式用于数据验证</strong></p>
+<p><code>\&#123;d&#125;</code>表示单个数字而<code>\&#123;d&#125;&#123;n&#125;</code>则表示一个n个数字的序列。</p>
+<p>在方括号中的字符集合表示匹配这些字符中任意一个。</p>
+<p>后接<code>?</code>的组件是可选的。</p>
+<p>由于我们的模式包括括号。而括号是特殊字符，因此我们必须用<code>\(</code>和<code>\)</code>来表示括号使我们的模式的一部分而不是特殊字符。</p>
+<p>美国的电话号码有十位数字，一个区号（通常放在括号里）和一个七位的本地号码。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;(\\()?(\\d&#123;3&#125;)(\\))?([-. ])?(\\d&#123;3&#125;)([-. ]?)(\\d&#123;4&#125;)&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>(\\()?</code>表示区号部分可选的左括号。</li>
+<li><code>(\\d&#123;3&#125;)</code>表示区号</li>
+<li><code>(\\))?</code>表示区号部分可选的右括号</li>
+<li><code>([-. ])?</code>表示区号部分可选的分隔符</li>
+<li><code>(\\d&#123;3&#125;)</code>表示号码的下三位数字</li>
+<li><code>([-. ]?)</code>表示可选的分隔符</li>
+<li><code>(\\d&#123;4&#125;)</code>表示号码的最后四位数字</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> phone = </span><br><span class="line">    <span class="string">&quot;(\\()?(\\d&#123;3&#125;)(\\))?([-. ])?(\\d&#123;3&#125;)([-. ]?)(\\d&#123;4&#125;)&quot;</span>;</span><br><span class="line"><span class="function">regex <span class="title">r</span><span class="params">(phone)</span></span>;</span><br><span class="line">smatch m;</span><br><span class="line"><span class="built_in">string</span> s;</span><br><span class="line"><span class="keyword">while</span>(getline(<span class="built_in">cin</span>, s))&#123;</span><br><span class="line">    <span class="keyword">for</span>(sregex_iterator it(file.begin(), file.end(), r), end_it; </span><br><span class="line">   					it != end_it; ++it)</span><br><span class="line">        <span class="keyword">if</span>(valid(*it))</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;valid:&quot;</span> &lt;&lt; it-&gt;str() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    	<span class="keyword">else</span> </span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;not valid:&quot;</span> &lt;&lt; it-&gt;str() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210909212130136.png" alt="image-20210909212130136"></p>
+<p>在一个合法的电话号码中，区号要么是完整的括号包围的，要么就是没有括号。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">valid</span><span class="params">(<span class="keyword">const</span> smatch&amp; m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(m[<span class="number">1</span>].matched)</span><br><span class="line">        <span class="comment">//则区号后必须有一个右括号</span></span><br><span class="line">        <span class="keyword">return</span> m[<span class="number">3</span>].matched</span><br><span class="line">        		&amp;&amp; (m[<span class="number">4</span>].matched == <span class="number">0</span> || m[<span class="number">4</span>].str() == <span class="string">&quot; &quot;</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> !m[<span class="number">3</span>].matched</span><br><span class="line">        		&amp;&amp; m[<span class="number">4</span>].str() == m[<span class="number">6</span>].str();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>使用regex_replace</strong></p>
+<p>当我们希望在输入序列中查找并替换一个正则表达式时，可以调用<code>regex_replace</code>，类似搜索函数，它接受一个输入字符序列和一个<code>regex</code>对象，不同的是，它还接受一个描述我们想要的输出形式的字符串。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210909213315550.png" alt="image-20210909213315550"></p>
+<p>我们用一个符号<code>$</code>后跟子表达式的索引号来表示一个特定的子表达式：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> fmt = <span class="string">&quot;$2.$5.$7&quot;</span>;</span><br><span class="line"><span class="function">regex <span class="title">r</span><span class="params">(phone)</span></span>;</span><br><span class="line"><span class="built_in">string</span> number = <span class="string">&quot;(908) 555-1800&quot;</span>;</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; regex_replace(number, r, fmt) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 908.555.1800</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> phone = </span><br><span class="line">    	<span class="string">&quot;(\\()?(\\d&#123;3&#125;)(\\))?([-. ])?(\\d&#123;3&#125;)([-. ]?)(\\d&#123;4&#125;)&quot;</span>;</span><br><span class="line">	<span class="function">regex <span class="title">r</span><span class="params">(phone)</span></span>;</span><br><span class="line">	smatch m;</span><br><span class="line">	<span class="built_in">string</span> s;</span><br><span class="line">    <span class="built_in">string</span> fmt = <span class="string">&quot;$2.$5.$7&quot;</span>;</span><br><span class="line">    <span class="keyword">while</span> (getline(<span class="built_in">cin</span>, s))</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt;regex_replace(s, r, fmt) &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>用来控制匹配和格式的标志</strong></p>
+<p>标准库还定义了用来替换过程中控制匹配或格式的标志。这些标志可以传递给函数<code>regex_search</code>或<code>regex_match</code>或是类<code>smatch</code>的<code>format</code>成员。</p>
+<p>匹配和格式化标志的类型为<code>match_flag_type</code>。这些值都定义在名为<code>regex_constants</code>的命名空间中。<code>regex_constants</code>也是定义在命名空间<code>std</code>中的命名空间。为了使用<code>regex_constants</code>中的名字，我们必须在名字前同时加上两个命名空间的限定符：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="built_in">std</span>::regex_constants::format_no_copy;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210909214654229.png" alt="image-20210909214654229"></p>
+<h4 id="17-4-随机数"><a href="#17-4-随机数" class="headerlink" title="17.4 随机数"></a>17.4 随机数</h4><p>在新标准出来之前，C和C++都依赖与一个简单的C库函数<code>rand</code>来生成随机数。</p>
+<p>定义在头文件<code>random</code>中的随机数库通过一组协作的类来解决这些问题：随机数引擎类和随机数分布类。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210915223720295.png" alt="image-20210915223720295"></p>
+<p><strong>随机数引擎和分布</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">default_random_engine e; <span class="comment">//生成随机无符号数</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; e() &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210915224318567.png" alt="image-20210915224318567"></p>
+<p><strong>分布类型和引擎</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//生成0到9之间（包含）均匀分布的随机数</span></span><br><span class="line"><span class="function">uniform_int_distribution&lt;<span class="keyword">unsigned</span>&gt; <span class="title">u</span><span class="params">(<span class="number">0</span>,<span class="number">9</span>)</span></span>;</span><br><span class="line">default_random_engine e; <span class="comment">//生成无符号随机整数</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; u(e) &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>注意，我们传递给分布对象的是引擎对象本身，即<code>u(e)</code>。如果我们将调用写成<code>u(e())</code>，含义就变为将<code>e</code>生成的下一个值传递给<code>u</code>，会导致一个编译错误。我们传递的是引擎本身，而不是它生成的下一个值，原因是某些分布可能需要调用引擎多次才能得到一个值。</p>
+<blockquote>
+<p>当我们说随机数发生器时，是指分布对象和引擎对象的组合。</p>
+</blockquote>
+<p><strong>引擎生成一个数值序列</strong></p>
+<p>即使生成的数看起来是随机的，但对一个给定的发生器，每次运行程序它都会返回相同的数值序列。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">unsigned</span>&gt; <span class="title">bad_randVec</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    default_random_engine e;</span><br><span class="line">    <span class="function">uniform_int_distribution&lt;<span class="keyword">unsigned</span>&gt; <span class="title">u</span><span class="params">(<span class="number">0</span>,<span class="number">9</span>)</span></span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">unsigned</span>&gt; ret;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; ++i)</span><br><span class="line">        ret.push_back(u(e));</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每次调用这个函数都会返回相同的<code>vector</code>;</p>
+<p>编写此函数的正确方法是将引擎和关联的分布对象定义为<code>static</code>的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">unsigned</span>&gt; <span class="title">bad_randVec</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> default_random_engine e;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> uniform_int_distribution&lt;<span class="keyword">unsigned</span>&gt; <span class="title">u</span><span class="params">(<span class="number">0</span>,<span class="number">9</span>)</span></span>;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">unsigned</span>&gt; ret;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; ++i)</span><br><span class="line">        ret.push_back(u(e));</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于<code>e</code>和<code>u</code>是<code>static</code>的，因此他们在函数调用之间会保持住状态。第一次调用会使用<code>u(e)</code>生成的序列中前100个随机数，第二次调用会获得接下来100个，以此类推。 </p>
+<p><strong>设置随机数发生器种子</strong></p>
+<p>为引擎设置种子有两种方式：再创将引擎对象时提供种子，或者调用引擎的<code>seed</code>成员：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">default_random_engine e1; <span class="comment">//使用默认种子</span></span><br><span class="line"><span class="function">default_random_engine <span class="title">e2</span><span class="params">(<span class="number">2147</span>)</span></span>;</span><br><span class="line">default_random_engine e3;</span><br><span class="line">e3.seed(<span class="number">32676</span>);</span><br></pre></td></tr></table></figure>
+
+<p>最常用的方法是调用系统函数<code>time</code>。这个函数定义在头文件<code>ctime</code>中，它返回一个特定时刻到当前经历过多少秒。函数<code>time</code>接受单个指针函数，它指向用于写入时间的数据结构。如果此指针为空，则函数简单地返回时间；</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">default_random_engine <span class="title">e1</span><span class="params">(time(<span class="number">0</span>))</span></span>; </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果程序作为一个自动过程的一部分反复运行，将<code>time</code>的返回值作为种子的方式就无效了；它可能多次使用的都是相同的种子。</p>
+</blockquote>
+<p><strong>其他随机数分布</strong></p>
+<p>程序常需要一个随机浮点数的源，特别是，程序经常需要0到1之间的随机数。</p>
+<p>我们可以定义一个<code>uniform_real_distribution</code>类型的对象，并让标准库来处理从随机整数到随机浮点数的映射。与处理<code>uniform_int_distribution</code>一样，在定义对象时，我们指定最小值和最大值。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">default_random_engine e;</span><br><span class="line"><span class="function">uniform_real_distribution&lt;<span class="keyword">double</span>&gt; <span class="title">u</span><span class="params">(<span class="number">0</span>,<span class="number">1</span>)</span></span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; ++i)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; u(e) &lt;&lt; <span class="string">&quot; &quot;</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210918225327560.png" alt="image-20210918225327560"></p>
+<p><strong>使用分布的默认结果类型</strong></p>
+<p>每个分布模板都有一个默认模板实参，生成浮点值的分布类型默认生成<code>double</code>值，而生成整型值的分布默认生成<code>int</code>值。</p>
+<p><strong>生成非均匀分布的随机数</strong></p>
+<p>除了正确生成在指定范围内的数之外，新标准库的另一个优势是可以生成非均匀分布的随机数。实际上，新标准定义了20种分布类型，这些类型在附录A.3。</p>
+<p>作为一个例子，我们生成一个正态分布的值的序列。</p>
+<p>由于<code>normal_distribution</code>生成浮点值，我们的程序使用头文件<code>cmath</code>中的<code>lround</code>函数将每个随机数舍入到最接近的整数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">default_random_engine e;</span><br><span class="line"><span class="function">normal_distribution&lt;&gt; <span class="title">n</span><span class="params">(<span class="number">4</span>,<span class="number">1.5</span>)</span></span>; <span class="comment">//均值4，标准差1.5</span></span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">unsigned</span>&gt; <span class="title">vals</span><span class="params">(<span class="number">9</span>)</span></span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">size_t</span> i = <span class="number">0</span>; i != <span class="number">200</span>; ++i)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> v = lround(n(e)); </span><br><span class="line">    <span class="keyword">if</span>(v &lt; vals.size())</span><br><span class="line">        ++vals[v];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>bernouli_distribution类</strong></p>
+<p>我们注意到有一个分布不接受模板参数，即<code>bernouli_distribution</code>，因为它是一个普通类，而非模板。此分布总是返回一个<code>bool</code>值。它返回<code>true</code>的概率是一个常数，此概率的默认值是0.5；</p>
+<blockquote>
+<p>由于引擎返回相同的随机数序列，所以我们必须在循环外声明引擎对象。否则，每步循环都会创建一个新的引擎，从而每步循环都会生成相同的值。类似的，分布对象也要保持状态，因此也应该在循环外定义。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">bernouli_distribution <span class="title">b</span><span class="params">(<span class="number">.55</span>)</span></span>; <span class="comment">//改变概率</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="17-5-IO库再探"><a href="#17-5-IO库再探" class="headerlink" title="17.5 IO库再探"></a>17.5 IO库再探</h4><p>在本节中，我们将介绍三个更为特殊的IO库特性：格式控制、未格式化IO和随机访问。</p>
+<p><strong>格式化输入与输出</strong></p>
+<p>除了条件状态外，每个<code>iostream</code>对象还维护一个格式状态来控制IO如何格式化的细节。格式状态控制格式化的某些方面，如整形值是几进制，浮点值的精度、一个输出元素的宽度等。</p>
+<p>标准库定义了一组<strong>操纵符</strong>来修改流的格式状态，一个操作符是一个函数或是一个对象，会影响流的状态，并能用作输入货输出运算符的运算对象。</p>
+<p>我们已经在程序中使用多一个操作符——<code>endl</code>，但是<code>endl</code>不是普通值，而是一个操作：它输出一个换行符并刷新缓冲区。</p>
+<p><strong>很多操作符改变格式状态</strong></p>
+<p>操作符用于两大类输出控制：控制数值的输出形式以及控制补白的数量和位置。大多数改变格式状态的操作符都是设置、复原成对的：一个操作符用来将格式状态设置为一个新值，而另一个用来将其复原，恢复为正常的默认格式。</p>
+<blockquote>
+<p>当操作符改变流的格式状态时，通常改变后的状态对所有后续IO都生效。</p>
+</blockquote>
+<p><strong>控制布尔值的格式</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cout</span> &lt;&lt; <span class="literal">true</span> &lt;&lt; <span class="literal">false</span> </span><br><span class="line">    &lt;&lt; boolalpha </span><br><span class="line">    &lt;&lt; <span class="literal">true</span> &lt;&lt; <span class="literal">false</span>;</span><br><span class="line"><span class="comment">//程序输出 1 0 ture false</span></span><br></pre></td></tr></table></figure>
+
+<p>一旦向<code>cout</code>写入了<code>boolalpha</code>，我们就改变了<code>cout</code>打印<code>bool</code>值的方式。后续打印<code>bool</code>值得操作都会打印<code>true</code>或者<code>false</code>。</p>
+<p>为了取消<code>cout</code>格式状态的改变，我们使用<code>noboolalpha</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> bool_val = get_status();</span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; boolalpha</span><br><span class="line">    &lt;&lt; bool_val</span><br><span class="line">    &lt;&lt; noboolalpha;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>指定整形值的进制</strong></p>
+<p>我们可以通过操作符<code>hex</code>、<code>oct</code>和<code>dec</code>将其改为十六进制、八进制或是改回十进制。</p>
+<blockquote>
+<p>上述操作符只影响整形运算符，浮点值的表示形式不受影响。</p>
+</blockquote>
+<p><strong>在输出中指出进制</strong></p>
+<p>当对流应用<code>showbase</code>操作符时，会在输出结果中显示进制。</p>
+<ul>
+<li>前导<code>0x</code>表示十六进制。</li>
+<li>前导<code>0</code>表示八进制。</li>
+<li>无前导字符表示十进制。</li>
+</ul>
+<p>操作符<code>noshowbase</code>恢复<code>cout</code>的状态，从而不再显示整形值的进制。</p>
+<p>默认情况下，十六进制会以小写打印，前导字符也是小写的<code>x</code>。我们可以通过使用<code>uppercase</code>操作符来输出大写的<code>X</code>并将十六进制数字<code>a-f</code>大写输出。</p>
+<p><strong>指定打印精度</strong></p>
+<p>我们可以通过调用IO对象的<code>precision</code>成员或使用<code>setprecision</code>操纵符来改变精度。<code>precision</code>成员是重载的。一个版本接受一个<code>int</code>值，将精度设置为此值，并返回久精度值。另一版本不接受参数，返回当前精度值。<code>setprecision</code>操作符接受一个参数，用来设置精度。</p>
+<blockquote>
+<p>操作符<code>setprecision</code>和其他接受参数的操纵符都定义在头文件<code>iomanip</code>中。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cout</span>.precision(<span class="number">12</span>);</span><br><span class="line"><span class="comment">//另一种方法</span></span><br><span class="line"><span class="built_in">cout</span> &lt;&lt; precision(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210924220703276.png" alt="image-20210924220703276"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210924220730225.png" alt="image-20210924220730225"></p>
+<p>操纵符<code>scientific</code>改变流的状态来使用科学计数法。操纵符<code>fixed</code>改变流的状态流使用定点十进制。</p>
+<p>在执行<code>scientific、fixed</code>或<code>hexfloat</code>后，精度值控制的时小数点后面的数字位数，而默认情况下精度值指定的事数字的总位数——既包括小数点之后的数字也包括小数点之前的数字。</p>
+<p><strong>打印小数点</strong></p>
+<p><code>showpoint</code>操纵符强制打印小数点</p>
+<p><strong>输出旁白</strong></p>
+<p>我们常常需要非常精细地控制数据格式。</p>
+<ul>
+<li><code>setw</code>指定下一个数字或字符串值的最小空间。</li>
+<li><code>left</code>表示左对齐输出。</li>
+<li><code>right</code>表示右对齐输出，右对齐是默认格式。</li>
+<li><code>internal</code>控制负数的符号的位置，它左对齐符号，右对齐值，用空格填满所有中间空间。</li>
+<li><code>setfill</code>允许指定一个字符代替默认的空格来补白输出。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210924222145673.png" alt="image-20210924222145673"></p>
+<p><strong>控制输入格式</strong></p>
+<p>输入运算符会忽略空白符（空格符、制表符、换行符、换纸符和回车符）</p>
+<p>操纵符<code>noskipws</code>会令输入运算符读取空白符，而不是跳过他们。为了恢复默认行为，我们可以使用<code>skipws</code>操纵符。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cin</span> &gt;&gt; noskipws; <span class="comment">//设置cin读取空白符</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>未格式化的输入输出操作</strong></p>
+<p>标准库还提供了一组底层操作，支持未格式化IO。这些操作允许我们将一个流当做一个无解释的字节序列来处理。</p>
+<p><strong>单字节操作</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> ch;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>.get(ch))</span><br><span class="line">    <span class="built_in">cout</span>.put(ch);</span><br></pre></td></tr></table></figure>
+
+<p>此程序保留输入中的空白符，其输出与输入完全相同。它的执行过程与前一个使用<code>noskipws</code>的程序完全相同。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210924222931921.png" alt="image-20210924222931921"></p>
+<p><strong>将字符放回输入流</strong></p>
+<p><code>peek</code>返回输入流中下一个字符的副本，但不会将它从流中删除，<code>peek</code>返回的值仍然留在流中。</p>
+<p><code>unget</code>使得输入流向后移动，从而最后读取的值又回到流中。即使我们不知道最后从流中读取什么值，仍然可以调用<code>unget</code>。</p>
+<p><code>putback</code>是更特殊版本的<code>unget</code>;它退回从流中读取的最后一个值。但它接受一个参数，此参数必须与最后读取的值相同。</p>
+<p><strong>从输入操作返回的int值</strong></p>
+<p>头文件<code>cstdio</code>定义了一个名为<code>EOF</code>的<code>const</code>，这样我们可以用它来检测从<code>get</code>返回的值是否是文件尾，而不必记忆表示文件尾的实际数值。对我们而言，重要的是，用一个<code>int</code>来保存从这些函数返回的值。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> ch;</span><br><span class="line"><span class="keyword">while</span> ((ch = <span class="built_in">cin</span>.get()) != EOF)</span><br><span class="line">    <span class="built_in">cout</span>.put(ch);</span><br><span class="line"><span class="comment">//循环并输出所有数据</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>多字节操作</strong></p>
+<p>一些未格式化IO操作一次处理大块数据。如果速度是要考虑的重点问题的话。这些操作是重要的，但类似其他底层操作，这些操作也容易出错。特别是，这些操作要求我们自己分配并管理用来保存和提取数据的字符数组。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210928224341429.png" alt="image-20210928224341429"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210928224402125.png" alt="image-20210928224402125"></p>
+<p><code>get</code>和<code>getline</code>函数接受相同的参数，他们的行为类似但不相同。两个函数都一直读取数据，直到下面条件之一发生：</p>
+<ul>
+<li>已读取了<code>size</code>个字符</li>
+<li>遇到了文件尾</li>
+<li>遇到了分隔符</li>
+</ul>
+<p>两个函数的差异是处理分隔符的方式：<code>get</code>将分隔符留作<code>istream</code>中的下一个字符，而<code>getline</code>则读取并丢弃分隔符。无论哪个函数都不会将分隔符保存在<code>sink</code>中。</p>
+<blockquote>
+<p>常见的错误是本想从流中删除分隔符，但却忘了做。</p>
+</blockquote>
+<p><strong>确定读取了多少个字符</strong></p>
+<p>某些操作从输入读取末知个数的字节。我们可以调用<code>gcount</code>来确定最后一个未格式化输入操作读取了多少个字符。应该在任何后续未格式化输入操作之前调用<code>gcount</code>。特别是，将字符退回流的单字符操作也属于末格式化输入操作。如果在调用<code>gcount</code>之前调用了<code>peek、unget</code>或<code>putback</code>则<code>gcount</code>的返回值为 0。</p>
+<p>一个常见的错误是将<code>get</code>或<code>peek</code>的返回值赋予一个<code>char</code>而不是<code>int</code>。</p>
+<p>例如，下面的循环永远不会停止：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> ch;</span><br><span class="line"><span class="keyword">while</span> ((ch = <span class="built_in">cin</span>.get()) != EOF)</span><br><span class="line">    <span class="built_in">cout</span>.put(ch);</span><br><span class="line"><span class="comment">//循环并输出所有数据</span></span><br></pre></td></tr></table></figure>
+
+<p>问题出在当<code>get</code>返回<code>EOF</code>时，此值会被转换为一个<code>unsigned char</code>。转换得到的值与<code>EOF</code>的<code>int</code>值不在相等，因此循环永远不会停止。</p>
+<p><strong>流随机访问</strong></p>
+<p>​    各种流类型通常都支持对流中数据的随机访问，标准库提供了一对函数，来定位<code>seek</code>到流中给定的位置，以及告诉<code>tell</code>我们当前位置。</p>
+<p>​    在大多数系统中，绑定到<code>cin、cout、cerr</code>和<code>clog</code>的流不支持随机访问。对于这些流我们可以调用<code>seek</code>和<code>tell</code>函数，但在运行时会出错，将流置于一个无效状态。</p>
+<blockquote>
+<p>由于<code>istream</code>和<code>ostream</code>类型通常不支持随机访问，所以本节剩余内容只适用于<code>fstream</code>和<code>sstream</code>类型。</p>
+</blockquote>
+<p><strong><code>seek</code>和<code>tell</code>函数</strong></p>
+<p>​    标准库实际上定义了两对<code>seek</code>和<code>tell</code>函数，一对用于输入，一对用于输出流。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20210929093234112.png" alt="image-20210929093234112"></p>
+<p><strong>重定位标记</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">seekg(new_position); <span class="comment">// 将读标记移动到指定的pos_type类型的位置</span></span><br><span class="line">seekg(offset, from); <span class="comment">//将读标记移动到距from 偏移量为offset的位置</span></span><br></pre></td></tr></table></figure>
+
+<p>参数<code>new_position</code>和<code>offset</code>的类型分别是<code>pos_type</code>和<code>off_type</code>，这两个类型都是机器相关的，他们定义在头文件<code>istream</code>和<code>ostream</code>中。</p>
+<p><strong>访问标记</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ostringstream</span> writeStr; <span class="comment">//输出stringstream</span></span><br><span class="line"><span class="built_in">ostringstream</span>::pos_type mark = writeStr.tellp();</span><br><span class="line"></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">if</span>(cancelEntry)</span><br><span class="line">    writeStr.seekp(mark);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>读写同一个文件</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">fstream <span class="title">inOut</span><span class="params">(<span class="string">&quot;copyOut&quot;</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">                 fsteam::ate | fstream::in | fstream::out)</span></span>;</span><br><span class="line">    <span class="keyword">if</span>(!inOut)&#123;</span><br><span class="line">        <span class="built_in">cerr</span> &lt;&lt; <span class="string">&quot;Unable to open file!&quot;</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">return</span> EXIT_FAILURE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// inOut 以 ate模式打开，因此一开始就定义到文件尾部</span></span><br><span class="line">    <span class="keyword">auto</span> end_mark = inOut.tellg();</span><br><span class="line">    inOut.seekg(<span class="number">0</span>, fstream::beg); <span class="comment">//重新定义到文件开始</span></span><br><span class="line">    <span class="keyword">size_t</span> cnt = <span class="number">0</span>; </span><br><span class="line">    <span class="built_in">string</span> line;</span><br><span class="line">    <span class="keyword">while</span>(inOut &amp;&amp; inOut.tellg() != end_mark</span><br><span class="line">         &amp;&amp; getline(inOut, line))&#123; <span class="comment">//且还可获得一行输入</span></span><br><span class="line">        cnt += line.size() + <span class="number">1</span>; <span class="comment">//+1表示换行符</span></span><br><span class="line">        <span class="keyword">auto</span> mark = inOut.tellg(); <span class="comment">//记录读取位置</span></span><br><span class="line">        inOut.seekp(<span class="number">0</span>, fstream::end);</span><br><span class="line">        inOut &lt;&lt; cnt;</span><br><span class="line"> 		<span class="comment">//如果读取位置不是最后一行，打印一个分隔符</span></span><br><span class="line">        <span class="keyword">if</span>(mark != end_mark) inOut &lt;&lt; <span class="string">&quot; &quot;</span>;</span><br><span class="line">        inOut.seekg(mark);</span><br><span class="line">    &#125;</span><br><span class="line">    inOut.seek(<span class="number">0</span>, fstream::end);</span><br><span class="line">    inOut &lt;&lt; <span class="string">&quot;\n&quot;</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于我们的程序向输入文件写入数据，因此不能通过文件尾来判断是否停止读取，而是应该在达到原数据的末尾时停止。</p>
+<h3 id="第18章-用于大型程序的工具"><a href="#第18章-用于大型程序的工具" class="headerlink" title="第18章 用于大型程序的工具"></a>第18章 用于大型程序的工具</h3><h4 id="18-1-异常处理"><a href="#18-1-异常处理" class="headerlink" title="18.1 异常处理"></a>18.1 异常处理</h4><p><strong>异常处理</strong>机制允许程序中独立开发的部分能够就运行时出现的问题进行通信并作出相应的处理。</p>
+<p><strong>抛出异常</strong></p>
+<p>在C++语言中，我们通过<code>throw</code>一条表达式来引发一个异常。</p>
+<p>当执行一个<code>throw</code>时，跟在<code>throw</code>后面的语句将不再被执行。相反，程序的控制权从<code>throw</code>转移到与之匹配的<code>catch</code>模块。该<code>catch</code>可能是同一个函数中的局部<code>catch</code>，也可能位于直接或间接调用了发生异常的函数的另一个函数中。控制权从一处转移到另一处，这有两个重要的含义：</p>
+<ul>
+<li>沿着调用链的函数可能会提早退出。</li>
+<li>一旦程序开始执行异常处理代码，则沿着调用链创建的对象将被销毁。</li>
+</ul>
+<blockquote>
+<p>一个异常如果没有被捕获，则它将终止当前的程序。</p>
+</blockquote>
+<p><strong>异常对象</strong></p>
+<p>异常对象是一种特殊的对象，编译器使用异常抛出表达式来对异常对象进行拷贝初始化。因此，<code>throw</code>语句中的表达式必须拥有完全类型。</p>
+<p>当异常处理完毕后，异常对象被销毁。</p>
+<p>当我们抛出一条表达式后，该表达式的静态编译时类型决定了异常对象的类型，牢记这一点，因为很多情况下程序抛出的表达式类型来自于某个继承体系，如果一条<code>throw</code>表达式解引用一个基类指针，而该指针实际指向的是派生类对象，则抛出对象将被切掉一部分，只有基类部分被抛出。</p>
+<blockquote>
+<p>抛出指针要求在任何对应的处理代码存在的地方，指针所指的对象都必须存在。</p>
+</blockquote>
+<p><strong>捕获异常</strong></p>
+<p>​    在搜索<code>catch</code>语句的过程中，我们最终找到的是<code>catch</code>未必是异常的最佳匹配。相反，挑选出来的的应该是第一个与异常匹配的<code>catch</code>语句。因此，越是专门的<code>catch</code>越应该置于整个<code>catch</code>列表的前端。</p>
+<p><strong>重新抛出</strong></p>
+<p>​    有时，一个单独的<code>catch</code>语句不能完整地处理某个异常。在执行了某些校正操作之后，当前的<code>catch</code>可能会决定由调用链更上一层的函数接着处理异常。一条<code>catch</code>语句通过<strong>重新抛出</strong>的操作将异常传递给另外一个<code>catch</code>语句。这里的重新抛出仍然是一条<code>throw</code>语句，只不过不包含任何表达式：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">throw</span>;</span><br></pre></td></tr></table></figure>
+
+<p>空的<code>throw</code>语句只能出现在<code>catch</code>语句或<code>catch</code>语句直接或间接调用的函数之内。如果在处理代码之外的区域遇到了空<code>throw</code>语句，编译器将调用<code>terminate</code>。</p>
+<p>很多时候，<code>catch</code>语句会改变其参数的内容。如果在改变了参数的内容后<code>catch</code>语句重新抛出异常，则只有当<code>catch</code>异常声明是引用类型时我们对参数所做的改变才会被保留并继续传播：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">catch</span> (my_error &amp;eObj)&#123;</span><br><span class="line">    eObj.status = errCodes::severeErr; <span class="comment">//修改了异常对象</span></span><br><span class="line">    <span class="keyword">throw</span>;</span><br><span class="line">&#125;<span class="keyword">catch</span> (other_error eObj)&#123;</span><br><span class="line">    eObj.status = errCodes::badErr; <span class="comment">//只修改了异常对象的局部副本</span></span><br><span class="line">    <span class="keyword">throw</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>捕获所有异常的处理代码</strong></p>
+<p>为了一次性捕获所有异常，我们使用省略号作为异常声明，这样的处理称为<strong>捕获所有异常</strong>。</p>
+<p><code>catch(...)</code>通常与重新抛出语句一起使用，其中<code>catch</code>执行当前局部能完成的工作，随后重新抛出异常：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">manip</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="comment">// 这里的操作将引发并抛出一个异常</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span>(...)&#123;</span><br><span class="line">        <span class="keyword">throw</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果<code>catch(...)</code>与其他几个<code>catch</code>语句一起出现，则<code>catch(...)</code>必须放在最后的位置。出现在捕获所有异常语句后面的<code>catch</code>语句将永远不会被匹配。</p>
+</blockquote>
+<p><strong>函数try语句块与构造函数</strong></p>
+<p>要想处理构造函数初始值抛出的异常，我们必须将构造函数写成函数try语句块。函数<code>try</code>语句块使得一组<code>catch</code>语句既能处理构造函数体（或析构函数体），也能处理构造函数的初始化过程。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line">Blob&lt;T&gt;::Blob(<span class="built_in">std</span>::<span class="built_in">initializer_list</span>&lt;T&gt; il) <span class="keyword">try</span>:</span><br><span class="line">	data(<span class="built_in">std</span>::make_shared&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;T&gt;&gt;(il))&#123;</span><br><span class="line">        <span class="comment">/*空函数体*/</span></span><br><span class="line">    &#125;<span class="keyword">catch</span>(<span class="keyword">const</span> <span class="built_in">std</span>::bad_alloc &amp;e)&#123;handle_out_of_meory(e);&#125;</span><br></pre></td></tr></table></figure>
+
+<p>与这个<code>try</code>关联的<code>catch</code>既能处理构造函数体抛出的异常，也能处理成员初始化列表抛出的异常。</p>
+<blockquote>
+<p>处理构造函数初始值异常的唯一方法是将构造函数写成函数<code>try</code>语句块。</p>
+</blockquote>
+<p><strong>noexcept异常说明</strong></p>
+<p>我们可以通过提供<code>noexcept</code>说明指定某个某个函数不会抛出异常，其形式是关键字<code>noexcept</code>紧跟在函数的参数列表后面。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">recoup</span><span class="params">(<span class="keyword">int</span>)</span> <span class="keyword">noexcept</span></span>; <span class="comment">//不会抛出异常</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">alloc</span><span class="params">(<span class="keyword">int</span>)</span></span>; <span class="comment">// 可能抛出异常</span></span><br></pre></td></tr></table></figure>
+
+<p>对于一个函数而言，<code>noexcept</code>说明要么出现在该函数的所有声明语句和定义语句中，要么一次也不出现。该说明应该在函数的尾置返回类型之前。我们也可以在函数指针的声明和定义中指定<code>noexcept</code>。在<code>typedef</code>或类型别名中则不能出现<code>noexcept</code>。在成员函数中，<code>noexcept</code>说明符需要跟在<code>const</code>及引用限定符之后，而在<code>final、override</code>或虚函数的=0之前。</p>
+<p><strong>异常说明的实参</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">recoup</span><span class="params">(<span class="keyword">int</span>)</span> <span class="title">noexcept</span><span class="params">(<span class="literal">true</span>)</span></span>; <span class="comment">//不会抛出异常</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">alloc</span><span class="params">(<span class="keyword">int</span>)</span> <span class="title">noexcept</span><span class="params">(<span class="literal">false</span>)</span></span>;<span class="comment">// 可能抛出异常</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong><code>noexcept</code>运算符</strong></p>
+<p><code>noexcept</code>运算符是一个一元运算符，返回值是一个<code>bool</code>类型的右值常量表达式，用于表示给定的表达式是否会抛出异常。</p>
+<p>因为我们声明<code>recoup</code>时使用了<code>noexcept</code>说明符，所以下面的表达式的返回值为<code>true</code>；</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">noexcept</span>(recoup(i));</span><br></pre></td></tr></table></figure>
+
+<p>更为普遍的形式是：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">noexcept</span>(e)</span><br></pre></td></tr></table></figure>
+
+<p>当<code>e</code>调用的所有函数都做了不抛出说明且<code>e</code>本身不含有<code>throw</code>语句时，上述表达式为<code>true</code>；否则<code>noexcept(e)</code>返回<code>false</code>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> <span class="title">noexcept</span><span class="params">(<span class="keyword">noexcept</span>(g()))</span></span>; <span class="comment">//f和g的异常说明一致。</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>noexcept</code>有两层含义：当跟在函数参数列表后面时它时异常说明符；而当作为<code>noexcept</code>异常说明的<code>bool</code>实参出现时，它是一个运算符。</p>
+</blockquote>
+<p><strong>异常说明与指针、虚函数和拷贝控制</strong></p>
+<p>函数指针及指针所指的函数必须具有一致的异常说明。如果为某个指针做了不抛出异常的声明，则该指针将只能指向不抛出异常的函数。如果我们显示或隐式地说明了指针可能抛出异常，则该指针可以指向任何函数，即使是承诺了不抛出异常的函数也可以。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (*pf1)(<span class="keyword">int</span>) <span class="keyword">noexcept</span> = recoup; <span class="comment">//都不会抛出异常</span></span><br><span class="line"><span class="keyword">void</span> (*pf2)(<span class="keyword">int</span>) = recoup; <span class="comment">//正确，pf2可能抛出异常，两者互补干扰</span></span><br><span class="line"></span><br><span class="line">pf1 = alloc; <span class="comment">//错误</span></span><br><span class="line">pf2 = alloc; <span class="comment">//正确</span></span><br></pre></td></tr></table></figure>
+
+<p>如果一个虚函数承诺了它不会抛出异常，则后续派生出来的虚西数也必须做出同样的<br>承诺；与之相反，如果基类的虚函数允许抛出异常，则派生类的对应两数既可以允许拋出<br>异常，也可以不允许抛出异常：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function"><span class="keyword">virtual</span> <span class="keyword">double</span> <span class="title">f1</span><span class="params">(<span class="keyword">double</span>)</span> <span class="keyword">noexcept</span></span>; <span class="comment">//不会抛出异常</span></span><br><span class="line">    	<span class="function"><span class="keyword">virtual</span> <span class="keyword">int</span> <span class="title">f2</span><span class="params">()</span> <span class="title">noexcept</span><span class="params">(<span class="literal">false</span>)</span></span>;</span><br><span class="line">    	<span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">f3</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span> :</span> <span class="keyword">public</span> Base&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function"><span class="keyword">double</span> <span class="title">f1</span><span class="params">(<span class="keyword">double</span>)</span></span>; <span class="comment">//错误</span></span><br><span class="line">    	<span class="function"><span class="keyword">int</span> <span class="title">f2</span><span class="params">()</span> <span class="title">noexcept</span><span class="params">(<span class="literal">false</span>)</span></span>; <span class="comment">//正确</span></span><br><span class="line">    	<span class="function"><span class="keyword">void</span> <span class="title">f3</span><span class="params">()</span> <span class="keyword">noexcept</span></span>; <span class="comment">//正确</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><strong>异常类层次</strong></p>
+<p>标准库异常类的继承体系：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20211025225929926.png" alt="image-20211025225929926"></p>
+<p><strong>书店应用程序的异常类</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">out_of_stock</span>:</span> <span class="keyword">public</span> <span class="built_in">std</span>::runtime_error&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function"><span class="keyword">explicit</span> <span class="title">out_of_stock</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;s)</span>:</span></span><br><span class="line"><span class="function">    		<span class="title">std::runtime_error</span><span class="params">(s)</span></span>&#123;&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">isbn_mismatch</span>:</span><span class="keyword">public</span> <span class="built_in">std</span>::logic_error&#123;</span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function"><span class="keyword">explicit</span> <span class="title">isbn_mismatch</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;s)</span>:</span></span><br><span class="line"><span class="function">    		<span class="title">std::logic_error</span><span class="params">(s)</span> </span>&#123;&#125;</span><br><span class="line">    	isbn_mismatch(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;s,</span><br><span class="line">                     <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;lhs, <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;rhs):</span><br><span class="line">    <span class="built_in">std</span>::logic_error(s), left(lhs), right(rhs)&#123;&#125;</span><br><span class="line">    <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> left, right;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>exception</code>划分为两个大的类别：运行时错误和逻辑错误。</p>
+<p><strong>使用我们自己的异常类型</strong></p>
+<p>我们可以为<code>Sales_data</code>类定义一个复合加法运算符，当检测到参与加法的两个<code>ISBN</code>编号不一致时抛出名为<code>isbn_mismatch</code>的异常：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Sales_data&amp;</span><br><span class="line">    Sales_data::<span class="keyword">operator</span>+=(<span class="keyword">const</span> Sales_data&amp; rhs)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(isbn != rhs.isbn())</span><br><span class="line">        <span class="keyword">throw</span> isbn_mismatch(<span class="string">&quot;wrong isbns&quot;</span>, isbn(), rhs.isbn());</span><br><span class="line">    units_sold += rhs.units_sold;</span><br><span class="line">    revenue += rhs.revenue;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="18-2-命名空间"><a href="#18-2-命名空间" class="headerlink" title="18.2 命名空间"></a>18.2 命名空间</h4><p>多个库将名字放置在全局命名空间中将引发<strong>命名空间污染</strong>。</p>
+<p><strong>命名空间定义</strong></p>
+<p>一个命名空间的定义包含两部分：首先是关键字<code>namespace</code>，随后是命名空间的名字。</p>
+<blockquote>
+<p>命名空间作用域后面无需分号。</p>
+</blockquote>
+<p><strong>命名空间可以是不连续的</strong></p>
+<p>命名空间可以定义在几个不同的部分，这一点与其他作用域不太一样。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> nsp&#123;</span><br><span class="line">    <span class="comment">//相关声明</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可能是定义了一个名为<code>nsp</code>的新命名空间，也可能为已经存在的命名空间添加一些新成员。</p>
+<p><strong>定义命名空间成员</strong></p>
+<p>假定作用域中存在合适的声明语句，则命名空间中的代码可以使用同一命名空间定义的名字的简写：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;Sales_data.h&quot;</span></span></span><br><span class="line"><span class="keyword">namespace</span> cpluscplus_primer&#123;</span><br><span class="line">    <span class="built_in">std</span>::istream&amp;</span><br><span class="line">    <span class="keyword">operator</span>&gt;&gt;(<span class="built_in">std</span>::istream&amp; in, Sales_data&amp; s)</span><br><span class="line">    &#123;<span class="comment">/**/</span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>也可以在命名空间定义的外部定义该命名空间的成员。命名空间对于名字的声明必须在作用域内，同时该名字的定义需要明确指出其所属的命名空间。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cpluscplus_primer::Sales_data</span><br><span class="line">cpluscplus_primer::<span class="keyword">operator</span>+(<span class="keyword">const</span> Sales_data&amp; lhs,</span><br><span class="line">                            <span class="keyword">const</span> Sales_data&amp; rhs)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">Sales_data <span class="title">ret</span><span class="params">(lhs)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在命名空间<code>cplusplus_primer</code>内部，我们可以直接使用该命名空间的其他成员，比如在上面的代码中，可以直接使用<code>Sales_data</code>定义函数的形参。</p>
+<p><strong>模板特例化</strong></p>
+<p>模板特例化必须定义在原始模板所属的命名空间中。</p>
+<p>我们在命名空间中声明了特例化，就能在命名空间外部定义它了：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="built_in">std</span>&#123;</span><br><span class="line">    <span class="keyword">template</span> &lt;&gt; <span class="class"><span class="keyword">struct</span> <span class="title">hash</span>&lt;</span>Sales_data&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;&gt; <span class="class"><span class="keyword">struct</span> <span class="title">std</span>:</span>:hash&lt;Sales_data&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">size_t</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">const</span> Sales_data&amp; s)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>全局空间命名</strong></p>
+<p>因为全局空间作用域是隐式的，所以它并没有名字。下面的形式</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">::member_name</span><br></pre></td></tr></table></figure>
+
+<p>表示全局命名空间中的一个成员。</p>
+<p><strong>嵌套的命名空间</strong></p>
+<p>嵌套命名空间指定义在其他命名空间中的命名空间。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> cplusplus_primer&#123;</span><br><span class="line">    <span class="keyword">namespace</span> QueryLib &#123;</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">Query</span> &#123;</span>&#125;；</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在嵌套的命名空间<code>QueryLib</code>中声明的类别名是：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cplusplus_primer::QueryLib::Query</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>内联命名空间</strong></p>
+<p>新标准引入了一种新的嵌套命名空间，称为内联命名空间。</p>
+<p>内联命名空间中的名字可以被外层命名空间直接使用。</p>
+<p>定义内联命名空间的方式是在关键字<code>namespace</code>前添加关键字<code>inline</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">inline</span> <span class="keyword">namespace</span> FifthEd&#123;</span><br><span class="line">    <span class="comment">//该命名空间表示本书第5版的代码</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">namespace</span> FifthEd&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Query_base</span> &#123;</span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关键字<code>inline</code>必须出现在命名空间第一次定义的地方，后续再打开命名空间的时候可以写<code>inline</code>，也可以不写。</p>
+<p>当应用程序的代码在一次发布和另一次发布之间发生了改变时，常常会用到内联命名空间。例如，我们可以把当前版本的所有代码都放在一个内联命名空间中，而之前版本的代码都放在一个非内联命名空间中：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> FourthEd&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Item_base</span>&#123;</span>&#125;;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Query_base</span>&#123;</span>&#125;;</span><br><span class="line">    <span class="comment">// 本书第4版用到的代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>假定每个命名空间都定义在同名的头文件中：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> cpluscplus_primer&#123;</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;FifthEd.h&quot;</span></span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;FourthEd.h&quot;</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>因为<code>FifthEd</code>是内联的，所以形如<code>cpluscplus_primer::</code>的代码可以直接获得<code>FifthEd</code>的成员。而<code>cpluscplus_primer::FourthEd::Query_base</code>则使用早期版本的代码。</p>
+<p><strong>未命名的命名空间</strong></p>
+<p><strong>未命名的命名空间</strong>是指关键字<code>namespace</code>后紧接花括号括起来的一系列声明语句。未命名的命名空间中定义的变量拥有静态生命周期：他们在第一次使用前创建，并且直到程序结束才销毁。</p>
+<p>一个未命名的命名空间可以在某个给定的文件内不连续，但是不能跨越多个文件夹。</p>
+<p>定义在未命名的命名空间中的名字可以直接使用，如果未命名的命名空间定义在文件的最外层作用域中，则该命名空间中的名字一定要与全局作用域中的名字有所区别：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i;</span><br><span class="line"><span class="keyword">namespace</span> &#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//二义性问题</span></span><br><span class="line">i = <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>在文件中进行静态声明的做法已经被C++标准取消了，现在的做法是使用未命名的命名空间。</p>
+</blockquote>
+<p><strong>使用命名空间成员</strong></p>
+<p>​    <strong>命名空间的别名</strong>使得我们可以为命名空间的名字设定一个短得多的同义词。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> primer = cpluscplus_primer;</span><br></pre></td></tr></table></figure>
+
+<p>​    命名空间的别名也可以指向一个嵌套的命名空间：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> Qlib = cpluscplus_primer::QueryLib;</span><br><span class="line">Qlib::Query q;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>一个命名空间可以有好几个同义词或别名，所有别名都与命名空间原来的名字等价。</p>
+</blockquote>
+<p><strong><code>using</code>声明</strong></p>
+<p>​    一条<code>using</code>声明语句一次只引入命名空间的一个成员。在此过程中，外层作用域的同名实体将被隐藏。</p>
+<p><strong><code>using</code>指令</strong></p>
+<p>​    <code>using</code>指令和<code>using</code>声明类似的地方是，我们可以通过使用命名空间名字的简写形式；和<code>using</code>声明不同的地方是，我们无法控制哪些名字是可见的，因此，所有名字都是可见的。</p>
+<p>​    <code>using</code>指令以关键字<code>using</code>开始，后面是关键字<code>namespace</code>以及命名空间的名字。</p>
+<p><strong><code>using</code>指令示例</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> blip&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">16</span>, j = <span class="number">15</span>, k = <span class="number">23</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> j = <span class="number">0</span>; <span class="comment">//正确：blip的j隐藏在命名空间中</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">mainp</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">using</span> <span class="keyword">namespace</span> blib; <span class="comment">// using 指令</span></span><br><span class="line">    ++i; </span><br><span class="line">    ++j; <span class="comment">//二义性错误</span></span><br><span class="line">    ++::j; <span class="comment">//正确，全局j</span></span><br><span class="line">    ++blip::j; <span class="comment">//正确</span></span><br><span class="line">    <span class="keyword">int</span> k = <span class="number">97</span>; <span class="comment">//隐藏了blip::k</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p><code>using</code>指令一次性注入了某个命名空间的所有名字，这种做法充满了风险，可能会导致命名空间的污染问题，也会引发二义性错误。</p>
+</blockquote>
+<p><strong>类、命名空间与作用域</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> A&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">int</span> k;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">C1</span>&#123;</span></span><br><span class="line">        <span class="keyword">public</span>:</span><br><span class="line">        	C1(): i(<span class="number">0</span>), j(<span class="number">0</span>) &#123; &#125;</span><br><span class="line">        	<span class="function"><span class="keyword">int</span> <span class="title">f1</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> k;&#125; </span><br><span class="line">        	<span class="function"><span class="keyword">int</span> <span class="title">f2</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> h;&#125; <span class="comment">//错误：h未定义</span></span><br><span class="line">        	<span class="function"><span class="keyword">int</span> <span class="title">f3</span><span class="params">()</span></span>;</span><br><span class="line">        <span class="keyword">private</span>:</span><br><span class="line">        	<span class="keyword">int</span> i;</span><br><span class="line">        	<span class="keyword">int</span> j;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">int</span> h = i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> A::C1::f3() &#123;<span class="keyword">return</span> h;&#125; <span class="comment">//正确，返回A::h</span></span><br></pre></td></tr></table></figure>
+
+<p>名字必须先声明后使用，因此<code>f2</code>的<code>return</code>语句无法通过编译。</p>
+<p><strong>友元声明与实参相关的查找</strong></p>
+<p>当类声明了一个友元时，该友元声明并没有使得友元本身可见。然而，一个另外的未声明的类或函数如果第一次出现在友元声明中，则我们认为它是最近的外层命名空间的成员。这条规则与实参相关的查找规则结合在一起将产生意想不到的效果。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> A&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">C</span>&#123;</span></span><br><span class="line">        <span class="comment">// 两个友元，在友元声明之前没有其他的声明</span></span><br><span class="line">        <span class="comment">// 这些函数隐式的成为命名空间A的成员</span></span><br><span class="line">        <span class="function"><span class="keyword">friend</span> <span class="keyword">void</span> <span class="title">f2</span><span class="params">()</span></span>; <span class="comment">//除非另有声明，否则不会被找到</span></span><br><span class="line">        <span class="function"><span class="keyword">friend</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> C&amp;)</span></span>; <span class="comment">//根据实参相关的查找规则可以被找到</span></span><br><span class="line">        </span><br><span class="line">    &#125;；</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    A::C cobj;</span><br><span class="line">    f(cobj); <span class="comment">//正确</span></span><br><span class="line">    f2(); <span class="comment">//错误</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因为<code>f</code>接受一个类类型的实参，而且<code>f</code>在<code>C</code>所属的命名空间进行了隐式的声明，所以<code>f</code>能被找到，相反，因为<code>f2</code>没有形参，所以它无法被找到。</p>
+<p><strong>重载与命名空间</strong></p>
+<p><strong>重载与using声明</strong></p>
+<p><code>using</code>声明语句声明的是一个名字，而不是一个特定的函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">using</span> <span class="title">NS::print</span><span class="params">(<span class="keyword">int</span>)</span></span>; <span class="comment">//错误：不能指定形参列表</span></span><br><span class="line"><span class="keyword">using</span> NS::print; <span class="comment">//正确：using声明只声明一个名字</span></span><br></pre></td></tr></table></figure>
+
+<p>当我们为函数书写<code>using</code>声明时，该函数的所有版本都被引入到当前作用域中。</p>
+<p><strong>重载与using指示</strong></p>
+<p><code>using</code>指示将命名空间的成员提升到外层作用域，如果命名空间的某个函数与该命名空间所属作用域的函数同名，则命名空间的函数将被添加到重载集合中：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> libs_R_us&#123;</span><br><span class="line">    <span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">extern</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">double</span>)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;)</span></span>;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> libs_R_us;</span><br><span class="line"><span class="comment">// print调用此时的候选函数有三个</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fooBar</span><span class="params">(<span class="keyword">int</span> ival)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    print(<span class="string">&quot;Value: &quot;</span>);  <span class="comment">//调用全局函数print(const string &amp;)</span></span><br><span class="line">    print(ival); <span class="comment">// 调用 libs_R_us::print(int)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于using指示来说，引入一个与已有函数形参列表完全一样的函数并不会产生错误。此时，只要我们指明调用的是命名空间中的函数版本还是当前作用域的版本即可。</p>
+<p><strong>跨越多个using指示的重载</strong></p>
+<p>如果存在多个<code>using</code>指示，则来自每个命名空间的名字都会成为候选函数集的一部分：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> AW&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">print</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">namespace</span> Primer&#123;</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">print</span><span class="params">(<span class="keyword">double</span>)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> AW;</span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> Primer;</span><br><span class="line"><span class="function"><span class="keyword">long</span> <span class="keyword">double</span> <span class="title">print</span><span class="params">(<span class="keyword">long</span> <span class="keyword">double</span>)</span></span>;</span><br><span class="line"><span class="comment">//此时的print有三个候选函数</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="18-3-多重继承与虚继承"><a href="#18-3-多重继承与虚继承" class="headerlink" title="18.3 多重继承与虚继承"></a>18.3 多重继承与虚继承</h4><p><strong>多重继承</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Panda</span> ： <span class="title">public</span> <span class="title">Bear</span>, <span class="title">public</span> <span class="title">Endangered</span> &#123;</span><span class="comment">/*...*/</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>派生类构造函数初始化所有基类</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20211208121223940.png" alt="image-20211208121223940"></p>
+<p>构造一个派生类的对象将同时构造并初始化它的所有基类子对象。多重继承的派生类的构造函数初始值也只能初始化它的直接基类：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Panda::Panda(<span class="built_in">std</span>::<span class="built_in">string</span> name, <span class="keyword">bool</span> onExhibit)</span><br><span class="line">    : Bear(name, onExitbit, <span class="string">&quot;Panda&quot;</span>),</span><br><span class="line">	  Endangered(Endangered::critical) &#123;&#125;</span><br><span class="line"></span><br><span class="line">Panda::Panda()</span><br><span class="line">    : Endangered(Endangered::critical) &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>继承的构造函数与多重继承</strong></p>
+<p>允许派生类从它的一个或几个基类中继承构造函数，但是如果从多个基类中继承了相同的构造函数（即形参列表完全相同），则程序将产生错误：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Base1</span>&#123;</span></span><br><span class="line">    Base1() = <span class="keyword">default</span>;</span><br><span class="line">    Base1(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp;);</span><br><span class="line">    Base1(<span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Base2</span>&#123;</span></span><br><span class="line">    Base2() = <span class="keyword">default</span>;</span><br><span class="line">    Base2(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp;);</span><br><span class="line">    Base2(<span class="keyword">int</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//错误：D1试图从两个基类中都继承 D1::D1(const string&amp;)</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D1</span>:</span> <span class="keyword">public</span> Base1, <span class="keyword">public</span> Base2&#123;</span><br><span class="line">    <span class="keyword">using</span> Base1::Base1;</span><br><span class="line">    <span class="keyword">using</span> Base2::Base2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果一个类从它的多个基类中继承了相同的构造函数，则这个类必须为该构造函数定义他自己的版本：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">D2</span>:</span> <span class="keyword">public</span> Base1, <span class="keyword">public</span> Base2&#123;</span><br><span class="line">    <span class="keyword">using</span> Base1::Base1;</span><br><span class="line">    <span class="keyword">using</span> Base2::Base2;</span><br><span class="line">    <span class="comment">// D2必须自定义一个接受string的构造函数</span></span><br><span class="line">    D2(<span class="keyword">const</span> <span class="built_in">string</span> &amp;s): Base1(s), Base2(s)&#123;&#125;</span><br><span class="line">    D2() = <span class="keyword">default</span>; <span class="comment">//一个D2定义了它自已的构造函数，则必须出现</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>析构函数与多重继承</strong></p>
+<p>​    和往常一样，派生类的析构函数只负责清楚派生类本身分配的资源，派生类的成员及基类都是自动销毁的。合成的析构函数体为空。</p>
+<p><strong>类型转换与多个基类</strong></p>
+<p>​    在只有一个基类的情况下，派生类的指针或引用能自动转换成一个可访问基类的指针或引用。例如，一个<code>ZooAnimal</code>、<code>Bear</code>或<code>Endangered</code>类型的指针或引用可以绑定到<code>Panda</code>对象上。</p>
+<p>​    编译器不会在派生类向基类的几种转换中进行比较和选择，因为它在看起来任意一种基类都一样好。例如，如果存在如下所示的<code>print</code>重载形式：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">const</span> Bear&amp;)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">const</span> Endangered&amp;)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>则通过<code>panda</code>对象对不带前缀限定符的<code>print</code>函数进行调用将产生编译错误：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Panda <span class="title">ying_yang</span><span class="params">(<span class="string">&quot;ying_yang&quot;</span>)</span></span>;</span><br><span class="line">print(ying_yang); <span class="comment">//二义性错误</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>基于指针类型或引用类型的查找</strong></p>
+<p>当我们通过<code>Endangered</code>的指针或引用访问一个<code>Panda</code>对象时，<code>Panda</code>接口中<code>Panda</code>特有的部分以及属于<code>Bear</code>的部分都是不可兼得：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Endangered *pe = <span class="keyword">new</span> Panda(<span class="string">&quot;ying_yang&quot;</span>);</span><br><span class="line">pe-&gt;print();</span><br><span class="line">pe-&gt;toes(); <span class="comment">//错误，不属于Endangered的接口</span></span><br><span class="line">pe-&gt;cuddle(); <span class="comment">//错误</span></span><br><span class="line">pe-&gt;highlight(); <span class="comment">//正确，Panda::highlight()</span></span><br><span class="line"><span class="keyword">delete</span> pe;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20211216223153582.png" alt="image-20211216223153582"></p>
+<p><strong>多重继承下的类作用域</strong></p>
+<p>对于一个派生类来说，从它的几个基类中分别继承名字相同的成员是完全合法的，只不过在使用这个名字时必须明确指出它的版本。</p>
+<p>例如，如果<code>ZooAnimal</code>和<code>Endangered</code>都定义了名为<code>max_weight</code>的成员，并且<code>Panda</code>没有定义该成员，则下面的调用是错误的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> d = ying_yang.max_weight();</span><br></pre></td></tr></table></figure>
+
+<p>要想避免潜在的二义性，最好的办法是在派生类中为该函数定义一个新版本。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Panda::max_weight</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">std</span>::max(ZooAnimal::max_weight(),</span><br><span class="line">                   Endangered::max_weight());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>虚继承</strong></p>
+<p>​    在C++语言中我们定义了虚继承，虚继承的目的是令某个类做出声明，承诺愿意共享它的基类。其中，共享的基类子对象成为虚基类。在这种机制下，无论虚基类在继承体系中出现了多少次，在派生类中都只包含唯一一个共享的虚基类子对象。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20211217112459267.png" alt="image-20211217112459267"></p>
+<blockquote>
+<p>虚派生只影响从指定了虚基类的派生类中进一步派生出的类，它不会影响派生类本身。</p>
+</blockquote>
+<p><strong>使用虚基类</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Raccon</span> :</span> <span class="keyword">public</span> <span class="keyword">virtual</span> ZooAnimal &#123;&#125;</span><br><span class="line"><span class="comment">// public 和 virtual 的顺序随意</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>virtual</code>说明符表明了一种愿望，即在后续的派生类当中共享基类的同一份实例，至于什么样的类能够作为虚基类并没有特殊规定。</p>
+<p><strong>虚基类成员的可见性</strong></p>
+<p>假定类<code>B</code>定义了一个名为<code>x</code>的成员，<code>D1</code>和<code>D2</code>都是从<code>B</code>虚继承得到的，<code>D</code>继承了<code>D1</code>和<code>D2</code>，则在<code>D</code>的作用域中，<code>x</code>通过<code>D</code>的两个基类都是可见的。如果我们通过<code>D</code>的对象使用<code>x</code>，有三种可能性：</p>
+<ul>
+<li>如果在<code>D1</code>和<code>D2</code>中都没有<code>x</code>的定义，此时不存在问题。</li>
+<li>如果<code>x</code>是<code>D1</code>或<code>D2</code>中的某一个成员，则同样不存在问题。</li>
+<li>如果在<code>D1</code>和<code>D2</code>中都有<code>x</code>的定义，则直接访问<code>x</code>将产生二义性问题。</li>
+</ul>
+<p>与非虚的多重继承体系一样，解决这种二义性问题最好的方法是在派生类中为成员自定义新的实例。</p>
+<p><strong>构造函数与虚继承</strong></p>
+<p>在虚派生中，虚基类是由最底层的派生类初始化的。例如，由<code>Panda</code>的构造函数独自控制<code>ZooAniaml</code>的初始化过程。</p>
+<p><strong>虚基类的对象的构造方式</strong></p>
+<p>创建一个<code>Panda</code>对象时：</p>
+<ul>
+<li>首先使用<code>Panda</code>的构造函数初始值列表中提供的初始值构造虚基类<code>ZooAnimal</code>部分。</li>
+<li>接下来构造<code>Bear</code>部分。</li>
+<li>然后构造<code>Raccoon</code>部分。</li>
+<li>然后构造第三个直接基类<code>Endangered</code>。</li>
+<li>最后构造<code>Panda</code>部分。</li>
+</ul>
+<blockquote>
+<p>虚基类总是先于非基类构造，与它们在继承体系中的次序和位置无关。</p>
+</blockquote>
+<h3 id="第19章-特殊工具与技术"><a href="#第19章-特殊工具与技术" class="headerlink" title="第19章 特殊工具与技术"></a>第19章 特殊工具与技术</h3><h4 id="19-1-控制内存分配"><a href="#19-1-控制内存分配" class="headerlink" title="19.1 控制内存分配"></a>19.1 控制内存分配</h4><p><strong>重载new和delete</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> *sp = <span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">&quot;a value&quot;</span>); </span><br><span class="line"><span class="built_in">string</span> *arr = <span class="keyword">new</span> <span class="built_in">string</span>[<span class="number">10</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">delete</span> sp;</span><br><span class="line"><span class="keyword">delete</span> [] arr;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当自定义了全局的<code>operator new</code>函数和<code>operator delete</code>函数后，我们就担负起了控制动态内存分配的职责。这两个函数必须是正确的；因为他们是程序整个处理过程中至关重要的一部分。</p>
+</blockquote>
+<p><strong><code>operator new</code>接口和<code>operator delete</code>接口</strong></p>
+<p>标准库定义了<code>operator new</code>函数和<code>operator delete</code>函数的8个重载版本。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这些版本可能抛出异常</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="keyword">operator</span> <span class="title">new</span><span class="params">(<span class="keyword">size_t</span>)</span></span>; <span class="comment">//分配一个对象</span></span><br><span class="line"><span class="keyword">void</span> *<span class="keyword">operator</span> <span class="keyword">new</span>[](<span class="keyword">size_t</span>);<span class="comment">//分配一个数组</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="keyword">operator</span> <span class="title">delete</span><span class="params">(<span class="keyword">void</span>*)</span> <span class="keyword">noexcept</span></span>; <span class="comment">//释放一个对象</span></span><br><span class="line"><span class="keyword">void</span> *<span class="keyword">operator</span> <span class="keyword">delete</span>[](<span class="keyword">void</span>*) <span class="keyword">noexcept</span>; <span class="comment">//释放一个数组</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//这些版本不会抛出异常</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="keyword">operator</span> <span class="title">new</span><span class="params">(<span class="keyword">size_t</span>, <span class="keyword">nothrow_t</span>&amp;)</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="keyword">void</span> *<span class="keyword">operator</span> <span class="keyword">new</span>[] (<span class="keyword">size_t</span>, <span class="keyword">nothrow_t</span>&amp;) <span class="keyword">noexcept</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="keyword">operator</span> <span class="title">delete</span><span class="params">(<span class="keyword">void</span>*, <span class="keyword">nothrow_t</span>&amp;)</span> <span class="keyword">noexcept</span></span>;</span><br><span class="line"><span class="keyword">void</span> *<span class="keyword">operator</span> <span class="keyword">delete</span>[](<span class="keyword">void</span>*, <span class="keyword">nothrow_t</span>&amp;) <span class="keyword">noexcept</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>程序可以自定义上面函数版本中的任意一个，前提是自定义的版本必须位于全局作用域或者类作用域中，当我们将上述运算符函数定义成类的成员时，它们是隐式静态的，我们无需显式地声明<code>static</code>，当然这么做也不会引发错误。</p>
+<p>尽管在一般情况下我们可以自定义具有任何形参的<code>operator new</code>，但是下面这个函数却无论如何不能被用户重载：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="keyword">operator</span> <span class="title">new</span><span class="params">(<span class="keyword">size_t</span>, <span class="keyword">void</span>*)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>当我们将<code>operator delete</code>或<code>operator delete[]</code>定义成类的成员时，该函数可以包含另一个类型为<code>size_t</code>的形参，此时，该形参的初始值是第一个形参所指向对象的字节数。</p>
+<blockquote>
+<p>这两个函数并没有重载<code>new</code>表达式或者<code>delete</code>表达式。事实上，我们根本无法自定义<code>new</code>表达式或者<code>delete</code>表达式的行为。</p>
+</blockquote>
+<p><strong>malloc函数和free函数</strong></p>
+<p>C++ 从 C语言中继承了这些函数，并且将其定义在<code>cstdlib</code>头文件中。</p>
+<p>如下是编写<code>operator new</code>和<code>delete</code>的一种简单方式。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> *<span class="keyword">operator</span> <span class="title">new</span><span class="params">(<span class="keyword">size_t</span> size)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">void</span> *mem = <span class="built_in">malloc</span>(size))</span><br><span class="line">        <span class="keyword">return</span> mem;</span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line">        <span class="keyword">throw</span> bad_alloc();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="keyword">operator</span> <span class="title">delete</span><span class="params">(<span class="keyword">void</span> *mem)</span> <span class="keyword">noexcept</span> </span>&#123;<span class="built_in">free</span>(mem);&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>显式的析构函数调用</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> *sp = <span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">&quot;a value&quot;</span>);</span><br><span class="line">sp-&gt;<span class="built_in">string</span>();</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>调用析构函数会销毁对象，但是不会释放内存。</p>
+</blockquote>
+<h4 id="19-2-运行时类型识别"><a href="#19-2-运行时类型识别" class="headerlink" title="19.2 运行时类型识别"></a>19.2 运行时类型识别</h4><p><strong>运行时类型识别（RTTI）</strong>的功能由两个运算符实现：</p>
+<p><code>typeid</code>运算符，用于返回表达式的类型。</p>
+<p><code>dynamic_cast</code>运算符，用于将基类的指针或引用安全地转换成派生类的指针或引用。</p>
+<p><strong>dynamic_cast运算符</strong></p>
+<p>dynamic_cast运算符的使用形式如下所示：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">dynamic_cast</span>&lt;type*&gt;(e);</span><br><span class="line"><span class="keyword">dynamic_cast</span>&lt;type&amp;&gt;(e);</span><br><span class="line"><span class="keyword">dynamic_cast</span>&lt;type&amp;&amp;&gt;(e);</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<p>其中，<code>type</code>必须是一个类类型，并且通常情况下该类型应该含有虚函数，在第一种形式中，<code>e</code>必须是一个有效的指针；在第二种形式中，<code>e</code>必须是一个左值；在第三种形式中，<code>e</code>不能是一个左值。</p>
+<p>在上面的所有形式中，必须符合三个条件中的任意一个：<code>e</code>的类型是目标<code>type</code>的公有派生类、<code>e</code>的类型是目标<code>type</code>的公有基类或者<code>e</code>的类型就是目标<code>type</code>的类型。如果符合，则类型转型可以成功。否则，转换失败。如果一条<code>dynamic_cast</code>语句的转型目标是指针类型并且失败了，则结果为0。如果转换目标是引用类型并且失败了，则<code>dynamic_cast</code>运算符将抛出一个<code>bad_cast</code>异常。</p>
+<p><strong>指针类型的dynamic_cast</strong></p>
+<p>举个简单的例子，假定<code>Base</code>类至少含有一个虚函数，<code>Derived</code>是<code>Base</code>的公有派生类。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(Derived *dp = <span class="keyword">dynamic_cast</span>&lt;Derived*&gt;(bp))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//使用dp指向的Derived对象</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="comment">//使用bp指向的Base对象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我们可以对一个空指针执行<code>dynamic_cast</code>，结果是所需类型的空指针。</p>
+</blockquote>
+<p>我们在条件部分定义了<code>dp</code>，这样做的好处是可以在一个操作中同时完成类型转换和条件检查两项任务。而且，指针<code>dp</code>在<code>if</code>语句外部都是不可访问的。一旦转换失败，即使后续的代码忘了做相应判断，也不会接触到这个未绑定的指针，从而确保程序是安全的。</p>
+<blockquote>
+<p>在条件部分执行<code>dynamic_cast</code>操作可以确保类型转换和结果检查在同一条表达式中完成。</p>
+</blockquote>
+<p><strong>引用类型的dynamic_cast</strong></p>
+<p>引用类型的<code>dynamic_cast</code>与指针类型的<code>dynamic_cast</code>在表示错误发生的方式上略有不同。因为不存在所谓的空引用，所以对于引用类型来说无法使用与指针完全相同的错误报告策略。当对引用的类型转换失败时，程序抛出一个名为<code>std::bad_cast</code>的异常，该异常定义在<code>typeinfo</code>标准库头文件中。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> Base &amp;b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        <span class="keyword">const</span> Derived &amp;d = <span class="keyword">dynamic_cast</span>&lt;<span class="keyword">const</span> Derived&amp;&gt;(b);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span>(bad_cast)&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>typeid 运算符</strong></p>
+<p><code>typeid</code>运算符允许程序向表达式提问：你的对象是什么类型。</p>
+<p><code>typeid</code>操作的结果是一个常量对象的引用，该对象的类型是标准库类型<code>type_info</code>或者<code>type_info</code>的公有派生类型。<code>type_info</code>类定义在<code>typeinfo</code>头文件中。</p>
+<p>​    如果表达式是一个引用，则<code>typeid</code>返回该引用所引对象的类型。不过当<code>typeid</code>作用于数组或者函数时，并不会执行向指针的标准库类型转换。也就是说，如果我们对数组<code>a</code>执行<code>typeid(a)</code>，则所得的结果是数组类型而非指针类型。</p>
+<p>​    当运算对象不属于类类型或者是一个不包含任何虚函数的类时，<code>typeid</code>运算符指示的是运算符对象的静态类型。而当运算符对象是定义了至少一个虚函数的类的左值时，<code>typeid</code>的结果直到运行时才会求得。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Derived *dp = <span class="keyword">new</span> Derived;</span><br><span class="line">Base *bp = dp;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">typeid</span>(*bp) == <span class="keyword">typeid</span>(*dp))&#123;</span><br><span class="line">	<span class="comment">// bp 和 dp指向同一类型的对象</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">typeid</span>(*bp) == <span class="keyword">typeid</span>(Derived))&#123;</span><br><span class="line">	<span class="comment">// bp 实际指向Derived对象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在第一个条件语句中，我们比较<code>bp</code>和<code>dp</code>所指的对象的动态类型是否相同。</p>
+<p>以上两个条件满足。</p>
+<p>注意，<code>typeid</code>应该作用于对象，因此我们使用<code>*bp</code>而非<code>bp</code>;</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">typeid</span>(bp) == <span class="keyword">typeid</span>(Derived))&#123;</span><br><span class="line">    <span class="comment">//此处代码永远不会被执行</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类型<code>Base*</code>将在编译时求值，虽然它与<code>Derived</code>不同，因为无论<code>bp</code>所指向的对象到底是什么类型，上面的条件都不会满足。</p>
+<blockquote>
+<p>当<code>typeid</code>作用于指针时(而非指针所指的对象)，返回的结果是该指针的静态编译时类型。</p>
+</blockquote>
+<p><strong>使用RTTI</strong></p>
+<p><code>RTTI</code>是<code>Runtime Type Information</code>的缩写，意思是运行时类型信息，它提供了运行时确定对象类型的方法。</p>
+<p>在某些情况下，<code>RTTI</code>非常有用，比如我们当我们想为具有继承关系的类实现相等运算符时。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Base</span>&#123;</span></span><br><span class="line">    <span class="keyword">friend</span> <span class="keyword">bool</span> <span class="keyword">operator</span>==(<span class="keyword">const</span> Base&amp;, <span class="keyword">const</span> Base&amp;);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//Base 的接口成员</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">bool</span> <span class="title">equal</span><span class="params">(<span class="keyword">const</span> Base&amp;)</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Derived</span>:</span> <span class="keyword">public</span> Base&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// Derived 的其他接口成员</span></span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">	<span class="function"><span class="keyword">bool</span> <span class="title">equal</span><span class="params">(<span class="keyword">const</span> Base&amp;)</span> <span class="keyword">const</span></span>; </span><br><span class="line">&#125;；</span><br></pre></td></tr></table></figure>
+
+<p>接下来定义整体的相等运算符：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">bool</span> <span class="keyword">operator</span>==(<span class="keyword">const</span> Base &amp;lhs, <span class="keyword">const</span> Base &amp;rhs)&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeid</span>(lhs) == <span class="keyword">typeid</span>(rhs) &amp;&amp; lhs.equal(rhs);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>虚equal函数</strong></p>
+<p>继承体系中的每个类必须定义自己的<code>equal</code>函数。派生类的所有函数要做的第一件事都是相同的，那就是将实参的类型转换为派生类类型：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Derived::equal</span><span class="params">(<span class="keyword">const</span> Base &amp;rhs)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> r = <span class="keyword">dynamic_cast</span>&lt;<span class="keyword">const</span> Derived&amp;&gt;(rhs);</span><br><span class="line">    <span class="comment">// 执行比较两个Derived对象的操作并返回结果</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>基类equal函数</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">Base::equal</span><span class="params">(<span class="keyword">const</span> Base &amp;rhs)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//执行比较Base对象的操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>type_info类</strong></p>
+<p><code>type_info</code>类的精确定义随着编译器的不同而略有差异。不过，C++标准规定了<code>type_info</code>类必须定义在<code>typeinfo</code>头文件中。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/image-20220110182823162.png" alt="image-20220110182823162"></p>
+<p><code>type_info</code>类没有默认构造函数，而且它的拷贝和移动构造函数以及赋值运算符都被定义成删除的。因此，我们无法定义或拷贝<code>type_info</code>类型的对象。</p>
+<h4 id="19-3-枚举类型"><a href="#19-3-枚举类型" class="headerlink" title="19.3 枚举类型"></a>19.3 枚举类型</h4><p><strong>枚举类型</strong>使我们可以将一组整型常量组织在一起。和类一样。每个枚举类型定义了一个新的类型。枚举属于字面值常量类型。</p>
+<p>C++包含两种枚举：限定作用域的和不限定作用域的。C++新标准引入了限定作用域的枚举类型。定义限定作用域的枚举类型的一般形式是：首先是关键字<code>enum class</code>（或者等价地使用<code>enum struct</code>），随后是枚举类型名字以及花括号括起来的以逗号分隔的<strong>枚举成员</strong>列表，最后是一个分号：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">enum</span> class <span class="title">open_modes</span><span class="params">(input, output, append)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>定义<strong>不限定作用域的枚举类型</strong>时省略掉关键字<code>class</code>，枚举类型的名字是可选的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">color</span>&#123;</span>red, yellow, green&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> &#123;</span>floatPrec = <span class="number">6</span>, doublePrec = <span class="number">10</span>, double_doublePrec = <span class="number">10</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>枚举成员</strong></p>
+<p>在限定作用域的枚举类型中，枚举成员的名字遵循常规的作用域准则，并且在枚举类型的作用域是不可访问的。与之相反，在不限定作用域的枚举类型中，枚举成员的作用域与枚举类型本身的作用域相同：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">color</span> &#123;</span>red, yellow, green&#125;;</span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">stoplight</span> &#123;</span>red, yellow, green&#125;; <span class="comment">//错误：重复定义了枚举成员</span></span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">peppers</span>&#123;</span>red, yellow, green&#125;; <span class="comment">//正确：枚举成员被隐藏了</span></span><br><span class="line">color eyes = green; <span class="comment">//正确</span></span><br><span class="line">peppers p = green; <span class="comment">//错误，peppers的枚举成员不在有效的作用域中</span></span><br><span class="line">color hair = color::red; <span class="comment">//正确</span></span><br><span class="line">peppers p2 = peppers::red; <span class="comment">//正确</span></span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，枚举值从0开始，依次加1。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">intTypes</span>&#123;</span></span><br><span class="line">    charTyp = <span class="number">8</span>, shortTyp = <span class="number">16</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>枚举成员是<code>const</code>，因此在初始化枚举成员时提供的初始值必须是常量表达式，也就是说，每个枚举成员本身就是一条常量表达式，我们可以在任何需要常量表达式的地方使用枚举成员，例如，我们可以定义枚举类型的<code>constexpr</code>变量。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">constexpr</span> intTypes charbits = intTypes::charType; </span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>和类一样，枚举也定义新的类型</strong></p>
+<p>​    只要<code>enum</code>有名字，我们就能定义并初始化该类型的成员，要想初始化<code>enum</code>对象或者为<code>enum</code>对象赋值，必须使用该类型的一个枚举成员或者该类型的另一个对象：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">open_modes om = <span class="number">2</span>; <span class="comment">//错误，2不属于类型</span></span><br><span class="line">om = open_modes::input; <span class="comment">//正确，input是open_modes的一个枚举成员</span></span><br></pre></td></tr></table></figure>
+
+<p>​    一个不限定作用域的枚举类型的对象或枚举成员自动地转换成整型。因此，我们可以在任何需要整形值的地方使用它们。</p>
+<p><strong>指定enum的大小</strong></p>
+<p>​    在新标准中，我们可以在enum的名字后加上冒号以及我们想在改<code>enum</code>中使用的类型：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">intValues</span>:</span><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>&#123;</span><br><span class="line">    charTyp = <span class="number">255</span>, shortTyp = <span class="number">65535</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>枚举类型前置声明</strong></p>
+<p>​    我们可以前置声明<code>enum</code>，<code>enum</code>前置声明必须指定其成员的大小。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="keyword">class</span> <span class="title">open_modes</span>;</span> <span class="comment">//限定作用域的枚举类型可以使用默认成员类型int</span></span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">intValues</span> :</span> <span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">long</span>; <span class="comment">//不限作用域的，必须指定成员类型</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="19-4-类成员指针"><a href="#19-4-类成员指针" class="headerlink" title="19.4 类成员指针"></a>19.4 类成员指针</h4><p><strong>成员指针</strong>指示的是类的成员，而非类的对象。类的静态成员不属于任何对象，因此无须特殊的指向静态成员的指针。</p>
+<p>当初始化化成员指针时，我们令其指向类的某个成员，但不是指定该成员所属的对象；直到使用成员指针时，才提供成员所属的对象。</p>
+<p><strong>数据成员指针</strong></p>
+<p>我们必须在*之前添加<code>classname::</code>以表示当前定义的指针可以指向<code>classname</code>的成员。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="built_in">string</span> Screen::*pdata;</span><br></pre></td></tr></table></figure>
+
+<p>上述语句将<code>pdata</code>声明成：一个指向<code>Screen</code>类的<code>const string</code>成员的指针。我们只能</p>
+<p>使用<code>pdata</code>读取它所指的成员，而不能向它写入内容。</p>
+<p>当我们初始化一个成员指针时，需要指定它所指的成员。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pdata = &amp;Screen::contents;</span><br></pre></td></tr></table></figure>
+
+<p>当然最简单的方式是使用<code>auto</code>或<code>decltype</code></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> pdata = &amp;Screen::contents;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>使用数据成员指针</strong></p>
+<p>当我们初始化一个成员指针或为成员指针赋值时，该指针并没有指向任何数据。成员指针指定了成员而非该成员所属的对象，只有当解引用成员指针时我们才提供对象的信息。</p>
+<p>与成员访问运算符<code>.</code>和<code>-&gt;</code>类似，也有两种成员指针访问运算符：<code>.*</code>和<code>-&gt;*</code>，这两个运算符使得我们可以解应用指针并获取该对象的成员：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Screen myScreen, *pScreen = &amp;myScreen;</span><br><span class="line"><span class="keyword">auto</span> s = myScreen.*pdata;</span><br><span class="line">s = pScreen-&gt;*pdata;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>返回数据成员指针的函数</strong></p>
+<p>常规的访问控制规则对成员指针同样有效。<code>Screen</code>的<code>contents</code>成员是私有的，因此之前对于<code>pdata</code>的使用必须位于<code>Screen</code>类的成员或友元内部，否则程序将发生错误。</p>
+<p>因为数据成员一般情况下是私有的，所以我们通常不能直接获得数据成员的指针。如果一个像<code>Screen</code>这样的类希望我们可以访问它的<code>contents</code>成员，最好定义一个函数，令其返回值是指向该成员的指针：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Screen</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//data是一个静态成员，返回一个成员指针</span></span><br><span class="line">    	<span class="keyword">static</span> <span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> Screen::*data()</span><br><span class="line">        &#123;<span class="keyword">return</span> &amp;Screen::contents;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>成员函数指针</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> pmf = &amp;Screen::get_cursor;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以声明一个指针，令其指向含有两个形参的<code>get</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> (Screen::*pmf2)(Screen::pos, Screen::pos) <span class="keyword">const</span>;</span><br><span class="line">pmf2 = &amp;Screen::get;</span><br></pre></td></tr></table></figure>
+
+<p>处于优先级的考虑，上述声明中<code>Screen::*</code>两端的括号必不可少。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> Screen::*p(Screen::pos, Screen::pos) <span class="keyword">const</span>;</span><br><span class="line"><span class="comment">//错误，非成员函数p不能使用const限定符</span></span><br><span class="line">pmf = &amp;Screen::get; <span class="comment">//必须显式地使用取地址运算符</span></span><br><span class="line">pmf = Screen::get; <span class="comment">//错误 </span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>使用成员函数指针</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Screen myScreen, *pScreen = &amp;myScreen;</span><br><span class="line"><span class="keyword">char</span> c1 = (pScreen-&gt;*pmf)();</span><br><span class="line"><span class="keyword">char</span> c2 = (pScreen-&gt;*pmf2)(<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line"><span class="comment">//</span></span><br></pre></td></tr></table></figure>
+
+<p>上面两个式子中的括号必不可少，如果去掉:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">myScreen.*pmf() <span class="comment">//其含义等同于</span></span><br><span class="line">myScreen.*(pmf())</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>因为函数调用的运算符优先级比较高，所以在声明指向成员函数的指针并使用这样的指针进行函数调用时，括号必不可少：<code>(C::*p)(parms)</code>和<code>(obj.*p)(args)</code></p>
+</blockquote>
+<p><strong>使用成员指针的类型别名</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Action 是一种可以指向Screen成员函数的指针，接受两个pos实参，返回一个char</span></span><br><span class="line"><span class="keyword">using</span> Action = </span><br><span class="line">    <span class="keyword">char</span> (Screen::*)(Screen::pos, Screen::pos) <span class="keyword">const</span>;</span><br></pre></td></tr></table></figure>
+
+<p>通过<code>Action</code>我们可以简化<code>get</code>的指针定义：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Action get = &amp;Screen::get;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以将指向成员函数的指针作为某个函数的返回类型或形参类型。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Screen&amp; <span class="title">action</span><span class="params">(Screen&amp;, Action = &amp;Screen::get)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>action</code>是包含两个形参的函数，其中一个形参是<code>Screen</code>对象的引用，另一个形参是指向<code>Screen</code>成员函数的指针。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Screen myScreen;<span class="comment">//等价的调用</span></span><br><span class="line">action(myScreen);</span><br><span class="line">action(myScreen, get);</span><br><span class="line">action(myScreen, &amp;Screen::get);<span class="comment">//显式传入地址</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>将成员函数用作可调用对象</strong></p>
+<p>与普通的函数指针不同，成员指针不是一个可调用对象，这样的指针不支持函数调用运算符。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> fp = &amp;<span class="built_in">string</span>::empty;</span><br><span class="line">find_if(svec.begin(), svec.end(), fp); <span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用function生成一个可调用对象</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">function&lt;<span class="keyword">bool</span> (<span class="keyword">const</span> <span class="built_in">string</span>&amp;)&gt; fcn = &amp;<span class="built_in">string</span>::empty;</span><br><span class="line">find_if(svec.begin(), svec.end(), fcn);</span><br></pre></td></tr></table></figure>
+
+<p>我们告诉<code>function</code>一个事实，即<code>empty</code>是一个接受<code>string</code>参数并返回<code>bool</code>值得函数。</p>
+<p><strong>使用<code>mem_fn</code>生成一个可调用对象</strong></p>
+<p>和<code>function</code>不同的是，<code>mem_fn</code>可以根据成员指针的类型推断可调用对象的类型，而无需用户显式地指定；</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find_if(svec.begin(), svec.end(), mem_fn(&amp;<span class="built_in">string</span>::empty));</span><br></pre></td></tr></table></figure>
+
+<p>我们使用<code>mem_fn(&amp;string::empty)</code>生成一个可调用对象，该对象接受一个<code>string</code>实参，返回一个<code>bool</code>值。</p>
+<p><code>mem_fn</code>生成的可调用对象可以通过对象调用，也可以通过指针调用：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> f = mem_fn(&amp;<span class="built_in">string</span>::empty);</span><br><span class="line">f(*svec.begin()); <span class="comment">//接受一个string对象，f使用.*调用empty</span></span><br><span class="line">f(&amp;svec[<span class="number">0</span>]); <span class="comment">//接受一个string指针，f使用-&gt;*调用empty</span></span><br></pre></td></tr></table></figure>
+
+<p>事实上，我们可以认为<code>mem_fn</code>生成的可调用对象含有一对重载的函数调用运算符：一个接受<code>string*</code>，另一个接受<code>string&amp;</code>。</p>
+<p><strong>使用bind生成一个可调用对象</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> it = find_if(svec.begin(), svec.end(), bind(&amp;<span class="built_in">string</span>::empty, _1));</span><br></pre></td></tr></table></figure>
+
+<p>和<code>mem_fn</code>类似的是，<code>bind</code>生成的可调用对象的第一个实参既可以是<code>string</code>的指针，也可以是<code>string</code>的引用。</p>
+<h4 id="19-5-嵌套类"><a href="#19-5-嵌套类" class="headerlink" title="19.5 嵌套类"></a>19.5 嵌套类</h4><p>一个类可以定义在另一个类的内部，前者称为<strong>嵌套类</strong>。</p>
+<p>嵌套类是一个独立的类，与外层类基本没什么关系。特别是，外层类的对象和嵌套类的对象是相互独立的。在嵌套类的对象中不包含任何外层类定义的成员；类似的，在外层类的对象中也不包含任何嵌套类定义的成员。</p>
+<p>外层类对嵌套类的成员没有特殊的访问权限，同样，嵌套类对外层类的成员也没有特殊的访问权限。</p>
+<p><strong>声明一个嵌套类</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TextQuery</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="class"><span class="keyword">class</span> <span class="title">QueryResult</span>;</span></span><br><span class="line">    <span class="comment">//嵌套类可以直接使用外层类的成员，无需对该成员的名字进行限定</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在嵌套类在其外层类之外完全真正的定义之前，它都是一个不完整类型。</p>
+</blockquote>
+<p><strong>定义嵌套类的成员</strong></p>
+<p>要想为其定义构造函数，必须指明<code>QueryResult</code>是嵌套在<code>TextQuery</code>的作用域之内的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">TextQuery::QueryResult::QueryResult(<span class="built_in">string</span> s,</span><br><span class="line">                                   <span class="built_in">shared_ptr</span>&lt;<span class="built_in">set</span>&lt;line_no&gt;&gt; p,</span><br><span class="line">                                   ....):</span><br><span class="line">	sought(s), lines(p), ....&#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>嵌套类和外层类是相互独立的</strong><br>尽管嵌套类定义在其外层类的作用域中，但是读者必须道记外层类的对象和嵌套类的对象没有任何关系。嵌套类的对象只包含嵌套类定义的成员；同样，外层类的对象只包含外层类定义的成员，在外层类对象中不会有任何嵌套类的成员。</p>
+<h4 id="19-6-union-一种节省空间的类"><a href="#19-6-union-一种节省空间的类" class="headerlink" title="19.6 union:一种节省空间的类"></a>19.6 <code>union:</code>一种节省空间的类</h4><p>​    联合 <code>union</code>是一种特殊的类。一个 <code>union</code>可以有多个数据成员，但是在任意时刻只有一个数据成员可以有值。当我们给 <code>union</code>的某个成员赋值之后，该 <code>union</code>的其他成员就变成末定义的状态了。分配给一个 <code>union</code>对象的存储空间至少要能容纳它的最大的数据成员。和其他类一样，一个 <code>union</code>定义了一种新类型。</p>
+<p>​    类的某些特性对<code>union</code>同样适用，但并非所有特性都如此。<code>union</code>不能含有引用类<br>型的成员，除此之外，它的成员可以是绝大多数类型。在C++11 新标准中，含有构造函数<br>或析构函数的类类型也可以作为<code> union</code> 的成员类型。<code>union </code>可以为其成员指定 <code>public</code>、<code>protected</code>和<code>private</code>等保护标记。默认情况下，<code>union</code>的成员都是公有的，这一点与<code>struct</code>相同。</p>
+<p>​    <code>union</code> 可以定义包括构造函数和析构函数在内的成员函数。但是由于 <code>union</code>既不能<br>继承自其他类，也不能作为基类使用，所以在 <code>union</code>中不能含有虛函数。</p>
+<p><strong>定义union</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">union</span> <span class="title">Token</span>&#123;</span></span><br><span class="line">    <span class="keyword">char</span> cval;</span><br><span class="line">    <span class="keyword">int</span>  ival;</span><br><span class="line">    <span class="keyword">double</span> dval;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>使用<code>union</code>类型</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Token first_token = &#123;<span class="string">&#x27;a&#x27;</span>&#125;;</span><br><span class="line">Token last_token; <span class="comment">// 未初始化</span></span><br><span class="line">Token *pt = <span class="keyword">new</span> Token; <span class="comment">//指向一个未初始化的Token对象</span></span><br></pre></td></tr></table></figure>
+
+<p>我们使用通用的成员访问运算符访问一个<code>union</code>对象的成员。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">last_token.cval = <span class="string">&#x27;z&#x27;</span>;</span><br><span class="line">pt-&gt;ival = <span class="number">42</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>匿名union</strong></p>
+<p>匿名<code>union</code>是一个未命名的<code>union</code>，并且在右花括号和分号之间没有任何声明。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> cval;</span><br><span class="line">    <span class="keyword">int</span>  ival;</span><br><span class="line">    <span class="keyword">double</span> dval;</span><br><span class="line">&#125;;</span><br><span class="line">ival = <span class="number">42</span>;</span><br></pre></td></tr></table></figure>
+
+<p>在匿名<code>union</code>的定义所在的作用域内该<code>union</code>的成员都是可以直接访问的。</p>
+<blockquote>
+<p>匿名<code>union</code>不能包含受保护的成员或私有成员，也不能定义成员函数。</p>
+</blockquote>
+<p><strong>使用类管理<code>union</code>成员</strong></p>
+<p>为了追踪<code>union</code>中到底存储了什么类型的值，我们通常会定义一个独立的对象，该对象称为<code>union</code>的判别式子。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Token</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        Token() : tok(INT), ival&#123;<span class="number">0</span>&#125; &#123;&#125;</span><br><span class="line">        Token (<span class="keyword">const</span> Token &amp;t) : tok(t.tok)	&#123;	copyUnion(t);	&#125;</span><br><span class="line">        Token &amp;<span class="keyword">operator</span>= (<span class="keyword">const</span> Token&amp;);</span><br><span class="line">        <span class="comment">//如果union 含有一个string成员，则我们必须销毁它，</span></span><br><span class="line">        ~Token() &#123;<span class="keyword">if</span> (tok == STR) sval.~<span class="built_in">string</span>(); &#125;</span><br><span class="line"></span><br><span class="line">        Token <span class="keyword">operator</span>=(<span class="keyword">const</span> <span class="built_in">std</span>: :<span class="built_in">string</span>&amp;);</span><br><span class="line">        Token <span class="keyword">operator</span>=(<span class="keyword">char</span>);</span><br><span class="line">        Token <span class="keyword">operator</span>=(<span class="keyword">int</span>);</span><br><span class="line">        Token <span class="keyword">operator</span>=(<span class="keyword">double</span>);</span><br><span class="line">	<span class="keyword">private</span>:</span><br><span class="line">    <span class="class"><span class="keyword">enum</span> (<span class="title">INT</span>, <span class="title">CHAR</span>, <span class="title">DBL</span>, <span class="title">STR</span>) <span class="title">tok</span>;</span> <span class="comment">// 判别式</span></span><br><span class="line">	<span class="class"><span class="keyword">union</span> &#123;</span><span class="comment">// 匿名union</span></span><br><span class="line">    <span class="keyword">char</span> cval;</span><br><span class="line">    <span class="keyword">int</span> ival;</span><br><span class="line">    <span class="keyword">double</span> dual;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> sval;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">//每个Token对象含有一个该未命名inion 类型的未命名成员</span></span><br><span class="line">	<span class="comment">//检查判别式，然后的情拷贝 union 成员</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">copyUnion</span> <span class="params">(<span class="keyword">const</span> Tokens)</span> </span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>管理判别式并销毁string</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Token &amp;Token::<span class="keyword">operator</span>= (<span class="keyword">int</span> i)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (tok == STR) sval.~<span class="built_in">string</span>();</span><br><span class="line">    ival = i;</span><br><span class="line">    tok = INT:</span><br><span class="line">    <span class="comment">//如果当前存儲的是string，择放它</span></span><br><span class="line">    <span class="comment">//为成员賦值</span></span><br><span class="line">    <span class="comment">//更新判别式</span></span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>double</code>和<code>int</code>版本赋值运算类似，<code>string</code>的有所差异。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Token &amp;Token::<span class="keyword">operator</span>= (<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> &amp;s)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (tok == STR) sval = s;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">new</span>(&amp;sval) <span class="built_in">string</span>(s);<span class="comment">//先构造一个string</span></span><br><span class="line">    tok = STR:</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>管理需要拷贝控制的联合成员</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Token::copyUnion</span><span class="params">(<span class="keyword">const</span> Token &amp;t)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">switch</span>(t.tok)&#123;</span><br><span class="line">        <span class="keyword">case</span> Token::INT: ival = t.ival; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> Token::CHAR: ival = t.cval; <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> Token::STR: <span class="keyword">new</span>(&amp;sval) <span class="built_in">string</span>(t.sval); <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="19-7-局部类"><a href="#19-7-局部类" class="headerlink" title="19.7 局部类"></a>19.7 局部类</h4><p>类可以定义在某个函数的内部，我们称为这样的类为局部类，局部类型定义的类型只在定义它的作用域内可见，和嵌套类不同，局部类的成员受到严格限制。</p>
+<blockquote>
+<p>局部类的所有成员（包括函数在内）都必须完整定义在类的内部。</p>
+</blockquote>
+<p>在局部类中也不允许声明静态数据成员。</p>
+<p><strong>局部类不能使用函数作用域中的变量</strong></p>
+<p>如果局部类定义在某个函数内部，则该函数的普通局部变量不能被该局部类使用：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a,val;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">int</span> val)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> si;</span><br><span class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">Loc</span>&#123;</span> a = <span class="number">1024</span>, b&#125;;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Bar</span>&#123;</span></span><br><span class="line">        Loc locVal;</span><br><span class="line">        <span class="keyword">int</span> barVal;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">fooBar</span><span class="params">(Loc l = a)</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            barVaL = val;	<span class="comment">//错误:val是foo的局部变量</span></span><br><span class="line">            varVal = ::val;</span><br><span class="line">            barVal = si;	<span class="comment">//正确：使用一个静态局部对象</span></span><br><span class="line">            locVal = b;		<span class="comment">//正确：使用一个枚举成员</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="19-8-固有的不可移植的特性"><a href="#19-8-固有的不可移植的特性" class="headerlink" title="19.8 固有的不可移植的特性"></a>19.8 固有的不可移植的特性</h4><p><strong>位域</strong></p>
+<p>​    类可以将其（非静态）数据成员定义成位域，在一个位域中含有一个数量的二进制位。</p>
+<blockquote>
+<p>位域在内存中的布局是与机器相关的。</p>
+</blockquote>
+<p>​    位域的类型必须是整型或枚举类型，位域的声明形式是在成员名字之后紧跟一个冒号以及一个常量表达式，该表达式用于指定成员所占的二进制位数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> Bit;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">File</span>&#123;</span></span><br><span class="line">	Bit mode: <span class="number">2</span>; <span class="comment">//mode占2位</span></span><br><span class="line">    Bit modified: <span class="number">1</span>; <span class="comment">//modified占1位</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="class"><span class="keyword">enum</span> <span class="title">modes</span>&#123;</span> READ = <span class="number">01</span>, WRITE = <span class="number">02</span>&#125;;</span><br><span class="line">    <span class="function">File &amp;<span class="title">open</span><span class="params">(modes)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">write</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isRead</span><span class="params">()</span> <span class="keyword">const</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">setWrite</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>​    取地址运算符<code>（&amp;）</code>不能作用域位域，因此任何指针都无法指向类的位域。</p>
+<blockquote>
+<p>通常情况下最好将位域设为无符号类型，存储在带符号类型中的位域的行为因具体实现而定。</p>
+</blockquote>
+<p><strong>使用位域</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">File::write</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    modified = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">File::close</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(modified)</span><br><span class="line">        <span class="comment">// ..... 保存内容</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通常使用内置的位运算符操作操过1位的位域：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">File &amp;<span class="title">File::open</span><span class="params">(File::modes m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    mode |= READ;</span><br><span class="line">    <span class="keyword">if</span>(m &amp; WRITE)</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果一个类定义了位域成员，则它通常也会定义一组内联的成员函数以检验或设置位域的值：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">File::isRead</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123; <span class="keyword">return</span> mode &amp; READ; &#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">FIle::setWrite</span><span class="params">()</span> </span>&#123; mode |= WRITE; &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>volatile限定符</strong></p>
+<blockquote>
+<p><code>volatile</code>的确切含义与机器有关，只能通过阅读编译器文档来理解，要想让使用了<code>volatile</code>的程序在移植到新编译器后仍然有效，通常需要对该程序进行某些改变。</p>
+</blockquote>
+<p>​    直接处理硬件的程序常常包含这样的数据元素，它们的值由程序直接控制之外的过程控制。例如，程序可能包含一个由系统时钟定时更新的变量。当对象的值可能在程序的控<br>制或检测之外被改变时，应该将该对象声明为<code>volatile</code>。关键字<code>volatile</code>告诉编译<br>器不应对这样的对象进行优化。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">volatile</span> <span class="keyword">int</span> display_register; <span class="comment">//该int值可能发生改变</span></span><br><span class="line"><span class="keyword">volatile</span> Task *curr_task; <span class="comment">//curr_tast 指向一个volatile对象</span></span><br><span class="line"><span class="keyword">volatile</span> <span class="keyword">int</span> * <span class="keyword">volatile</span> vivp; <span class="comment">//vivp 是一个`volatile`指针，指向一个volatile int</span></span><br></pre></td></tr></table></figure>
+
+<p>​        某种类型可能既是<code>const</code>的也是<code>volatile</code>的，因此它同时具有二者的属性。</p>
+<p><strong>合成拷贝对<code>volatile</code>对象无效</strong></p>
+<p>​        <code>const</code>和<code>volatile</code>的一个重要区别是我们不能使用合成的拷贝、移动构造函数及赋值运算符初始化<code>volatile</code>对象或从<code>volatile</code>对象赋值。</p>
+<p><strong>链接指示：extern “C”</strong></p>
+<p>C++ 使用<strong>链接指示</strong>指出任意非C++函数所用的语言。</p>
+<p><strong>声明一个非C++的函数</strong></p>
+<p>​        链接指示可以有两种形式：单个的或复合的。链接指示不能出现在类定义或函数定义的内部，同样的链接指示必须在函数的每个声明中都出现。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> “C” <span class="function"><span class="keyword">size_t</span> <span class="title">strlen</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *)</span></span>; <span class="comment">//单句链接提示</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 复合语句链接提示</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">strcmp</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>*, <span class="keyword">const</span> <span class="keyword">char</span>* )</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">char</span> *<span class="title">strcat</span><span class="params">(<span class="keyword">char</span>*, <span class="keyword">const</span> <span class="keyword">char</span>* )</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>指向 <code>extern &quot;C&quot;</code>函数的指针</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> <span class="keyword">void</span> (*pf)(<span class="keyword">int</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>指向C函数的指针与指向C++函数的指针是不一样的类型。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (*pf1)(<span class="keyword">int</span>);</span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> <span class="keyword">void</span> (*pf2)(<span class="keyword">int</span>);</span><br><span class="line">pf1 = pf2; <span class="comment">//错误，pf1和pf2是不同类型</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>导出C++函数到其他语言</strong></p>
+<p>​        值得注意的是，可被多种语言共享的函数的返回类型或形参类型受到很多限制。例如，我们不太可能把一个C++类的对象传给 C 程序，因为C程序根本无法理解构造函数、析构函数以及其他类特有的操作。</p>
+<blockquote>
+<p><strong>对链接到c的预处理器的支持</strong><br>        有时需要在C和C++中编译同一个源文件，为了实现这一目的，在编译C++版本的程序时预处理器定义cplusp1us（两个下画线）。利用这个变量，我们可以在编译C++程序的时候有条件地包含进来一些代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> __cplusplus</span></span><br><span class="line"><span class="comment">//正确：我们正在编译C++程序</span></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">stremp</span> <span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>*, <span class="keyword">const</span> <span class="keyword">char</span>*)</span></span>;</span><br></pre></td></tr></table></figure>
+</blockquote>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2021/09/17/C++Primer%20%EF%BC%88%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86%EF%BC%89/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-primer/" rel="tag">C++primer</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/2021/09/17/C++Primer%EF%BC%88%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%89/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            C++ primer 第一部分（C++基础）
+          
+        </div>
+      </a>
+    
+    
+  </nav>
+
+   
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2015-2022
+        <i class="ri-heart-fill heart_icon"></i> xuexue
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/head.svg" alt="你又来看我了？"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201025110458.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201025110312.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+<script src="/js/dz.js"></script>
+
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=27937279&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>

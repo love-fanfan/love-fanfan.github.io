@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>你又来看我了？</title>
+  
+  
+  <link href="http://example.com/atom.xml" rel="self"/>
+  
+  <link href="http://example.com/"/>
+  <updated>2020-11-25T10:22:52.000Z</updated>
+  <id>http://example.com/</id>
+  
+  <author>
+    <name>xuexue</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>vs studio调用mkl库</title>
+    <link href="http://example.com/2021/09/17/mkl/"/>
+    <id>http://example.com/2021/09/17/mkl/</id>
+    <published>2021-09-17T03:45:17.051Z</published>
+    <updated>2020-11-25T10:22:52.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;最近做的项目需要在Windows环境下使用MKL库，兜兜转转好几天，终于把库的调用弄好了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201125180123.jpg&quot; alt=&quot;1&quot;&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="杂项" scheme="http://example.com/categories/%E6%9D%82%E9%A1%B9/"/>
+    
+    
+    <category term="C++" scheme="http://example.com/tags/C/"/>
+    
+    <category term="MKL" scheme="http://example.com/tags/MKL/"/>
+    
+    <category term="vs_studio" scheme="http://example.com/tags/vs-studio/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://example.com/2021/09/17/hello-world/"/>
+    <id>http://example.com/2021/09/17/hello-world/</id>
+    <published>2021-09-17T03:45:17.044Z</published>
+    <updated>2020-10-26T02:39:48.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="demo" scheme="http://example.com/categories/demo/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>C++ primer 第二部分(C++基础)</title>
+    <link href="http://example.com/2021/09/17/C++Primer%EF%BC%88%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%89/"/>
+    <id>http://example.com/2021/09/17/C++Primer%EF%BC%88%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%89/</id>
+    <published>2021-09-17T03:45:17.036Z</published>
+    <updated>2021-11-17T08:26:25.165Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;终于看完了第一部分，今天开始第二部分的学习&lt;/p&gt;
+&lt;p&gt;​                                                                        2020.10.26&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201026104715.jpg&quot; alt=&quot;v2_c2bc308ed73d97e1c27b8be03d73781c_r&quot;&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="学习" scheme="http://example.com/categories/%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="C++" scheme="http://example.com/tags/C/"/>
+    
+    <category term="C++primer" scheme="http://example.com/tags/C-primer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C++ primer 第三部分 (C++基础)</title>
+    <link href="http://example.com/2021/09/17/C++Primer%EF%BC%88%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%EF%BC%89/"/>
+    <id>http://example.com/2021/09/17/C++Primer%EF%BC%88%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%EF%BC%89/</id>
+    <published>2021-09-17T03:45:17.027Z</published>
+    <updated>2021-09-07T14:37:10.000Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;第三部分，开始！！！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20210327161629.jpg&quot; alt=&quot;wallhaven_mdj218&quot;&gt;&lt;/p&gt;
+&lt;p&gt;​    2021.3.27&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="学习" scheme="http://example.com/categories/%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="C++" scheme="http://example.com/tags/C/"/>
+    
+    <category term="C++primer" scheme="http://example.com/tags/C-primer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C++ primer 第一部分（C++基础）</title>
+    <link href="http://example.com/2021/09/17/C++Primer%EF%BC%88%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%89/"/>
+    <id>http://example.com/2021/09/17/C++Primer%EF%BC%88%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%89/</id>
+    <published>2021-09-17T03:45:17.012Z</published>
+    <updated>2021-09-22T12:15:32.357Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;这份笔记陆陆续续写了好几年，这段时间重新开始，愿未来可期，不负韶华。&lt;/p&gt;
+&lt;p&gt;​                                                                                                    2020.10.26&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201026105326.jpg&quot; alt=&quot;1&quot;&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="学习" scheme="http://example.com/categories/%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="C++" scheme="http://example.com/tags/C/"/>
+    
+    <category term="C++primer" scheme="http://example.com/tags/C-primer/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>C++ primer 第四部分 (C++基础)</title>
+    <link href="http://example.com/2021/09/17/C++Primer%20%EF%BC%88%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86%EF%BC%89/"/>
+    <id>http://example.com/2021/09/17/C++Primer%20%EF%BC%88%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86%EF%BC%89/</id>
+    <published>2021-09-17T03:45:17.001Z</published>
+    <updated>2022-04-20T01:45:51.134Z</updated>
+    
+    
+    <summary type="html">&lt;p&gt;这两年真的发生太多事，尤其是昨天晚上，精准破防。但现在人还是懵逼的，好好学习吧，放下七情六欲。&lt;/p&gt;
+&lt;p&gt;2021年9月8日07:54:33&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/love-fanfan/cloudimg/img/511221.jpg&quot; alt=&quot;511221&quot;&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="学习" scheme="http://example.com/categories/%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="C++" scheme="http://example.com/tags/C/"/>
+    
+    <category term="C++primer" scheme="http://example.com/tags/C-primer/"/>
+    
+  </entry>
+  
+</feed>

@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2020-11-25T10:22:52.000Z</updated>
+  <updated>2022-07-31T09:22:59.226Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>EffectiveC++中文版</title>
+    <link href="http://example.com/2022/07/31/EffectiveC++%E4%B8%AD%E6%96%87%E7%89%88/"/>
+    <id>http://example.com/2022/07/31/EffectiveC++%E4%B8%AD%E6%96%87%E7%89%88/</id>
+    <published>2022-07-31T09:21:53.002Z</published>
+    <updated>2022-07-31T09:22:59.226Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;导读&quot;&gt;&lt;a href=&quot;#导读&quot; class=&quot;headerlink&quot; title=&quot;导读&quot;&gt;&lt;/a&gt;导读&lt;/h2&gt;&lt;h3 id=&quot;术语&quot;&gt;&lt;a href=&quot;#术语&quot; class=&quot;headerlink&quot; title=&quot;术语&quot;&gt;&lt;/a&gt;术语&lt;/h3&gt;&lt;h4</summary>
+        
+      
+    
+    
+    
+    <category term="学习" scheme="http://example.com/categories/%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="C++" scheme="http://example.com/tags/C/"/>
+    
+    <category term="EffectiveC++" scheme="http://example.com/tags/EffectiveC/"/>
+    
+  </entry>
   
   <entry>
     <title>vs studio调用mkl库</title>

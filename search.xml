@@ -3822,6 +3822,17 @@
 
 
 
+<h3 id="条款03-尽可能使用const"><a href="#条款03-尽可能使用const" class="headerlink" title="条款03 尽可能使用const"></a>条款03 尽可能使用<code>const</code></h3><p><code>const</code>语法虽然变化多端， 但并不高深莫测。如果关键字<code>const</code>出现在星号左边，表示被指物是常量。如果出现在右端，表示指针自身是常量，如果出现在星号两端，表示被指物和指针两者都是常量。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* p = greeting; <span class="comment">//数据是const</span></span><br><span class="line"><span class="keyword">char</span>* <span class="keyword">const</span> p = greeting; <span class="comment">// 指针是const</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* <span class="keyword">const</span> p = greeting; <span class="comment">// 数据、指针都是const</span></span><br></pre></td></tr></table></figure>
+
+<p>下面的两种写法的意义相同：</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">const</span> Widget* pw)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f2</span><span class="params">(Widget <span class="keyword">const</span>* pw)</span></span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>​    如果你希望<code>STL</code>模拟一个<code>const T*</code>指针，你需要<code>const_iterator</code>。</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>学习</category>

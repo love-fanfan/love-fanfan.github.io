@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-07-31T09:51:50.664Z</updated>
+  <updated>2022-08-03T03:57:01.056Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>EffectiveC++中文版</title>
+    <title></title>
     <link href="http://example.com/2022/07/31/EffectiveC++%E4%B8%AD%E6%96%87%E7%89%88/"/>
     <id>http://example.com/2022/07/31/EffectiveC++%E4%B8%AD%E6%96%87%E7%89%88/</id>
     <published>2022-07-31T09:21:53.002Z</published>
-    <updated>2022-07-31T09:51:50.664Z</updated>
+    <updated>2022-08-03T03:57:01.056Z</updated>
     
     
       
@@ -34,12 +34,6 @@
     
     
     
-    <category term="学习" scheme="http://example.com/categories/%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-    <category term="C++" scheme="http://example.com/tags/C/"/>
-    
-    <category term="EffectiveC++" scheme="http://example.com/tags/EffectiveC/"/>
     
   </entry>
   

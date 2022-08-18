@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-Hans">
+
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    C++ STL研究（queue set map等） |  
+  </title>
+  <meta name="generator" content="hexo-theme-ayer">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/dist/main.css">
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css">
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+  
+  
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+  
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="你又来看我了？" type="application/atom+xml">
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    
+      <canvas class="fireworks"></canvas>
+      <style>
+        .fireworks {
+          position: fixed;
+          left: 0;
+          top: 0;
+          z-index: 99999;
+          pointer-events: none;
+        }
+      </style>
+      
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-queue"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  C++ STL研究（queue set map等）
+</h1>
+ 
+
+    </header>
+     
+    <div class="article-meta">
+      <a href="/2022/08/18/queue/" class="article-date">
+  <time datetime="2022-08-18T14:02:18.552Z" itemprop="datePublished">2022-08-18</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9D%82%E9%A1%B9/">杂项</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> Word count:</span>
+            <span class="post-count">4k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> Reading time≈</span>
+            <span class="post-count">15 min</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <p>这几天刷题碰到很多和队列相关的问题，特此记录一下。</p>
+<a id="more"></a>
+
+<h2 id="lt-queue-gt"><a href="#lt-queue-gt" class="headerlink" title="&lt;queue&gt;"></a><code>&lt;queue&gt;</code></h2><p>具体内容可以参考<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/queue-class?view=msvc-170">queue类</a>，在这里按照我的理解介绍一下：</p>
+<p><strong>标头：</strong><queue> 中定义了模块<code>priority_queue</code>和<code>queue</code>以及多个支持模板。</p>
+<p><strong>运算符</strong><code>operator!=</code></p>
+<p>测试运算符左侧和右侧的 queue 对象是否不相等。</p>
+<h3 id="queue"><a href="#queue" class="headerlink" title="queue"></a><code>queue</code></h3><p>其中<code>queue</code>是我们最经常用的队列（严格先进先出，元素在队列尾追加，而从队列头删除。）。成员函数如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/queue-class?view=msvc-170#back"><code>back</code></a></td>
+<td align="left">返回对在 <code>queue</code> 后部最近添加的最后一个元素的引用。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/queue-class?view=msvc-170#empty"><code>empty</code></a></td>
+<td align="left">测试 <code>queue</code> 是否为空。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/queue-class?view=msvc-170#front"><code>front</code></a></td>
+<td align="left">返回对 <code>queue</code> 前部的第一个元素的引用。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/queue-class?view=msvc-170#pop"><code>pop</code></a></td>
+<td align="left">从 <code>queue</code> 前端移除一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/queue-class?view=msvc-170#push"><code>push</code></a></td>
+<td align="left">将元素添加到 <code>queue</code> 的后部。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/queue-class?view=msvc-170#size"><code>size</code></a></td>
+<td align="left">返回 <code>queue</code> 中的元素数量。</td>
+</tr>
+</tbody></table>
+<h3 id="priority-queue"><a href="#priority-queue" class="headerlink" title="priority_queue"></a><code>priority_queue</code></h3><p>优先队列<code>priority_queue</code>具有队列的所有特性，包括队列的基本操作，只是在这基础上添加了内部的一个排序，它本质是一个堆实现的。</p>
+<table>
+<thead>
+<tr>
+<th align="left">成员函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/priority-queue-class?view=msvc-170#empty"><code>empty</code></a></td>
+<td align="left">测试 <code>priority_queue</code> 是否为空。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/priority-queue-class?view=msvc-170#pop"><code>pop</code></a></td>
+<td align="left">从顶部位置移除 <code>priority_queue</code> 的最大元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/priority-queue-class?view=msvc-170#push"><code>push</code></a></td>
+<td align="left">基于来自 <code>operator&lt;</code> 的元素的优先级将元素添加到优先级队列。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/priority-queue-class?view=msvc-170#size"><code>size</code></a></td>
+<td align="left">返回 <code>priority_queue</code> 中的元素数量。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/priority-queue-class?view=msvc-170#top"><code>top</code></a></td>
+<td align="left">返回对 <code>priority_queue</code> 顶部的最大元素的常量引用。</td>
+</tr>
+</tbody></table>
+<p>两个例子：</p>
+<p><strong>基本类型优先队列的例子：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//对于基础类型 默认是大顶堆</span></span><br><span class="line">    <span class="built_in">priority_queue</span>&lt;<span class="keyword">int</span>&gt; a;</span><br><span class="line">    <span class="comment">//等同于 priority_queue&lt;int, vector&lt;int&gt;, less&lt;int&gt; &gt; a;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//      这里一定要有空格，不然成了右移运算符↓↓</span></span><br><span class="line">    <span class="built_in">priority_queue</span>&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;, greater&lt;<span class="keyword">int</span>&gt; &gt; c;  <span class="comment">//这样就是小顶堆</span></span><br><span class="line">    <span class="built_in">priority_queue</span>&lt;<span class="built_in">string</span>&gt; b;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        a.push(i);</span><br><span class="line">        c.push(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span> (!a.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; a.top() &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        a.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!c.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; c.top() &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        c.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    b.push(<span class="string">&quot;abc&quot;</span>);</span><br><span class="line">    b.push(<span class="string">&quot;abcd&quot;</span>);</span><br><span class="line">    b.push(<span class="string">&quot;cbd&quot;</span>);</span><br><span class="line">    <span class="keyword">while</span> (!b.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; b.top() &lt;&lt; <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">        b.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* output</span></span><br><span class="line"><span class="comment">4 3 2 1 0</span></span><br><span class="line"><span class="comment">0 1 2 3 4</span></span><br><span class="line"><span class="comment">cbd abcd abc</span></span><br><span class="line"><span class="comment">请按任意键继续. . */</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>用pair做优先队列元素的例子：</strong></p>
+<p>规则：pair的比较，先比较第一个元素，第一个相等比较第二个。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">priority_queue</span>&lt;<span class="built_in">pair</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; &gt; a;</span><br><span class="line">    pair&lt;int, int&gt; b(1, 2);</span><br><span class="line">    pair&lt;int, int&gt; c(1, 3);</span><br><span class="line">    pair&lt;int, int&gt; d(2, 5);</span><br><span class="line">    a.push(d);</span><br><span class="line">    a.push(c);</span><br><span class="line">    a.push(b);</span><br><span class="line">    <span class="keyword">while</span> (!a.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; a.top().first &lt;&lt; <span class="string">&#x27; &#x27;</span> &lt;&lt; a.top().second &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        a.pop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*ouput</span></span><br><span class="line"><span class="comment">2 5</span></span><br><span class="line"><span class="comment">1 3</span></span><br><span class="line"><span class="comment">1 2</span></span><br><span class="line"><span class="comment">请按任意键继续. . .</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>用自定义类型做优先队列元素的例子</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//方法1</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">tmp1</span> //运算符重载&lt;</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> x;</span><br><span class="line">    tmp1(<span class="keyword">int</span> a) &#123;x = a;&#125;</span><br><span class="line">    <span class="keyword">bool</span> <span class="keyword">operator</span>&lt;(<span class="keyword">const</span> tmp1&amp; a) <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> x &lt; a.x; <span class="comment">//大顶堆</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//方法2</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">tmp2</span> //重写仿函数</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">operator</span><span class="params">()</span> <span class="params">(tmp1 a, tmp1 b)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a.x &lt; b.x; <span class="comment">//大顶堆</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">tmp1 <span class="title">a</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line">    <span class="function">tmp1 <span class="title">b</span><span class="params">(<span class="number">2</span>)</span></span>;</span><br><span class="line">    <span class="function">tmp1 <span class="title">c</span><span class="params">(<span class="number">3</span>)</span></span>;</span><br><span class="line">    <span class="built_in">priority_queue</span>&lt;tmp1&gt; d;</span><br><span class="line">    d.push(b);</span><br><span class="line">    d.push(c);</span><br><span class="line">    d.push(a);</span><br><span class="line">    <span class="keyword">while</span> (!d.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; d.top().x &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        d.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">priority_queue</span>&lt;tmp1, <span class="built_in">vector</span>&lt;tmp1&gt;, tmp2&gt; f;</span><br><span class="line">    f.push(b);</span><br><span class="line">    f.push(c);</span><br><span class="line">    f.push(a);</span><br><span class="line">    <span class="keyword">while</span> (!f.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; f.top().x &lt;&lt; <span class="string">&#x27;\n&#x27;</span>;</span><br><span class="line">        f.pop();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*ouput</span></span><br><span class="line"><span class="comment">3</span></span><br><span class="line"><span class="comment">2</span></span><br><span class="line"><span class="comment">1</span></span><br><span class="line"><span class="comment"> </span></span><br><span class="line"><span class="comment">3</span></span><br><span class="line"><span class="comment">2</span></span><br><span class="line"><span class="comment">1</span></span><br><span class="line"><span class="comment">请按任意键继续. . .</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="lt-deque-gt"><a href="#lt-deque-gt" class="headerlink" title="&lt;deque&gt;"></a><code>&lt;deque&gt;</code></h2><h3 id="deque"><a href="#deque" class="headerlink" title="deque"></a><code>deque</code></h3><p><code>deque</code>容器为一个给定类型的元素进行线性处理，像向量一样，它能够快速地随机访问任一个元素，并且能够高效地插入和删除容器的尾部元素。但它又与<code>vector</code>不同，<code>deque</code>支持<strong>高效插入和删除容器的头部元素</strong>，因此也叫做双端队列。<code>deque</code>类常用的函数如下。</p>
+<p>我们可以将<code>deque</code>理解为双端队列，但实际操作与队列又有不同，它<strong>能够快速地随机访问任一个元素</strong>，这也就意味着它有<code>[]</code>运算符。而且<code>deque</code>的成员函数更多：</p>
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#assign"><code>assign</code></a></td>
+<td align="left">将元素从 <code>deque</code> 中清除并将新的元素序列复制到目标 <code>deque</code>。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#at"><code>at</code></a></td>
+<td align="left">返回对 <code>deque</code> 中指定位置的元素的引用。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#back"><code>back</code></a></td>
+<td align="left">返回对 <code>deque</code> 中最后一个元素的引用。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#begin"><code>begin</code></a></td>
+<td align="left">返回一个随机访问迭代器，用于寻址该 <code>deque</code>元素中的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#cbegin"><code>cbegin</code></a></td>
+<td align="left">将迭代器返回给 . 中的<code>deque</code>第一个<code>const</code>元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#cend"><code>cend</code></a></td>
+<td align="left">返回指向刚超出 <code>deque</code> 末尾位置的随机访问 <strong><code>const</code></strong> 迭代器。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#clear"><code>clear</code></a></td>
+<td align="left">清除 <code>deque</code> 的所有元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#crbegin"><code>crbegin</code></a></td>
+<td align="left">将随机访问 <code>const</code> 迭代器返回到按反向顺序查看的第一个 <code>deque</code> 元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#crend"><code>crend</code></a></td>
+<td align="left">将随机访问 <code>const</code> 迭代器返回到按反向顺序查看的第一个 <code>deque</code> 元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#emplace"><code>emplace</code></a></td>
+<td align="left">将就地构造的元素插入到指定位置的 <code>deque</code> 中。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#emplace_back"><code>emplace_back</code></a></td>
+<td align="left">将就地构造的元素添加到 <code>deque</code> 的末尾。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#emplace_front"><code>emplace_front</code></a></td>
+<td align="left">将就地构造的元素添加到 <code>deque</code> 的开头。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#empty"><code>empty</code></a></td>
+<td align="left">如果 <code>deque</code> 包含零个元素，则返回 **<code>true</code>**；如果它包含一个或多个元素，则返回 **<code>false</code>**。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#end"><code>end</code></a></td>
+<td align="left">返回指向刚超出 <code>deque</code> 末尾位置的随机访问迭代器。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#erase"><code>erase</code></a></td>
+<td align="left">从指定位置删除 <code>deque</code> 中一个或一系列元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#front"><code>front</code></a></td>
+<td align="left">返回对 <code>deque</code> 中第一个元素的引用。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#get_allocator"><code>get_allocator</code></a></td>
+<td align="left">返回用于构造 <code>allocator</code> 的 <code>deque</code> 对象的副本。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#insert"><code>insert</code></a></td>
+<td align="left">将一个、多个或一系列元素插入到指定位置的 <code>deque</code> 中。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#max_size"><code>max_size</code></a></td>
+<td align="left">返回 <code>deque</code> 的最大可取长度。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#pop_back"><code>pop_back</code></a></td>
+<td align="left">清除 <code>deque</code> 末尾处的元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#pop_front"><code>pop_front</code></a></td>
+<td align="left">清除 <code>deque</code> 开头处的元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#push_back"><code>push_back</code></a></td>
+<td align="left">将元素添加到 <code>deque</code> 的末尾。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#push_front"><code>push_front</code></a></td>
+<td align="left">将元素添加到 <code>deque</code> 的开头。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#rbegin"><code>rbegin</code></a></td>
+<td align="left">返回指向反向 <code>deque</code> 中的第一个元素的随机访问迭代器。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#rend"><code>rend</code></a></td>
+<td align="left">返回指向刚超出反向 <code>deque</code> 中的最后一个元素位置的随机访问迭代器。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#resize"><code>resize</code></a></td>
+<td align="left">为 <code>deque</code> 指定新的大小。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#shrink_to_fit"><code>shrink_to_fit</code></a></td>
+<td align="left">放弃额外容量。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#size"><code>size</code></a></td>
+<td align="left">返回 <code>deque</code> 中的元素数量。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/deque-class?view=msvc-170#swap"><code>swap</code></a></td>
+<td align="left">交换两个 <code>deque</code> 的元素。</td>
+</tr>
+</tbody></table>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h2 id="lt-set-gt"><a href="#lt-set-gt" class="headerlink" title="&lt;set&gt;"></a><code>&lt;set&gt;</code></h2><h3 id="set"><a href="#set" class="headerlink" title="set"></a><code>set</code></h3><p>C++ STL 之所以得到广泛的赞誉，也被很多人使用，不只是提供了像vector, string, list等方便的容器，更重要的是STL封装了许多复杂的数据结构算法和大量常用数据结构操作。vector封装数组，list封装了链表，map和set封装了二叉树等，在封装这些数据结构的时候，STL按照程序员的使用习惯，以成员函数方式提供的常用操作，如：插入、排序、删除、查找等。让用户在STL使用过程中，并不会感到陌生。</p>
+<p>关于set，必须说明的是set关联式容器。set作为一个容器也是用来存储同一数据类型的数据类型，并且能从一个数据集合中取出数据，在set中每个元素的值都唯一，而且系统能根据元素的值自动进行排序。应该注意的是set中数元素的值不能直接被改变。C++ STL中标准关联容器set, multiset, map, multimap内部采用的就是一种非常高效的平衡检索二叉树：红黑树，也成为RB树(Red-Black Tree)。RB树的统计性能要好于一般平衡二叉树，所以被STL选择作为了关联容器的内部结构。</p>
+<p> <strong>关于set有下面几个问题：</strong></p>
+<p><strong>（1）为何map和set的插入删除效率比用其他序列容器高？</strong></p>
+<p>大部分人说，很简单，因为对于关联容器来说，不需要做内存拷贝和内存移动。说对了，确实如此。set容器内所有元素都是以节点的方式来存储，其节点结构和链表差不多，指向父节点和子节点。结构图可能如下：</p>
+<p>　　A<br>　 / <br>　 B  C<br>　/ \ / <br> D  E F  G</p>
+<p>因此插入的时候只需要稍做变换，把节点的指针指向新的节点就可以了。删除的时候类似，稍做变换后把指向删除节点的指针指向其他节点也OK了。这里的一切操作就是指针换来换去，和内存移动没有关系。</p>
+<p><strong>（2）为何每次insert之后，以前保存的iterator不会失效？</strong></p>
+<p>iterator这里就相当于指向节点的指针，内存没有变，指向内存的指针怎么会失效呢(当然被删除的那个元素本身已经失效了)。相对于vector来说，每一次删除和插入，指针都有可能失效，调用push_back在尾部插入也是如此。因为为了保证内部数据的连续存放，iterator指向的那块内存在删除和插入过程中可能已经被其他内存覆盖或者内存已经被释放了。即使时push_back的时候，容器内部空间可能不够，需要一块新的更大的内存，只有把以前的内存释放，申请新的更大的内存，复制已有的数据元素到新的内存，最后把需要插入的元素放到最后，那么以前的内存指针自然就不可用了。特别时在和find等算法在一起使用的时候，牢记这个原则：不要使用过期的iterator。</p>
+<p><strong>（3）当数据元素增多时，set的插入和搜索速度变化如何？</strong></p>
+<p>如果你知道log2的关系你应该就彻底了解这个答案。在set中查找是使用二分查找，也就是说，如果有16个元素，最多需要比较4次就能找到结果，有32个元素，最多比较5次。那么有10000个呢？最多比较的次数为log10000，最多为14次，如果是20000个元素呢？最多不过15次。看见了吧，当数据量增大一倍的时候，搜索次数只不过多了1次，多了1/14的搜索时间而已。你明白这个道理后，就可以安心往里面放入元素了。</p>
+<p><strong>构造函数</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#begin"><code>begin</code></a></td>
+<td align="left">返回一个迭代器，此迭代器用于发现 <code>set</code> 中的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#cbegin"><code>cbegin</code></a></td>
+<td align="left">返回一个常量迭代器，此迭代器用于发现 <code>set</code> 中的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#cend"><code>cend</code></a></td>
+<td align="left">返回一个常量迭代器，此迭代器用于发现 <code>set</code> 中最后一个元素之后的位置。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#clear"><code>clear</code></a></td>
+<td align="left">清除 <code>set</code> 的所有元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#contains"><code>contains</code></a>C++20</td>
+<td align="left">检查是否存在具有指定键的 <code>set</code>元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#count"><code>count</code></a></td>
+<td align="left">返回 <code>set</code> 中其键与指定为参数的键匹配的元素数量。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#rbegin"><code>crbegin</code></a></td>
+<td align="left">返回一个常量迭代器，此迭代器用于发现反向 <code>set</code> 中的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#rend"><code>crend</code></a></td>
+<td align="left">返回一个常量迭代器，此迭代器用于发现反向 <code>set</code> 中最后一个元素之后的位置。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#emplace"><code>emplace</code></a></td>
+<td align="left">将就地构造的元素插入到 <code>set</code>。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#emplace_hint"><code>emplace_hint</code></a></td>
+<td align="left">将就地构造的元素插入到 <code>set</code>，附带位置提示。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#empty"><code>empty</code></a></td>
+<td align="left">测试 <code>set</code> 是否为空。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#end"><code>end</code></a></td>
+<td align="left">返回一个迭代器，此迭代器用于发现 <code>set</code> 中最后一个元素之后的位置。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#equal_range"><code>equal_range</code></a></td>
+<td align="left">返回一对迭代器，这两个迭代器分别用于发现 <code>set</code> 中其键大于指定键的第一个元素，以及 <code>set</code> 中其键等于或大于指定键的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#erase"><code>erase</code></a></td>
+<td align="left">从集中的指定位置移除一个元素或元素范围，或者移除与指定键匹配的元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#find"><code>find</code></a></td>
+<td align="left">返回一个迭代器，此迭代器用于发现 <code>set</code> 中其键与指定键等效的元素的位置。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#get_allocator"><code>get_allocator</code></a></td>
+<td align="left">返回用于构造 <code>allocator</code> 的 <code>set</code> 对象的副本。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#insert"><code>insert</code></a></td>
+<td align="left">将一个元素或元素范围插入到 <code>set</code>。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#key_comp"><code>key_comp</code></a></td>
+<td align="left">检索用于对 <code>set</code> 中的键进行排序的比较对象副本。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#lower_bound"><code>lower_bound</code></a></td>
+<td align="left">返回一个迭代器，此迭代器指向集中其键等于或大于指定键的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#max_size"><code>max_size</code></a></td>
+<td align="left">返回 <code>set</code> 的最大长度。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#rbegin"><code>rbegin</code></a></td>
+<td align="left">返回一个迭代器，此迭代器用于发现反向 <code>set</code> 中的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#rend"><code>rend</code></a></td>
+<td align="left">返回一个迭代器，此迭代器用于发现反向 <code>set</code> 中最后一个元素之后的位置。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#size"><code>size</code></a></td>
+<td align="left">返回 <code>set</code> 中的元素数量。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#swap"><code>swap</code></a></td>
+<td align="left">交换两个 <code>set</code> 的元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#upper_bound"><code>upper_bound</code></a></td>
+<td align="left">返回一个迭代器，此迭代器指向 <code>set</code> 中其键大于指定键的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#value_comp"><code>value_comp</code></a></td>
+<td align="left">检索用于对 <code>set</code> 中的元素值进行排序的比较对象副本。</td>
+</tr>
+</tbody></table>
+<p><strong>运算符</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/set-class?view=msvc-170#op_eq"><code>operator=</code></a></td>
+<td align="left">将一个集中的元素替换为另一个集的副本。</td>
+</tr>
+</tbody></table>
+<h3 id="multiset"><a href="#multiset" class="headerlink" title="multiset"></a><code>multiset</code></h3><p>  c++语言中，<code>multiset</code>是<code>&lt;set&gt;</code>库中一个非常有用的类型，它可以看成一个序列，插入一个数，删除一个数都能够在<code>O(logn)</code>的时间内完成，而且他能时刻保证序列中的数是有序的，而且序列中可以存在重复的数。</p>
+<p><strong>成员函数</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">成员函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#begin"><code>begin</code></a></td>
+<td align="left">返回一个迭代器，此迭代器指向 <code>multiset</code> 中的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#cbegin"><code>cbegin</code></a></td>
+<td align="left">返回一个常量迭代器，此迭代器用于发现 <code>multiset</code> 中的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#cend"><code>cend</code></a></td>
+<td align="left">返回一个常量迭代器，此迭代器用于发现 <code>multiset</code> 中最后一个元素之后的位置。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#clear"><code>clear</code></a></td>
+<td align="left">清除 <code>multiset</code> 的所有元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#contains"><code>contains</code></a>C++20</td>
+<td align="left">检查是否存在具有指定键的 <code>multiset</code>元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#count"><code>count</code></a></td>
+<td align="left">返回 <code>multiset</code> 中其键与指定为参数的键匹配的元素数量。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#crbegin"><code>crbegin</code></a></td>
+<td align="left">返回一个常量迭代器，此迭代器用于发现反向 <code>multiset</code> 中的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#crend"><code>crend</code></a></td>
+<td align="left">返回一个常量迭代器，此迭代器用于发现反向 <code>multiset</code> 中最后一个元素之后的位置。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#emplace"><code>emplace</code></a></td>
+<td align="left">将就地构造的元素插入到 <code>multiset</code>。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#emplace_hint"><code>emplace_hint</code></a></td>
+<td align="left">将就地构造的元素插入到 <code>multiset</code>，附带位置提示。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#empty"><code>empty</code></a></td>
+<td align="left">测试 <code>multiset</code> 是否为空。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#end"><code>end</code></a></td>
+<td align="left">返回一个迭代器，此迭代器指向 <code>multiset</code> 中最后一个元素之后的位置。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#equal_range"><code>equal_range</code></a></td>
+<td align="left">返回一对迭代器。 此迭代器对中的第一个迭代器指向 <code>multiset</code> 中其键大于指定键的第一个元素。 此迭代器对中的第二个迭代器指向 <code>multiset</code> 中其键等于或大于指定键的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#erase"><code>erase</code></a></td>
+<td align="left">从 <code>multiset</code> 中的指定位置移除一个元素或元素范围，或者移除与指定键匹配的元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#find"><code>find</code></a></td>
+<td align="left">返回一个迭代器，此迭代器指向 <code>multiset</code> 中其键与指定键相等的元素的第一个位置。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#get_allocator"><code>get_allocator</code></a></td>
+<td align="left">返回用于构造 <code>allocator</code> 的 <code>multiset</code> 对象的副本。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#insert"><code>insert</code></a></td>
+<td align="left">将一个元素或元素范围插入到 <code>multiset</code>。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#key_comp"><code>key_comp</code></a></td>
+<td align="left">提供一个函数对象，此函数对象可比较两个排序键以确定 <code>multiset</code> 中两个元素的相对顺序。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#lower_bound"><code>lower_bound</code></a></td>
+<td align="left">返回一个迭代器，此迭代器指向 <code>multiset</code> 中其键等于或大于指定键的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#max_size"><code>max_size</code></a></td>
+<td align="left">返回 <code>multiset</code> 的最大长度。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#rbegin"><code>rbegin</code></a></td>
+<td align="left">返回一个迭代器，此迭代器指向反向 <code>multiset</code> 中的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#rend"><code>rend</code></a></td>
+<td align="left">返回一个迭代器，此迭代器指向反向 <code>multiset</code> 中最后一个元素之后的位置。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#size"><code>size</code></a></td>
+<td align="left">返回 <code>multiset</code> 中的元素数量。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#swap"><code>swap</code></a></td>
+<td align="left">交换两个 <code>multiset</code> 的元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#upper_bound"><code>upper_bound</code></a></td>
+<td align="left">返回一个迭代器，此迭代器指向 <code>multiset</code> 中其键大于指定键的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#value_comp"><code>value_comp</code></a></td>
+<td align="left">检索用于对 <code>multiset</code> 中的元素值进行排序的比较对象副本。</td>
+</tr>
+</tbody></table>
+<p><strong>运算符</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">运算符</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/multiset-class?view=msvc-170#op_eq"><code>operator=</code></a></td>
+<td align="left">将一个 <code>multiset</code> 中的元素替换为另一 <code>multiset</code> 副本。</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>值得注意的是，由于<code>multiset</code>中有重复的元素。所以，删除的时候有两种方式，根据元素删除的话会将所以一样的元素都删除，根据迭代器的删除只删除迭代器指向的元素。</p>
+</blockquote>
+<h2 id="lt-map-gt"><a href="#lt-map-gt" class="headerlink" title="&lt;map&gt;"></a><code>&lt;map&gt;</code></h2><p><code>map</code>和<code>set</code>相似，具体内容可以查看<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/cpp/standard-library/map-class?view=msvc-170"><code>map</code></a></p>
+ 
+      <!-- reward -->
+      
+      <div id="reword-out">
+        <div id="reward-btn">
+          Donate
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <div class="declare">
+      <ul class="post-copyright">
+        <li>
+          <i class="ri-copyright-line"></i>
+          <strong>Copyright： </strong>
+          
+          Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.
+          
+        </li>
+      </ul>
+    </div>
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://example.com/2022/08/18/queue/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/" rel="tag">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%98%9F%E5%88%97/" rel="tag">队列</a></li></ul>
+
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+    
+      <a href="/2022/07/31/EffectiveC++%E4%B8%AD%E6%96%87%E7%89%88/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title"></div>
+      </a>
+    
+  </nav>
+
+   
+ 
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2015-2022
+        <i class="ri-heart-fill heart_icon"></i> xuexue
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        
+        Powered by <a href="https://hexo.io" target="_blank">Hexo</a>
+        <span class="division">|</span>
+        Theme - <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+        
+        <span>
+  <span><i class="ri-user-3-fill"></i>Visitors:<span id="busuanzi_value_site_uv"></span></s>
+  <span class="division">|</span>
+  <span><i class="ri-eye-fill"></i>Views:<span id="busuanzi_value_page_pv"></span></span>
+</span>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="float_btns">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+      </div>
+    </main>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/head.svg" alt="你又来看我了？"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <script>
+      if (window.matchMedia("(max-width: 768px)").matches) {
+        document.querySelector('.content').classList.remove('on');
+        document.querySelector('.sidebar').classList.remove('on');
+      }
+    </script>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201025110458.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://raw.githubusercontent.com/love-fanfan/cloudimg/main/img/20201025110312.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: 'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto'
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+<!-- MathJax -->
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script>
+
+<script src="/js/clickBoom1.js"></script>
+
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+
+
+<link rel="stylesheet" href="/css/clipboard.css">
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+
+
+<!-- CanvasBackground -->
+
+
+<script src="/js/dz.js"></script>
+
+
+
+    
+    <div id="music">
+    
+    
+    
+    <iframe frameborder="no" border="1" marginwidth="0" marginheight="0" width="200" height="52"
+        src="//music.163.com/outchain/player?type=2&id=27937279&auto=1&height=32"></iframe>
+</div>
+
+<style>
+    #music {
+        position: fixed;
+        right: 15px;
+        bottom: 0;
+        z-index: 998;
+    }
+</style>
+    
+  </div>
+</body>
+
+</html>

@@ -3762,9 +3762,11 @@
       </tags>
   </entry>
   <entry>
-    <title></title>
+    <title>C++ primer 第一部分（C++基础）</title>
     <url>/2022/07/31/EffectiveC++%E4%B8%AD%E6%96%87%E7%89%88/</url>
-    <content><![CDATA[<h2 id="导读"><a href="#导读" class="headerlink" title="导读"></a>导读</h2><h3 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h3><h4 id="声明式"><a href="#声明式" class="headerlink" title="声明式"></a>声明式</h4><h4 id="定义式"><a href="#定义式" class="headerlink" title="定义式"></a>定义式</h4><h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function"><span class="keyword">explicit</span> <span class="title">B</span><span class="params">(<span class="keyword">int</span> x = <span class="number">0</span>, <span class="keyword">bool</span> b = <span class="literal">true</span>)</span></span>;</span><br><span class="line">    <span class="comment">// default 构造函数</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+    <content><![CDATA[<a id="more"></a>
+
+<h2 id="导读"><a href="#导读" class="headerlink" title="导读"></a>导读</h2><h3 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h3><h4 id="声明式"><a href="#声明式" class="headerlink" title="声明式"></a>声明式</h4><h4 id="定义式"><a href="#定义式" class="headerlink" title="定义式"></a>定义式</h4><h4 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h4><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span>&#123;</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">    	<span class="function"><span class="keyword">explicit</span> <span class="title">B</span><span class="params">(<span class="keyword">int</span> x = <span class="number">0</span>, <span class="keyword">bool</span> b = <span class="literal">true</span>)</span></span>;</span><br><span class="line">    <span class="comment">// default 构造函数</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>上述的构造函数都被声明为<code>explicit</code>，这可以阻止它被用来执行隐式类型转换，但是它仍可以进行显式类型转换。</p>
 <figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">doSomething</span><span class="params">(B bObject)</span></span>; <span class="comment">//函数</span></span><br><span class="line"></span><br><span class="line">doSomething(<span class="number">28</span>); <span class="comment">//错误，int和B之间没有隐式转换。</span></span><br><span class="line"></span><br><span class="line">doSomething(B(<span class="number">28</span>)); <span class="comment">//没问题，可以执行显式转换。</span></span><br></pre></td></tr></table></figure>
@@ -4076,6 +4078,13 @@
 </ul>
 </blockquote>
 <h2 id="3-资源管理"><a href="#3-资源管理" class="headerlink" title="3 资源管理"></a>3 资源管理</h2>]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>C++</tag>
+        <tag>C++primer</tag>
+      </tags>
   </entry>
   <entry>
     <title>C++ STL研究（queue set map等）</title>
